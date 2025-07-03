@@ -27,12 +27,12 @@ interface NavItemProps {
   onClick?: () => void;
 }
 
-function NavItem({ to, label, onClick }: NavItemProps) {
+const NavItem: React.FC<NavItemProps> = ({ to, label, onClick }) => {
   return (
     <NavLink
       to={to}
       onClick={onClick}
-      className={({ isActive }) =>
+      className={({ isActive }: { isActive: boolean }) =>
         `block px-3 py-2 rounded-md text-sm font-medium transition-colors ${
           isActive ? "bg-blue-600 text-white" : "text-gray-700 hover:text-blue-600"
         }`
@@ -41,11 +41,11 @@ function NavItem({ to, label, onClick }: NavItemProps) {
       {label}
     </NavLink>
   );
-}
+};
 
 export default function Header() {
   const [open, setOpen] = useState(false);
-  const toggle = () => setOpen((o) => !o);
+  const toggle = () => setOpen((o: boolean) => !o);
   const close = () => setOpen(false);
 
   const navItems = [
