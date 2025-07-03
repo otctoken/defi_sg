@@ -12,7 +12,3 @@ export default function AA() {
     </div>
   );
 }
-
-// src/pages/BB.tsx
-import AA from "./AA";
-export default AA;
