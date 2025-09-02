@@ -59,7 +59,7 @@ export default function Header() {
       <header className="border-b border-gray-700 h-14 flex items-center sticky top-0 bg-gray-900 z-50">
         <div className="container mx-auto flex items-center justify-between px-4">
           <Link to="/" className="font-bold text-lg text-white" onClick={close}>
-            <img src="/logo.png" alt="Logo" className="h-13 w-auto" />
+            <img src="/logo.png" alt="Logo" className="h-12 w-auto" />
           </Link>
 
         <nav className="hidden md:flex gap-4">
