@@ -55,9 +55,10 @@ export default function Header() {
     { to: "/DD", label: "DD" },
   ];
 
-    return (
-         <header className="border-b border-gray-700 h-14 flex items-center sticky top-0 bg-gray-900 z-50">
-        <div className="container mx-auto flex items-center justify-between px-4">
+  return (
+    <header className="border-b border-gray-700 h-14 flex items-center sticky top-0 bg-gray-900 z-50">
+      <div className="container mx-auto flex items-center justify-between px-4">
+        <div className="flex items-center gap-4">
           <Link
             to="/"
             className="flex items-center font-bold text-lg text-[#eda820]"
@@ -67,26 +68,27 @@ export default function Header() {
             <span className="ml-2">Savings game</span>
           </Link>
 
-        <nav className="hidden md:flex gap-4">
-          {navItems.map((item) => (
-            <NavItem key={item.to} {...item} />
-          ))}
-        </nav>
+          <nav className="hidden md:flex gap-4">
+            {navItems.map((item) => (
+              <NavItem key={item.to} {...item} />
+            ))}
+          </nav>
+        </div>
 
-          <Button
-            variant="outline"
-            size="icon"
-            className="md:hidden text-gray-100 border-gray-700"
-            onClick={toggle}
-            aria-label={open ? "关闭菜单" : "打开菜单"}
-          >
+        <Button
+          variant="outline"
+          size="icon"
+          className="md:hidden text-gray-100 border-gray-700"
+          onClick={toggle}
+          aria-label={open ? "关闭菜单" : "打开菜单"}
+        >
           {open ? <XIcon className="h-5 w-5" /> : <MenuIcon className="h-5 w-5" />}
         </Button>
       </div>
 
-        {open && (
-          <div className="md:hidden absolute top-14 inset-x-0 border-b border-gray-700 bg-gray-900 shadow-sm">
-            <nav className="flex flex-col py-2">
+      {open && (
+        <div className="md:hidden absolute top-14 inset-x-0 border-b border-gray-700 bg-gray-900 shadow-sm">
+          <nav className="flex flex-col py-2">
             {navItems.map((item) => (
               <NavItem key={item.to} {...item} onClick={close} />
             ))}
