@@ -60,7 +60,7 @@ export default function Header() {
         <div className="container mx-auto flex items-center justify-between px-4">
           <Link
             to="/"
-            className="flex items-center font-bold text-lg text-yellow-400"
+            className="flex items-center font-bold text-lg text-[#eda820]"
             onClick={close}
           >
             <img src="/logo.png" alt="Logo" className="h-12 w-auto" />
