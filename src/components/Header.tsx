@@ -32,16 +32,16 @@ const NavItem: React.FC<NavItemProps> = ({ to, label, onClick }) => {
     <NavLink
       to={to}
       onClick={onClick}
-      className={({ isActive }: { isActive: boolean }) =>
-        `block px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-          isActive ? "bg-blue-600 text-white" : "text-gray-700 hover:text-blue-600"
-        }`
-      }
-    >
-      {label}
-    </NavLink>
-  );
-};
+        className={({ isActive }: { isActive: boolean }) =>
+          `block px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+            isActive ? "bg-blue-600 text-white" : "text-gray-300 hover:text-white"
+          }`
+        }
+      >
+        {label}
+      </NavLink>
+    );
+  };
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -55,12 +55,12 @@ export default function Header() {
     { to: "/DD", label: "DD" },
   ];
 
-  return (
-    <header className="border-b h-14 flex items-center sticky top-0 bg-white z-50">
-      <div className="container mx-auto flex items-center justify-between px-4">
-        <Link to="/" className="font-bold text-lg" onClick={close}>
-          LOGO
-        </Link>
+    return (
+      <header className="border-b border-gray-700 h-14 flex items-center sticky top-0 bg-gray-900 z-50">
+        <div className="container mx-auto flex items-center justify-between px-4">
+          <Link to="/" className="font-bold text-lg text-white" onClick={close}>
+            <img src="/logo.svg" alt="Logo" className="h-8 w-auto" />
+          </Link>
 
         <nav className="hidden md:flex gap-4">
           {navItems.map((item) => (
@@ -68,20 +68,20 @@ export default function Header() {
           ))}
         </nav>
 
-        <Button
-          variant="outline"
-          size="icon"
-          className="md:hidden"
-          onClick={toggle}
-          aria-label={open ? "关闭菜单" : "打开菜单"}
-        >
+          <Button
+            variant="outline"
+            size="icon"
+            className="md:hidden text-gray-100 border-gray-700"
+            onClick={toggle}
+            aria-label={open ? "关闭菜单" : "打开菜单"}
+          >
           {open ? <XIcon className="h-5 w-5" /> : <MenuIcon className="h-5 w-5" />}
         </Button>
       </div>
 
-      {open && (
-        <div className="md:hidden absolute top-14 inset-x-0 border-b bg-white shadow-sm">
-          <nav className="flex flex-col py-2">
+        {open && (
+          <div className="md:hidden absolute top-14 inset-x-0 border-b border-gray-700 bg-gray-900 shadow-sm">
+            <nav className="flex flex-col py-2">
             {navItems.map((item) => (
               <NavItem key={item.to} {...item} onClick={close} />
             ))}
