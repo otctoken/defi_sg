@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
+import FooterTable from "./components/FooterTable";
 import Home from "./pages/Home";
 import AA from "./pages/AA";
 import BB from "./pages/BB";
@@ -19,6 +20,7 @@ export default function App() {
           <Route path="/DD" element={<DD />} />
         </Routes>
       </main>
+      <FooterTable />
     </div>
   );
 }
