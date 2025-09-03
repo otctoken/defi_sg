@@ -21,8 +21,8 @@ const rows: Row[] = Array.from({ length: 30 }, () => ({
 export default function FooterTable() {
   return (
     <footer className="border-t border-gray-700 p-4">
-      <div className="container mx-auto overflow-x-auto">
-        <table className="min-w-full text-sm text-left text-gray-300">
+      <div className="w-full overflow-x-auto">
+        <table className="w-full text-xs text-left text-gray-300">
           <thead className="text-xs uppercase bg-gray-800 text-gray-400">
             <tr>
               <th className="px-4 py-2">Time</th>
