@@ -6,8 +6,10 @@ export default function AA() {
     <div className="space-y-6 max-w-2xl mx-auto">
       <h1 className="text-3xl font-bold">AA 页面</h1>
       <p>这里是 AA 对应的业务内容。</p>
-      <Link to="/">
-        <Button variant="outline">返回首页</Button>
+      <Link to="/" className="block w-full sm:inline-block sm:w-auto">
+        <Button variant="outline" className="w-full sm:w-auto">
+          返回首页
+        </Button>
       </Link>
     </div>
   );
