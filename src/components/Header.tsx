@@ -1,8 +1,7 @@
 import { Link, NavLink } from "react-router-dom";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ConnectButton, useCurrentAccount } from "@mysten/dapp-kit";
-import { cn } from "@/lib/utils";
+import { ConnectButton } from "@mysten/dapp-kit";
 
 function MenuIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
