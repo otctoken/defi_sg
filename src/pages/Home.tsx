@@ -8,13 +8,13 @@ type ItemID = typeof items[number];
 
 export default function Home() {
   return (
-    <div className="grid grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
       {items.map((id: ItemID) => (
         <Card key={id} className="flex flex-col items-center text-center h-64">
           <CardHeader>{id}</CardHeader>
-          <CardContent>
+          <CardContent className="w-full">
             <Link to={`/${id}`}>
-              <Button className="w-56 h-20">打开 {id}</Button>
+              <Button className="w-full h-20">打开 {id}</Button>
             </Link>
           </CardContent>
         </Card>
