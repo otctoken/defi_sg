@@ -12,4 +12,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "src"),
     },
   },
+  server: {
+    allowedHosts: true, // 👈 允许所有域名访问
+  },
 });
