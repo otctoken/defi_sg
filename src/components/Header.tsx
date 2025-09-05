@@ -1,10 +1,20 @@
 import { Link, NavLink } from "react-router-dom";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { ConnectButton, useCurrentAccount } from "@mysten/dapp-kit";
+import { cn } from "@/lib/utils";
 
 function MenuIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
       <line x1="3" y1="6" x2="21" y2="6" />
       <line x1="3" y1="12" x2="21" y2="12" />
       <line x1="3" y1="18" x2="21" y2="18" />
@@ -14,7 +24,15 @@ function MenuIcon(props: React.SVGProps<SVGSVGElement>) {
 
 function XIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      {...props}
+    >
       <line x1="18" y1="6" x2="6" y2="18" />
       <line x1="6" y1="6" x2="18" y2="18" />
     </svg>
@@ -32,16 +50,16 @@ const NavItem: React.FC<NavItemProps> = ({ to, label, onClick }) => {
     <NavLink
       to={to}
       onClick={onClick}
-        className={({ isActive }: { isActive: boolean }) =>
-          `block px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-            isActive ? "bg-blue-600 text-white" : "text-gray-300 hover:text-white"
-          }`
-        }
-      >
-        {label}
-      </NavLink>
-    );
-  };
+      className={({ isActive }: { isActive: boolean }) =>
+        `block px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+          isActive ? "bg-blue-600 text-white" : "text-gray-300 hover:text-white"
+        }`
+      }
+    >
+      {label}
+    </NavLink>
+  );
+};
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -74,16 +92,30 @@ export default function Header() {
             ))}
           </nav>
         </div>
+        <div className="flex items-center gap-2">
+          {/* ✅ 链接钱包按钮：所有屏幕尺寸都显示 */}
+          <nav>
+            <ConnectButton
+            // {...({ variant: "default" } as any)}
+            // className="!bg-[#eda820] !text-white hover:!bg-yellow-600 h-8 px-2 text-xs rounded-md"
+            />
+          </nav>
 
-        <Button
-          variant="outline"
-          size="icon"
-          className="md:hidden text-gray-100 border-gray-700"
-          onClick={toggle}
-          aria-label={open ? "关闭菜单" : "打开菜单"}
-        >
-          {open ? <XIcon className="h-5 w-5" /> : <MenuIcon className="h-5 w-5" />}
-        </Button>
+          {/* 移动端菜单按钮：只在小屏显. */}
+          <Button
+            variant="outline"
+            size="icon"
+            className="md:hidden text-gray-100 border-gray-700"
+            onClick={toggle}
+            aria-label={open ? "关闭菜单" : "打开菜单"}
+          >
+            {open ? (
+              <XIcon className="h-5 w-5" />
+            ) : (
+              <MenuIcon className="h-5 w-5" />
+            )}
+          </Button>
+        </div>
       </div>
 
       {open && (
