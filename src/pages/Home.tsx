@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const items = ["AA", "BB", "CC", "DD"] as const;
 
-type ItemID = typeof items[number];
+type ItemID = (typeof items)[number];
 
 export default function Home() {
   return (
