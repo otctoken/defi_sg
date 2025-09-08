@@ -18,7 +18,7 @@ export default function Home() {
     {account ? (
       <div className="break-all">{account.address}</div>
     ) : (
-      <div>未连接</div>
+      <div>Wallet not connected</div>
     )}
   </CardContent>
 </Card>
