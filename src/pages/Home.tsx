@@ -12,7 +12,7 @@ export default function Home() {
       {items.map((id: ItemID) => (
         <Card
           key={id}
-          className="flex flex-col justify-between items-center text-center h-64 bg-green-500"
+          className="flex flex-col justify-between items-center text-center h-64 !bg-green-500"
         >
           <CardHeader>{id}</CardHeader>
           <CardContent className="w-full flex justify-center">
