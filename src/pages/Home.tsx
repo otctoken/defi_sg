@@ -12,16 +12,16 @@ export default function Home() {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-      <Card className="flex flex-col justify-between items-center text-center h-64 !bg-gray-800 sm:col-span-2">
-        <CardHeader>My Account</CardHeader>
-        <CardContent className="w-full flex justify-center">
-          {account ? (
-            <div className="break-all">{account.address}</div>
-          ) : (
-            <div>未连接</div>
-          )}
-        </CardContent>
-      </Card>
+<Card className="flex flex-col justify-between items-center text-center !bg-gray-800 sm:col-span-2">
+  <CardHeader>My Account</CardHeader>
+  <CardContent className="w-full flex justify-center">
+    {account ? (
+      <div className="break-all">{account.address}</div>
+    ) : (
+      <div>未连接</div>
+    )}
+  </CardContent>
+</Card>
       {items.map((id: ItemID) => (
         <Card
           key={id}
