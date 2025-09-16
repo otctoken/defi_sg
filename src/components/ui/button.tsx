@@ -27,6 +27,7 @@ export function Button({
         "inline-flex items-center justify-center rounded text-sm font-medium focus:outline-none",
         variants,
         sizes,
+        "w-auto",            // 自动 width
         className
       )}
       {...props}
