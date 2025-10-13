@@ -1,8 +1,8 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useCurrentAccount } from "@mysten/dapp-kit";
-import { Link } from "react-router-dom";
-import React, { useState } from "react";
+//import { Link } from "react-router-dom";
+import { useState } from "react";
 import Modal from "./Modal";
 
 // 1) ID 列表
@@ -58,7 +58,7 @@ let items: Item[] = [dictlet, dictlet1, dictlet2, dictlet3];
 
 export default function Home() {
   const [open, setOpen] = useState(false);
-  const [amount, setAmount] = useState<string>("");
+  //const [amount, setAmount] = useState<string>("");
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
