@@ -2,11 +2,10 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useCurrentAccount } from "@mysten/dapp-kit";
 import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import Modal from "./Modal";
 
 // 1) ID 列表
-
-
-
 interface Item {
   id: string;
   countdown: string; // 倒计时（例如 "00:06:00"）
@@ -58,6 +57,11 @@ let items: Item[] = [dictlet, dictlet1, dictlet2, dictlet3];
 
 
 export default function Home() {
+  const [open, setOpen] = useState(false);
+  const [amount, setAmount] = useState<string>("");
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   const account = useCurrentAccount();
 
   return (
@@ -87,12 +91,46 @@ export default function Home() {
             <div>TVL: {item.tvl} SUI</div>
           </CardContent>
           <CardContent className="w-full flex justify-center">
-            <Link to={`/${item.id}`}>
-              <Button className="w-32">Deposit to Win</Button>
-            </Link>
+            {/* <Link to={`/${item.id}`}> */}
+            <Button onClick={handleOpen} className="w-32">Deposit to Win</Button>
+            {/* </Link> */}
           </CardContent>
         </Card>
       ))}
+      {/* 标题栏*/}
+      <Modal isOpen={open} onClose={handleClose}>
+        {/* 标题栏 */}
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-semibold text-white">Borrow Position</h2>
+          <button
+            onClick={handleClose}
+            className="text-gray-300 hover:text-white text-2xl"
+          >
+            ╳
+          </button>
+        </div>
+
+        <div className="space-y-4">
+          <label className="block text-gray-200">
+            Amount
+            <input
+              className="mt-1 w-full p-2 bg-gray-700 border border-gray-600 rounded text-white placeholder-gray-400"
+              type="text"
+              placeholder="0.00"
+            // onChange etc.
+            />
+          </label>
+          <div className="text-gray-400">
+            Available: 5.83 haSUI
+          </div>
+        </div>
+
+        <button
+          className="mt-6 w-full py-3 bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-semibold rounded"
+        >
+          Enter An Amount
+        </button>
+      </Modal>
     </div>
   );
 }
