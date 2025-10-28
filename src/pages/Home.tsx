@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useCurrentAccount } from "@mysten/dapp-kit";
 //import { Link } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Modal from "./Modal";
 
 // 1) ID 列表
@@ -48,8 +48,9 @@ let dictlet3 = {
   sgcApy: 7,
   tvl: 186431
 } as Item;
-const games = ["SUI-30H", "DEEP-30H"]//必须修改constants里面的字典数据...................！！
-let items: Item[] = [dictlet, dictlet1, dictlet2, dictlet3];
+const Global_games = ["SUI-30H", "DEEP-30H"]//必须修改constants里面的字典数据...................！！
+
+let Global_items: Item[] = [dictlet, dictlet1, dictlet2, dictlet3];
 
 
 
@@ -66,7 +67,7 @@ export default function Home() {
 
   useEffect(() => {
     const tick = () => {
-      console.log("tick", new Date().toISOString());
+      console.log("tick", Global_games);
       // 在这里放你的逻辑
     };
 
@@ -88,7 +89,7 @@ export default function Home() {
           )}
         </CardContent>
       </Card>
-      {items.map((item: Item) => (
+      {Global_items.map((item: Item) => (
         <Card
           key={item.id}
           className="flex flex-col justify-between items-center text-center h-64 !bg-gray-800 p-4"
