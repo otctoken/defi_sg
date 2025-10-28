@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useCurrentAccount } from "@mysten/dapp-kit";
 //import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Modal from "./Modal";
 
 // 1) ID 列表
@@ -48,7 +48,7 @@ let dictlet3 = {
   sgcApy: 7,
   tvl: 186431
 } as Item;
-
+const games = ["SUI-30H", "DEEP-30H"]//必须修改constants里面的字典数据...................！！
 let items: Item[] = [dictlet, dictlet1, dictlet2, dictlet3];
 
 
@@ -63,6 +63,18 @@ export default function Home() {
   const handleClose = () => setOpen(false);
 
   const account = useCurrentAccount();
+
+  useEffect(() => {
+    const tick = () => {
+      console.log("tick", new Date().toISOString());
+      // 在这里放你的逻辑
+    };
+
+    tick();                         // ✅ 先执行一次
+    const id = setInterval(tick, 5000); // ✅ 之后每 5 秒执行一次
+
+    return () => clearInterval(id); // ✅ 卸载时清理 interval（避免泄漏/重复）
+  }, []);
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
