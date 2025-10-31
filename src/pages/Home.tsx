@@ -4,7 +4,8 @@ import { useCurrentAccount } from "@mysten/dapp-kit";
 //import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Modal from "./Modal";
-
+import { getBalances } from "./gRPC.tsx"
+// import { run } from "node:test";
 // 1) ID 列表
 interface Item {
   id: string;
@@ -48,34 +49,82 @@ let dictlet3 = {
   sgcApy: 7,
   tvl: 186431
 } as Item;
-const Global_games = ["SUI-30H", "DEEP-30H"]//必须修改constants里面的字典数据...................！！
+
 
 let Global_items: Item[] = [dictlet, dictlet1, dictlet2, dictlet3];
 
+async function getBalan(account: any, coniList: any) {
+  if (account?.address) {
+    const banl = await getBalances(account.address, coniList)
+    return banl
+  }
+}
 
-
+//const Global_games = ["SUI-30H", "DEEP-30H"]//必须修改constants里面的字典数据...................！！
 // 3) 占位数据，避免首屏闪烁
-
+const Global_coniList = [
+  "0x2::sui::SUI",
+  "0xdeeb7a4662eec9f2f3def03fb937a663dddaa2e215b8078a284d026b7946c270::deep::DEEP",
+  "0x356a26eb9e012a68958082340d4c4116e7f55615cf27affcff209cf0ae544f59::wal::WAL",
+  "0xbde4ba4c2e274a60ce15c1cfff9e5c42e41654ac8b6d906a57efa4bd3c29f47d::hasui::HASUI"
+];
 
 export default function Home() {
   const [open, setOpen] = useState(false);
+  const [balances, setBalances] = useState<number[]>([1, 1, 2]);
   //const [amount, setAmount] = useState<string>("");
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const account = useCurrentAccount();
 
+
+
+  // useEffect(() => {
+
+  //   // 定义一个 async 函数
+  //   const tick = () => {
+  //     console.log(Global_games)
+  //     // 在这里放你的逻辑
+  //   };
+  //   // 先立刻调用一次
+  //   tick();
+  //   // 每 5 秒执行一次
+  //   const id = setInterval(() => {
+  //     tick();
+  //   }, 5000);
+
+  //   // 卸载时清除
+  //   return () => {
+  //     clearInterval(id);
+  //   };
+  // }, []);
+
   useEffect(() => {
-    const tick = () => {
-      console.log("tick", Global_games);
+    // 定义一个 async 函数
+    const tick = async () => {
+      if (account?.address) {
+        const banl = await getBalan(account, Global_coniList);
+        // 可以将 banl 放入 state 或者做其他处理
+        //console.log(banl)
+        if (banl) {
+          setBalances(banl);
+        }
+      }
       // 在这里放你的逻辑
     };
+    // 先立刻调用一次
+    tick();
+    // 每 5 秒执行一次
+    const id = setInterval(() => {
+      tick();
+    }, 5000);
 
-    tick();                         // ✅ 先执行一次
-    const id = setInterval(tick, 5000); // ✅ 之后每 5 秒执行一次
-
-    return () => clearInterval(id); // ✅ 卸载时清理 interval（避免泄漏/重复）
-  }, []);
+    // 卸载时清除
+    return () => {
+      clearInterval(id);
+    };
+  }, [account?.address]);
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -83,7 +132,7 @@ export default function Home() {
         <CardHeader>My Account</CardHeader>
         <CardContent className="w-full flex justify-center">
           {account ? (
-            <div className="break-all">{account.address}</div>
+            <div className="break-all">{account.address}{balances}</div>
           ) : (
             <div>Wallet not connected</div>
           )}
