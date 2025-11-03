@@ -28,7 +28,7 @@ export const SUI_30H = {
     }
 }
 export const DEEP_30H = {
-    id: "DEEP_30H",
+    id: "DEEP-30H",
     name: "DEEP",
     // tree_height total_balance time_per_round  start_time index internal_node  leaf_node
     data: "0x6f765c76240d0a4df308897ccc337bd25e9fc06bb18fd3ab5487414c8f2c0781",
