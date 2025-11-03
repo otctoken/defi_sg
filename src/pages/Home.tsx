@@ -4,60 +4,73 @@ import { useCurrentAccount } from "@mysten/dapp-kit";
 //import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Modal from "./Modal";
-import { getBalances } from "./gRPC.tsx"
+import { getBalances, getObjectDF } from "./gRPC.tsx"
+import { SUI_30H, DEEP_30H } from "./constantsData.tsx"
 // import { run } from "node:test";
 // 1) ID 列表
 interface Item {
   id: string;
+  name: string;
   countdown: string; // 倒计时（例如 "00:06:00"）
   reward: string;    // 奖励（例如 "12 SGC"）
   coinType: string;    // 奖励（例如 "12 SGC"）
   sgcApy: number;    // SGC 年化（百分比）
   tvl: number;       // TVL（SUI）
+  coin_balance_number: number;
+  decimals: number;
 }
 
-let dictlet = {
-  id: "sui-30H",
-  countdown: "253",
-  reward: "1223321",
-  coinType: "12SUI-36VSUI-20DEEP",
-  sgcApy: 7,
-  tvl: 186431
-} as Item;
-
-let dictlet1 = {
-  id: "CC",
-  countdown: "253",
-  reward: "1223(jiajlsdalsndlajsdlasjdlakjsdlasjdl)",
-  coinType: "12SUI-36VSUI-20DEEP",
-  sgcApy: 7,
-  tvl: 186431
-} as Item;
-let dictlet2 = {
-  id: "DD",
-  countdown: "253",
-  reward: "1223",
-  coinType: "12SUI-36VSUI-20DEEP",
-  sgcApy: 7,
-  tvl: 186431
-} as Item;
-let dictlet3 = {
-  id: "AA",
-  countdown: "253",
-  reward: "1223",
-  coinType: "12SUI-36VSUI-20DEEP",
-  sgcApy: 7,
-  tvl: 186431
-} as Item;
 
 
-let Global_items: Item[] = [dictlet, dictlet1, dictlet2, dictlet3];
+
+function formatDurationTime(ms: number): string {
+  if (ms <= 0) {
+    return "0s";
+  }
+  const totalSeconds = Math.floor(ms / 1000);
+  const seconds = totalSeconds % 60;
+  const totalMinutes = Math.floor(totalSeconds / 60);
+  const minutes = totalMinutes % 60;
+  const hours = Math.floor(totalMinutes / 60);
+
+  const hStr = hours > 0 ? `${hours}h` : "";
+  const mStr = minutes > 0 ? `${minutes}m` : "";
+  const sStr = `${seconds}s`;
+
+  return `${hStr}${mStr}${sStr}`;
+}
+
+
 
 async function getBalan(account: any, coniList: any) {
   if (account?.address) {
     const banl = await getBalances(account.address, coniList)
     return banl
   }
+}
+
+
+const Global_games = [SUI_30H, DEEP_30H]//必须修改constants里面的字典数据...................！！
+
+async function getData(gamesList: any[]) {
+  let ItemList: Item[] = [];
+  for (const game of gamesList) {
+    let item = {} as Item;
+    const dfData = await getObjectDF(game.data)
+    item.id = game.id
+    const ms = Date.now();
+    item.countdown = formatDurationTime(Number(dfData.start_time) + Number(game.time_per_round) - ms)
+    item.reward = "256USD"
+    item.coinType = "12SUI-36VSUI-20DEEP"
+    item.sgcApy = 5
+    const tvl_ = parseInt(dfData.total_balance) / (10 ** game.decimals);
+    item.tvl = parseFloat(tvl_.toFixed(2));
+    item.coin_balance_number = game.coin_balance_number
+    item.decimals = game.decimals
+    item.name = game.name
+    ItemList.push(item)
+  }
+  return ItemList
 }
 
 //const Global_games = ["SUI-30H", "DEEP-30H"]//必须修改constants里面的字典数据...................！！
@@ -71,14 +84,26 @@ const Global_coniList = [
 
 export default function Home() {
   const [open, setOpen] = useState(false);
-  const [balances, setBalances] = useState<number[]>([1, 1, 2]);
+  const [balances, setBalances] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+  const [usebalances, setUsebalances] = useState(0);
+  const [usecointype, setUsecointype] = useState("");
+  const [global_items, setGlobal_items] = useState<Item[]>([]);
   //const [amount, setAmount] = useState<string>("");
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   const account = useCurrentAccount();
+  //...........................................................function..........
+  function handleOpenAndGetbalance(num: number, decimals: number, name: string) {
+    handleOpen()
+    const decimal = 10 ** decimals
+    setUsebalances(parseFloat((balances[num] / decimal).toFixed(2)))
+    setUsecointype(name)
+  }
 
 
+
+  //...........................................................function..........
 
   // useEffect(() => {
 
@@ -103,6 +128,8 @@ export default function Home() {
   useEffect(() => {
     // 定义一个 async 函数
     const tick = async () => {
+      const ItemList = await getData(Global_games)
+      setGlobal_items(ItemList)
       if (account?.address) {
         const banl = await getBalan(account, Global_coniList);
         // 可以将 banl 放入 state 或者做其他处理
@@ -118,7 +145,7 @@ export default function Home() {
     // 每 5 秒执行一次
     const id = setInterval(() => {
       tick();
-    }, 5000);
+    }, 7000);
 
     // 卸载时清除
     return () => {
@@ -138,7 +165,7 @@ export default function Home() {
           )}
         </CardContent>
       </Card>
-      {Global_items.map((item: Item) => (
+      {global_items.length > 0 && global_items.map((item: Item) => (
         <Card
           key={item.id}
           className="flex flex-col justify-between items-center text-center h-64 !bg-gray-800 p-4"
@@ -146,19 +173,23 @@ export default function Home() {
           <CardHeader>{item.id}</CardHeader>
           <CardContent className="w-full flex flex-col justify-center space-y-2">
             {/* 这里插入新的信息 */}
-            <div>开奖倒计时: {item.countdown}</div>
+            <div>Draw Timer: {item.countdown}</div>
             <div>Grannd Prize: {item.reward}</div>
             <div>≈ {item.coinType}</div>
             <div>SGC APY: {item.sgcApy}%</div>
-            <div>TVL: {item.tvl} SUI</div>
+            <div>TVL: {item.tvl} {item.name}</div>
           </CardContent>
           <CardContent className="w-full flex justify-center">
-            {/* <Link to={`/${item.id}`}> */}
-            <Button onClick={handleOpen} className="w-32">Deposit to Win</Button>
-            {/* </Link> */}
+            <Button
+              onClick={() => handleOpenAndGetbalance(item.coin_balance_number, item.decimals, item.name)}
+              className="w-40 whitespace-nowrap"
+            >
+              Deposit to Win
+            </Button>
           </CardContent>
         </Card>
-      ))}
+      ))
+      }
       {/* 标题栏*/}
       <Modal isOpen={open} onClose={handleClose}>
         {/* 标题栏 */}
@@ -183,7 +214,7 @@ export default function Home() {
             />
           </label>
           <div className="text-gray-400">
-            Available: 5.83 haSUI
+            Available: {usebalances}{usecointype}
           </div>
         </div>
 
@@ -193,6 +224,6 @@ export default function Home() {
           Enter An Amount
         </button>
       </Modal>
-    </div>
+    </div >
   );
 }
