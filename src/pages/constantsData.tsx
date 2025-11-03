@@ -9,6 +9,8 @@ export const SGCcoin_type = "0xf8d8e5c5fb84d09c7047551e1085086b028fe4552a9cfe628
 // export const SG_deep_Reward_coin_type = "0x268b58ccecc7a2747dcbb83f3f1e70b2b00d22118a6b489b6ffc9cd01af5242b"
 // export const SG_deep_get_sgc = "0x1cae79b75c73891dd9655b0991dad8215bb626ff9511c8804bba18211856f260"
 export const SUI_30H = {
+    id: "SUI-30H",
+    name: "SUI",
     // tree_height total_balance time_per_round  start_time index internal_node  leaf_node
     data: "0xdd8d818191b5f6def973099906846f5dd316ab9ec9c85cb130b4cdcc82c6e90a",
     reward_coin_type: "0x4224a735430b43192a7b0c40a1689b2d408dfc6deae472dc5fd4177d4a0f0851",
@@ -16,6 +18,7 @@ export const SUI_30H = {
     coin_balance_number: 0,
     time_per_round: 108000000,
     navi_pool_number: 0,
+    decimals: 9,
     dynamic_field: {
         adder_node: '0xe977dd54b1197b388644a4bc3146a6404a5a821fcf8232e9261743b762c677fe',
         internal_node_data: '0xe7f61c0349603dbebe21a391e39de6f0b57bdb258ec5ab225450f2519777fc4f',
@@ -25,6 +28,8 @@ export const SUI_30H = {
     }
 }
 export const DEEP_30H = {
+    id: "DEEP_30H",
+    name: "DEEP",
     // tree_height total_balance time_per_round  start_time index internal_node  leaf_node
     data: "0x6f765c76240d0a4df308897ccc337bd25e9fc06bb18fd3ab5487414c8f2c0781",
     reward_coin_type: "0x61b13e0ce936504f98838cc9a1c62859975f0bad012afb6f2645dc50f574f249",
@@ -32,6 +37,7 @@ export const DEEP_30H = {
     coin_balance_number: 1,
     time_per_round: 108000000,
     navi_pool_number: 15,
+    decimals: 6,
     dynamic_field: {
         adder_node: '0x7034023f187fd3d5fcab26a57a6f5130bff18095f7c734a66467c09d2b160c48',
         internal_node_data: '0xedf53df1c3a078e644ee63af4388c226a56133e08fc322ddb17c2193b384f975',
