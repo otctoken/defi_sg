@@ -41,7 +41,11 @@ async function getData(gamesList: any[]) {
     const dfData = await getObjectDF(game.data)
     item.id = game.id
     const ms = Date.now();
-    item.countdown = Number(dfData.start_time) + Number(game.time_per_round) - ms
+    let icundown = Number(dfData.start_time) + Number(game.time_per_round) - ms
+    if (icundown <= 0) {
+      icundown = 0
+    }
+    item.countdown = icundown
     item.reward = "256USD"
     item.coinType = "12SUI-36VSUI-20DEEP"
     item.sgcApy = 5
