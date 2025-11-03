@@ -1,4 +1,5 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { ItemTimer } from "@/components/ui/ItemTimer";
 import { Button } from "@/components/ui/button";
 import { useCurrentAccount } from "@mysten/dapp-kit";
 //import { Link } from "react-router-dom";
@@ -11,7 +12,7 @@ import { SUI_30H, DEEP_30H } from "./constantsData.tsx"
 interface Item {
   id: string;
   name: string;
-  countdown: string; // 倒计时（例如 "00:06:00"）
+  countdown: number; // 倒计时（例如 "00:06:00"）
   reward: string;    // 奖励（例如 "12 SGC"）
   coinType: string;    // 奖励（例如 "12 SGC"）
   sgcApy: number;    // SGC 年化（百分比）
@@ -20,25 +21,6 @@ interface Item {
   decimals: number;
 }
 
-
-
-
-function formatDurationTime(ms: number): string {
-  if (ms <= 0) {
-    return "0s";
-  }
-  const totalSeconds = Math.floor(ms / 1000);
-  const seconds = totalSeconds % 60;
-  const totalMinutes = Math.floor(totalSeconds / 60);
-  const minutes = totalMinutes % 60;
-  const hours = Math.floor(totalMinutes / 60);
-
-  const hStr = hours > 0 ? `${hours}h` : "";
-  const mStr = minutes > 0 ? `${minutes}m` : "";
-  const sStr = `${seconds}s`;
-
-  return `${hStr}${mStr}${sStr}`;
-}
 
 
 
@@ -59,7 +41,7 @@ async function getData(gamesList: any[]) {
     const dfData = await getObjectDF(game.data)
     item.id = game.id
     const ms = Date.now();
-    item.countdown = formatDurationTime(Number(dfData.start_time) + Number(game.time_per_round) - ms)
+    item.countdown = Number(dfData.start_time) + Number(game.time_per_round) - ms
     item.reward = "256USD"
     item.coinType = "12SUI-36VSUI-20DEEP"
     item.sgcApy = 5
@@ -168,24 +150,36 @@ export default function Home() {
       {global_items.length > 0 && global_items.map((item: Item) => (
         <Card
           key={item.id}
-          className="flex flex-col justify-between items-center text-center h-64 !bg-gray-800 p-4"
+          className="flex flex-col justify-between items-center text-center !bg-gray-800 p-4 h-auto"
         >
           <CardHeader>{item.id}</CardHeader>
-          <CardContent className="w-full flex flex-col justify-center space-y-2">
-            {/* 这里插入新的信息 */}
-            <div>Draw Timer: {item.countdown}</div>
+          <CardContent
+            className={
+              "w-full flex flex-col justify-center space-y-2 " +
+              "[&>*:nth-child(odd)]:bg-gray-600 [&>*:nth-child(even)]:bg-gray-700 [&>*]:rounded-md p-2"
+            }
+          >
+            <ItemTimer countdown={item.countdown} />
             <div>Grannd Prize: {item.reward}</div>
             <div>≈ {item.coinType}</div>
             <div>SGC APY: {item.sgcApy}%</div>
             <div>TVL: {item.tvl} {item.name}</div>
           </CardContent>
-          <CardContent className="w-full flex justify-center">
+          <CardContent className="w-full flex justify-center space-x-4">
             <Button
               onClick={() => handleOpenAndGetbalance(item.coin_balance_number, item.decimals, item.name)}
               className="w-40 whitespace-nowrap"
             >
               Deposit to Win
             </Button>
+            {Number(item.countdown) <= 0 && (
+              <Button
+                onClick={() => handleOpenAndGetbalance(item.coin_balance_number, item.decimals, item.name)}
+                className="w-40 whitespace-nowrap bg-green-600 hover:bg-green-700"
+              >
+                Start Draw
+              </Button>
+            )}
           </CardContent>
         </Card>
       ))
