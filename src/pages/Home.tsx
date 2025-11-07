@@ -67,25 +67,52 @@ const Global_coniList = [
   "0x356a26eb9e012a68958082340d4c4116e7f55615cf27affcff209cf0ae544f59::wal::WAL",
   "0xbde4ba4c2e274a60ce15c1cfff9e5c42e41654ac8b6d906a57efa4bd3c29f47d::hasui::HASUI"
 ];
-
+//....................................................................................................................
 export default function Home() {
   const [open, setOpen] = useState(false);
   const [balances, setBalances] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
   const [usebalances, setUsebalances] = useState(0);
   const [usecointype, setUsecointype] = useState("");
   const [global_items, setGlobal_items] = useState<Item[]>([]);
+  const [modalItemName, setModalItemName] = useState<string>("");
+  const [inputAmount, setInputAmount] = useState<string>("");
+  const [inputDecimal, setInputDecimal] = useState(9);
   //const [amount, setAmount] = useState<string>("");
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+    setOpen(false);
+    // 重置输入金额，避免下次打开带值
+    setInputAmount("");   // <<< 修改
+  };
 
   const account = useCurrentAccount();
   //...........................................................function..........
-  function handleOpenAndGetbalance(num: number, decimals: number, name: string) {
+  function handleOpenAndGetbalance(num: number, decimals: number, name: string, to: string) {
     handleOpen()
+    setInputDecimal(decimals)
     const decimal = 10 ** decimals
     setUsebalances(parseFloat((balances[num] / decimal).toFixed(2)))
     setUsecointype(name)
+    setModalItemName(to)
   }
+
+  const handleDepositClick = () => {
+    const num_ = parseFloat(inputAmount);
+    const decimal = 10 ** inputDecimal
+    const num = num_ * decimal;
+    if (isNaN(num_) || num_ <= 0) {
+      alert("Please enter a valid amount");
+      return;
+    }
+    if (num_ > usebalances) {
+      alert("Exceed available balance");
+      return;
+    }
+    // 在这里执行你的「存款／提交」逻辑。 <<< 修改
+    console.log("提交金额:", num, "币种:", usecointype, "对应项目:", modalItemName, inputDecimal);
+    // 例如：调用合约、RPC、GraphQL…
+    handleClose();
+  };
 
 
 
@@ -123,6 +150,9 @@ export default function Home() {
         if (banl) {
           setBalances(banl);
         }
+      } else {
+        //没链接钱包
+        setBalances(Array(16).fill(0));
       }
       // 在这里放你的逻辑
     };
@@ -171,14 +201,14 @@ export default function Home() {
           </CardContent>
           <CardContent className="w-full flex justify-center space-x-4">
             <Button
-              onClick={() => handleOpenAndGetbalance(item.coin_balance_number, item.decimals, item.name)}
+              onClick={() => handleOpenAndGetbalance(item.coin_balance_number, item.decimals, item.name, item.id)}
               className="w-40 whitespace-nowrap"
             >
               Deposit to Win
             </Button>
             {Number(item.countdown) <= 0 && (
               <Button
-                onClick={() => handleOpenAndGetbalance(item.coin_balance_number, item.decimals, item.name)}
+                onClick={() => handleOpenAndGetbalance(item.coin_balance_number, item.decimals, item.name, item.id)}
                 className="w-40 whitespace-nowrap bg-green-600 hover:bg-green-700"
               >
                 Start Draw
@@ -189,10 +219,10 @@ export default function Home() {
       ))
       }
       {/* 标题栏*/}
-      <Modal isOpen={open} onClose={handleClose}>
+      <Modal isOpen={open} onClose={handleClose} >
         {/* 标题栏 */}
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold text-white">Borrow Position</h2>
+          <h2 className="text-xl font-semibold text-white">Deposit to {modalItemName}</h2>
           <button
             onClick={handleClose}
             className="text-gray-300 hover:text-white text-2xl"
@@ -208,7 +238,14 @@ export default function Home() {
               className="mt-1 w-full p-2 bg-gray-700 border border-gray-600 rounded text-white placeholder-gray-400"
               type="text"
               placeholder="0.00"
-            // onChange etc.
+              value={inputAmount}                               // <<< 修改
+              onChange={(e) => {
+                const val = e.target.value;
+                // 限制最多两位小数
+                if (/^\d*\.?\d{0,2}$/.test(val)) {
+                  setInputAmount(val);
+                }
+              }}
             />
           </label>
           <div className="text-gray-400">
@@ -218,8 +255,10 @@ export default function Home() {
 
         <button
           className="mt-6 w-full py-3 bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-semibold rounded"
+          onClick={handleDepositClick}
         >
-          Enter An Amount
+
+          Deposit
         </button>
       </Modal>
     </div >
