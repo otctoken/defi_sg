@@ -1,9 +1,10 @@
 // src/constants/A.tsx
 //.................................SG................................................................
-export const SG_PACkages = "0xf8d8e5c5fb84d09c7047551e1085086b028fe4552a9cfe6281b5abc7fed968db"
-export const SG_Amindcap_fee = "0xc9d3223d7c4b758d71a56de6851c6e692959a2ed8126a3835cf4ede3f3a41b1c"
-export const SGC_h_c = "0x5573024b3108e0561b34dcbaa2764104f2c93de1e0ff0aa0dbdd6138792089d4"
-export const SGCcoin_type = "0xf8d8e5c5fb84d09c7047551e1085086b028fe4552a9cfe6281b5abc7fed968db::sgc::SGC"
+export const SG_PACkages = "0x0fff11caf503156dadd897cbb3b5034d33cd46d788e7c205a5c114663a60e190"
+export const SG_Amindcap_fee = "0xaaf22c3491bc4d6ac8be140e37a219f2cecdb3a2ce06376d3520f425ab6e3a81"
+export const SG_minter = "0x4fe0fbe52b826fd926b72406479e2ce63c7a918d0ecbc796bb589c5aa9cd64a0"
+export const SGC_h_c = "0x1e63571dbb1cbcb46ac0cc9e501f3c7b7ebcb75b4b29b74a1397b7e5bb577087"
+export const SGCcoin_type = "0x0fff11caf503156dadd897cbb3b5034d33cd46d788e7c205a5c114663a60e190::sgc::SGC"
 
 // export const SG_deep_data = "0x3dc652f26c723a36cfa106fa6df0f21976736e4b90caf5c00ddd03ba744a2fe7"
 // export const SG_deep_Reward_coin_type = "0x268b58ccecc7a2747dcbb83f3f1e70b2b00d22118a6b489b6ffc9cd01af5242b"
@@ -12,38 +13,40 @@ export const SUI_30H = {
     id: "SUI-30H",
     name: "SUI",
     // tree_height total_balance time_per_round  start_time index internal_node  leaf_node
-    data: "0xdd8d818191b5f6def973099906846f5dd316ab9ec9c85cb130b4cdcc82c6e90a",
-    reward_coin_type: "0x4224a735430b43192a7b0c40a1689b2d408dfc6deae472dc5fd4177d4a0f0851",
-    get_sgc: "0x83c37f5e0325792a95c933435f1c3c3c910a633639ca56b2266df0d7bdd8abdb",
-    coin_balance_number: 0,
+    data: "0x3dcaacbeb7c9b5202877e9f6f1a21e325c45c5244c4303834a74f86397f65da7",
+    fun_type: "0x2::sui::SUI",
+    get_sgc: "0xc540cbe21642abefe781f35b3163d871b39374f753b5e34f81ffeb1bbc660f92",
+    coin_balance_andeData_number: 0,
     time_per_round: 108000000,
     navi_pool_number: 0,
+    navi_pool_adder: "0x96df0fce3c471489f4debaaa762cf960b3d97820bd1f3f025ff8190730e958c5",
     decimals: 9,
     dynamic_field: {
-        adder_node: '0xe977dd54b1197b388644a4bc3146a6404a5a821fcf8232e9261743b762c677fe',
-        internal_node_data: '0xe7f61c0349603dbebe21a391e39de6f0b57bdb258ec5ab225450f2519777fc4f',
-        leaf_node_data: '0x3de95374ded86be9fd8bac75fc994f10bd663d311b157b150b428c36eaa06e5b',
-        node_adder: '0x10e207e9a49f11629c3955dfa7694a0ee60782f971047482878e5e9263b15f8e',
-        savings: '0xe7e139e039b866dd11f2ac70a9fe27383cd053a46c202eec39e52cc5320b6843'
+        adder_node: '0x0920a7ea19db6b0264f117610c76426c2ab22dcfe63c1b13a5a1fd35ebb89b6b',
+        internal_node_data: '0xea0a17cee67563ba25d992bc0973e3d20ec6c1664e0c4ab80f47fac7505be9bb',
+        leaf_node_data: '0x3c66a219314b0c3d94ff93c55432608c6a4032aba097373f75fda27f7e01abca',
+        node_adder: '0xf669054eccb8d9602eab30eee5b918af2a52c71346a1a535070b2d6bfed27653',
+        savings: '0xe09fa0596757ba64e1494b58e77500784f4c3ae99861ef5c6898f902394f4247'
     }
 }
 export const DEEP_30H = {
     id: "DEEP-30H",
     name: "DEEP",
     // tree_height total_balance time_per_round  start_time index internal_node  leaf_node
-    data: "0x6f765c76240d0a4df308897ccc337bd25e9fc06bb18fd3ab5487414c8f2c0781",
-    reward_coin_type: "0x61b13e0ce936504f98838cc9a1c62859975f0bad012afb6f2645dc50f574f249",
-    get_sgc: "0x2efe9ccf8ec8555b22aa575241d2461d35e8522e80626ba461a5ca3e4e0ae630",
-    coin_balance_number: 1,
+    data: "0xfb8fee21dabd4d70f3b68e9c2e1d0cdb0c7a1056a3a04b0a2539c495c2316bfb",
+    fun_type: "0xdeeb7a4662eec9f2f3def03fb937a663dddaa2e215b8078a284d026b7946c270::deep::DEEP",
+    get_sgc: "0xe02e2d7e9fbf9dad951e6bf5566c5fe7774e93b7d2635523a82abffd9b68a7ab",
+    coin_balance_andeData_number: 1,
     time_per_round: 108000000,
     navi_pool_number: 15,
+    navi_pool_adder: "0x08373c5efffd07f88eace1c76abe4777489d9ec044fd4cd567f982d9c169e946",
     decimals: 6,
     dynamic_field: {
-        adder_node: '0x7034023f187fd3d5fcab26a57a6f5130bff18095f7c734a66467c09d2b160c48',
-        internal_node_data: '0xedf53df1c3a078e644ee63af4388c226a56133e08fc322ddb17c2193b384f975',
-        leaf_node_data: '0x4279cef4fa8bc85dde35489dd1d9c048317ba3db06d5e4ed599a6eae2ae017b2',
-        node_adder: '0x6338e4911c57f72a8130346c45e286c5a92ba5f4586b3dc3cb571cb8a9b9d8e0',
-        savings: '0x2a078e90e69bba435e3941595d59ec7eafe26f67c1e3c4651c71f1e87c73bf6a'
+        adder_node: '0x3ecc9318b15d8df40fb9bbb912cdc57d55fbbeb6ace1cf1f777e3cd18de650fe',
+        internal_node_data: '0x318be1bca9418f30c00b7b9934822c67d4aab8d47364e6f8b20123587ffa1224',
+        leaf_node_data: '0x0edd3406f022374b53ee30958d51edf158a7f0a92c829724380f64cbe160d6b5',
+        node_adder: '0x9c4cd198d8f11defa37e978054fe1b63503ec11a8c27e748680e9639a2780a4a',
+        savings: '0x897e23df13e5eca8d536f32c23723d9db6deee46ff31afc225005ce5e2b4cf83'
     }
 }
 
@@ -54,13 +57,11 @@ export const Navi_inshdg_V3 = "0x62982dad27fb10bb314b3384d5de8d2ac2d72ab2dbeae5d
 export const Navi_RewadFun_NAVI = "0x1a3f9fcfdfac10e92c99220203f7c4bb502558692f0be0f2cb5f788b4e12a6b5"
 export const Navi_RewadFun_Vsui = "0x7093cf7549d5e5b35bfde2177223d1050f71655c7f676a5e610ee70eb4d93b5c"
 export const Navi_PriceOracle = "0x1568865ed9a0b5ec414220e8f79b3d04c77acc82358f6e5ae4635687392ffbef"
-export const Navi_pool_A_sui = "0x96df0fce3c471489f4debaaa762cf960b3d97820bd1f3f025ff8190730e958c5"
-
 //.................................FolX................................................................
 export const FolX_Contert = "0xb65dcbf63fd3ad5d0ebfbf334780dc9f785eff38a4459e37ab08fa79576ee511"
 export const FolX_Mingter = "0x2a30f1bfa9594e0e9ca37581268b3fee4b6965a70c38eb76e204334980619c24"
 //..............................admin...................................................................
 
-export const AdminCap = "0x7eeff60c58790639cf8796ceb38bac7f4b4d0d97cf44ccaff73cf8a7896d49b3"
-export const upgrade = "0x59850fdd02e32410a4abf21ca0ac375648a450fabfc6581f0100ccadb088cf47"
-export const SGC_AdminTolel = "0x5bfcf8d401970a0db6386d8504a6b4177fc3745638e47763cc52e74b2cb10d88"//
+export const AdminCap = "0x12ca4a9c46234553b606a15f864ca957b2931238c0ebdd20f4230d4fbd6fa308"
+export const upgrade = "0x9faefe8e4a0d337402cd5ceb27dfc44b326b63692748d1dfff90584feb44c004"
+export const SGC_AdminTolel = "0xad852fb8d4806e24fb8f45d3dc5e110d7acbb438883ef9f099fc5a060bd46047"//
