@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useCurrentAccount, useSignAndExecuteTransaction } from "@mysten/dapp-kit";
 //import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { Toaster, toast } from 'react-hot-toast';
 import Modal from "./Modal";
 import { getBalances, getObjectDF } from "./gRPC.tsx"
 import { SUI_30H, DEEP_30H } from "./constantsData.tsx"
@@ -96,8 +97,20 @@ async function getData_haed(gamesList: any[], adder: string) {
   }
   return ItemList
 }
-
-
+async function withdraw_all(fun_type: any, data: any, navi_pool_adder: any, get_sgc: any, signAndExecute: any) {
+  const bol = await withdraw(fun_type, data, navi_pool_adder, get_sgc, signAndExecute)
+  console.log(bol)
+  if (bol) {
+    // 2秒后消失
+    toast.success('OK! Withdraw successfully', {
+      duration: 3000,
+    });
+  } else {
+    toast.error('Withdraw error! Please try again later!', {
+      duration: 3000,
+    });
+  }
+}
 //....................................................................................................................
 export default function Home() {
   const [open, setOpen] = useState(false);
@@ -148,8 +161,18 @@ export default function Home() {
 
     // 在这里执行你的「存款／提交」逻辑。 <<< 修改
     const data = Global_games[dataNumber]
-    await deposit_all(account, num, data.fun_type, data.data, data.navi_pool_adder, data.get_sgc, signAndExecute)
-    await new Promise((resolve) => setTimeout(resolve, 1550));
+    const bol = await deposit_all(account, num, data.fun_type, data.data, data.navi_pool_adder, data.get_sgc, signAndExecute)
+    console.log(bol)
+    if (bol) {
+      // 2秒后消失
+      toast.success('OK! Deposit successfully', {
+        duration: 2000,
+      });
+    } else {
+      toast.error('error!', {
+        duration: 2000,
+      });
+    }
     // 例如：调用合约、RPC、GraphQL…
     handleClose();
   };
@@ -218,6 +241,14 @@ export default function Home() {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        // 添加 containerStyle
+        containerStyle={{
+          zIndex: 99999 // 确保比 Modal 高
+        }}
+      />
       <Card className="flex flex-col items-center text-center !bg-gray-800 sm:col-span-2 shadow-lg border border-gray-700 h-fit">
         <CardHeader className="text-xl font-bold text-white tracking-wider border-b border-gray-700 w-full pb-4 mb-4">
           My Account
@@ -276,13 +307,13 @@ export default function Home() {
                       <div className="flex gap-2 mt-2 sm:mt-0 justify-end items-center">
                         <Button
                           className="bg-green-700 hover:bg-green-600 text-white font-bold h-8 px-3 text-xs w-full sm:w-auto"
-                          onClick={() => console.log("Withdraw", item.id)}
+                          onClick={() => toast.success('测试 Toast 能否显示')}
                         >
                           Claim SGC
                         </Button>
                         <Button
                           className="bg-yellow-600 hover:bg-yellow-500 text-white font-bold h-8 px-3 text-xs w-full sm:w-auto"
-                          onClick={() => withdraw(Global_games[item.coin_balance_andeData_number].fun_type, Global_games[item.coin_balance_andeData_number].data,
+                          onClick={() => withdraw_all(Global_games[item.coin_balance_andeData_number].fun_type, Global_games[item.coin_balance_andeData_number].data,
                             Global_games[item.coin_balance_andeData_number].navi_pool_adder, Global_games[item.coin_balance_andeData_number].get_sgc,
                             signAndExecute
                           )}

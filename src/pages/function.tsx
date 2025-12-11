@@ -217,13 +217,26 @@ export async function deposit_all(account: any, num: any, cointype: string, savi
         ],
       });
     }
-    const response = await signAndExecute({
+    const response1 = await signAndExecute({
       transaction: tx,
     });
-    console.log(response)
-
+    console.log(JSON.stringify(response1.digest, null, 2));
+    const { response } = await client.ledgerService.getTransaction({
+      digest: response1.digest,
+      readMask: {
+        paths: [
+          "effects",
+        ]
+      }
+    });
+    const status = response.transaction?.effects?.status?.success;
+    // console.log(JSON.stringify(status, (key, value) => {
+    //   return typeof value === 'bigint' ? value.toString() : value;
+    // }, 2));
+    return status
   } catch (error) {
     console.error("error:", error);
+    return false
   }
 };
 
@@ -249,13 +262,23 @@ export async function withdraw(cointype: string, savingsd: string, pool: string,
         tx.object("0x5"),
       ],
     });
-    const response = await signAndExecute({
+    const response1 = await signAndExecute({
       transaction: tx,
     });
-    console.log(response)
-
+    console.log(JSON.stringify(response1.digest, null, 2));
+    const { response } = await client.ledgerService.getTransaction({
+      digest: response1.digest,
+      readMask: {
+        paths: [
+          "effects",      // 获取执行结果
+        ]
+      }
+    });
+    const status = response.transaction?.effects?.status?.success;
+    return status
   } catch (error) {
     console.error("error:", error);
+    return false
   }
 };
 // 或 const util = require('node:util');
