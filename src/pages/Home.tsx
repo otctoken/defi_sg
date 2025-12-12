@@ -8,7 +8,7 @@ import { Toaster, toast } from 'react-hot-toast';
 import Modal from "./Modal";
 import { getBalances, getObjectDF } from "./gRPC.tsx"
 import { SUI_30H, DEEP_30H } from "./constantsData.tsx"
-import { getSavingsDynamicFieldObject, deposit_all, withdraw } from "./function.tsx"
+import { getSavingsDynamicFieldObject, deposit_all, withdraw, lottery, entry_get_sgc_coin } from "./function.tsx"
 // import { run } from "node:test";
 // 1) ID 列表
 interface Item {
@@ -97,9 +97,9 @@ async function getData_haed(gamesList: any[], adder: string) {
   }
   return ItemList
 }
-async function withdraw_all(fun_type: any, data: any, navi_pool_adder: any, get_sgc: any, signAndExecute: any) {
-  const bol = await withdraw(fun_type, data, navi_pool_adder, get_sgc, signAndExecute)
-  console.log(bol)
+async function withdraw_all(fun_type: any, data: any, navi_pool_adder: any, get_sgc: any, signAndExecute: any, update_single_price4: any,
+  update_single_price5: any) {
+  const bol = await withdraw(fun_type, data, navi_pool_adder, get_sgc, signAndExecute, update_single_price4, update_single_price5)
   if (bol) {
     // 2秒后消失
     toast.success('OK! Withdraw successfully', {
@@ -111,6 +111,38 @@ async function withdraw_all(fun_type: any, data: any, navi_pool_adder: any, get_
     });
   }
 }
+
+async function lottery_home(data_Number: any, signAndExecute: any) {
+  const data = Global_games[data_Number]
+  const bol = await lottery(data.typeT, data.typeD, data.fun_type,
+    data.reward_fund_T, data.reward_fund_D, data.navi_pool_adder, data.data, signAndExecute)
+  if (bol) {
+    // 2秒后消失
+    toast.success('OK! Deposit successfully', {
+      duration: 2000,
+    });
+  } else {
+    toast.error('error!', {
+      duration: 2000,
+    });
+  }
+};
+
+async function entry_get_sgc_coin_home(data_Number: any, signAndExecute: any) {
+  // 在这里执行你的「存款／提交」逻辑。 <<< 修改
+  const data = Global_games[data_Number]
+  const bol = await entry_get_sgc_coin(data.fun_type, data.data, data.get_sgc, signAndExecute)
+  if (bol) {
+    // 2秒后消失
+    toast.success('OK! Deposit successfully', {
+      duration: 2000,
+    });
+  } else {
+    toast.error('error!', {
+      duration: 2000,
+    });
+  }
+};
 //....................................................................................................................
 export default function Home() {
   const [open, setOpen] = useState(false);
@@ -161,8 +193,9 @@ export default function Home() {
 
     // 在这里执行你的「存款／提交」逻辑。 <<< 修改
     const data = Global_games[dataNumber]
-    const bol = await deposit_all(account, num, data.fun_type, data.data, data.navi_pool_adder, data.get_sgc, signAndExecute)
-    console.log(bol)
+    const bol = await deposit_all(account, num, data.fun_type, data.data, data.navi_pool_adder, data.get_sgc,
+      signAndExecute, data.navi_update_single_price1, data.navi_update_single_price2
+    )
     if (bol) {
       // 2秒后消失
       toast.success('OK! Deposit successfully', {
@@ -307,7 +340,7 @@ export default function Home() {
                       <div className="flex gap-2 mt-2 sm:mt-0 justify-end items-center">
                         <Button
                           className="bg-green-700 hover:bg-green-600 text-white font-bold h-8 px-3 text-xs w-full sm:w-auto"
-                          onClick={() => toast.success('测试 Toast 能否显示')}
+                          onClick={() => entry_get_sgc_coin_home(item.coin_balance_andeData_number, signAndExecute)}
                         >
                           Claim SGC
                         </Button>
@@ -315,7 +348,8 @@ export default function Home() {
                           className="bg-yellow-600 hover:bg-yellow-500 text-white font-bold h-8 px-3 text-xs w-full sm:w-auto"
                           onClick={() => withdraw_all(Global_games[item.coin_balance_andeData_number].fun_type, Global_games[item.coin_balance_andeData_number].data,
                             Global_games[item.coin_balance_andeData_number].navi_pool_adder, Global_games[item.coin_balance_andeData_number].get_sgc,
-                            signAndExecute
+                            signAndExecute, Global_games[item.coin_balance_andeData_number].navi_update_single_price1,
+                            Global_games[item.coin_balance_andeData_number].navi_update_single_price2
                           )}
                         >
                           Withdraw
@@ -368,7 +402,7 @@ export default function Home() {
             </Button>
             {Number(item.countdown) <= 0 && (
               <Button
-                onClick={() => handleOpenAndGetbalance(item.coin_balance_andeData_number, item.decimals, item.name, item.id)}
+                onClick={() => lottery_home(item.coin_balance_andeData_number, signAndExecute)}
                 className="w-40 whitespace-nowrap bg-green-600 hover:bg-green-700"
               >
                 Start Draw

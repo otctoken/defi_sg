@@ -50,8 +50,7 @@ const NavItem: React.FC<NavItemProps> = ({ to, label, onClick }) => {
       to={to}
       onClick={onClick}
       className={({ isActive }: { isActive: boolean }) =>
-        `block px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-          isActive ? "bg-blue-600 text-white" : "text-gray-300 hover:text-white"
+        `block px-3 py-2 rounded-md text-sm font-medium transition-colors ${isActive ? "bg-gray-700 text-white" : "text-gray-300 hover:text-white"
         }`
       }
     >
@@ -66,6 +65,7 @@ export default function Header() {
   const close = () => setOpen(false);
 
   const navItems = [
+    { to: "/Home", label: "Home" },
     { to: "/AA", label: "AA" },
     { to: "/BB", label: "BB" },
     { to: "/CC", label: "CC" },

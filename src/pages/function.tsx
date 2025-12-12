@@ -1,6 +1,9 @@
 import { SuiGrpcClient } from "@mysten/sui/grpc";
 import { Transaction } from "@mysten/sui/transactions";
-import { SG_PACkages, Navi_Storage, Navi_inshdg_V2, Navi_inshdg_V3, SG_minter, SGC_h_c, Navi_PriceOracle } from "./constantsData.tsx"
+import {
+  SG_PACkages, Navi_Storage, Navi_inshdg_V2, Navi_inshdg_V3, SG_minter, SGC_h_c, Navi_PriceOracle,
+  Navi_update_single_price_pgk, Navi_OracleConfig, Navi_OracleHolder, SG_Amindcap_fee
+} from "./constantsData.tsx"
 
 
 
@@ -165,10 +168,23 @@ export async function getBalance(adder: string, cointype: string) {
 
 
 //.................................................................heyuediayong................................................................
-export async function deposit_all(account: any, num: any, cointype: string, savingsd: string, pool: string, get_sgc: string, signAndExecute: any) {
+export async function deposit_all(account: any, num: any, cointype: string, savingsd: string, pool: string, get_sgc: string, signAndExecute: any,
+  update_single_price4: any, update_single_price5: any
+) {
   // ... 构建你的交易 ...
   try {
     const tx = new Transaction();
+    tx.moveCall({
+      target: `${Navi_update_single_price_pgk}::oracle_pro::update_single_price`,
+      arguments: [
+        tx.object("0x6"),
+        tx.object(Navi_OracleConfig),
+        tx.object(Navi_PriceOracle),
+        tx.object(Navi_OracleHolder),
+        tx.object(update_single_price4),
+        tx.pure.address(update_single_price5)
+      ],
+    });
     if (cointype != "0x2::sui::SUI") {
       const coins = await getCoins(account?.address, cointype);
       const coinObjectId_coin = coins[0]["coinObjectId"];
@@ -240,10 +256,22 @@ export async function deposit_all(account: any, num: any, cointype: string, savi
   }
 };
 
-export async function withdraw(cointype: string, savingsd: string, pool: string, get_sgc: string, signAndExecute: any) {
+export async function withdraw(cointype: string, savingsd: string, pool: string, get_sgc: string, signAndExecute: any,
+  update_single_price4: any, update_single_price5: any) {
   // ... 构建你的交易 ...
   try {
     const tx = new Transaction();
+    tx.moveCall({
+      target: `${Navi_update_single_price_pgk}::oracle_pro::update_single_price`,
+      arguments: [
+        tx.object("0x6"),
+        tx.object(Navi_OracleConfig),
+        tx.object(Navi_PriceOracle),
+        tx.object(Navi_OracleHolder),
+        tx.object(update_single_price4),
+        tx.pure.address(update_single_price5)
+      ],
+    });
 
     tx.moveCall({
       target: `${SG_PACkages}::vault::withdraw`,
@@ -265,7 +293,85 @@ export async function withdraw(cointype: string, savingsd: string, pool: string,
     const response1 = await signAndExecute({
       transaction: tx,
     });
-    console.log(JSON.stringify(response1.digest, null, 2));
+    const { response } = await client.ledgerService.getTransaction({
+      digest: response1.digest,
+      readMask: {
+        paths: [
+          "effects",      // 获取执行结果
+        ]
+      }
+    });
+    const status = response.transaction?.effects?.status?.success;
+    return status
+  } catch (error) {
+    console.error("error:", error);
+    return false
+  }
+};
+
+export async function lottery(typeT: any, typeD: any, typeA: any,
+  reward_fund_t: any, reward_fund_d: any, pool: any, savingsd: any, signAndExecute: any
+) {
+  // ... 构建你的交易 ...
+  try {
+    const tx = new Transaction();
+    tx.setGasBudget(300000000); // 例如 0.01 SUI
+    tx.moveCall({
+      target: `${SG_PACkages}::vault::lottery`,
+      typeArguments: [typeT, typeD, typeA],
+      arguments: [
+        tx.object(SG_Amindcap_fee),
+        tx.object(reward_fund_t),
+        tx.object(reward_fund_d),
+        tx.object(Navi_PriceOracle),
+        tx.object(Navi_inshdg_V3),
+        tx.object(Navi_inshdg_V2),
+        tx.object(Navi_Storage),
+        tx.object(pool),
+        tx.object(savingsd),
+        tx.object("0x8"),
+        tx.object("0x6"),
+        tx.object("0x5"),
+      ],
+    });
+    const response1 = await signAndExecute({
+      transaction: tx,
+    });
+    const { response } = await client.ledgerService.getTransaction({
+      digest: response1.digest,
+      readMask: {
+        paths: [
+          "effects",      // 获取执行结果
+        ]
+      }
+    });
+    const status = response.transaction?.effects?.status?.success;
+    return status
+  } catch (error) {
+    console.error("error:", error);
+    return false
+  }
+};
+
+
+export async function entry_get_sgc_coin(type: any, savingsd: any, get_sgc: any, signAndExecute: any) {
+  // ... 构建你的交易 ...
+  try {
+    const tx = new Transaction();
+    tx.moveCall({
+      target: `${SG_PACkages}::vault::entry_get_sgc_coin`,
+      typeArguments: [type],
+      arguments: [
+        tx.object(SG_minter),
+        tx.object(SGC_h_c),
+        tx.object(savingsd),
+        tx.object(get_sgc),
+        tx.object("0x6"),
+      ],
+    });
+    const response1 = await signAndExecute({
+      transaction: tx,
+    });
     const { response } = await client.ledgerService.getTransaction({
       digest: response1.digest,
       readMask: {

@@ -14,6 +14,7 @@ export default function App() {
       <main className="flex-1 p-8 container mx-auto">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/Home" element={<Home />} />
           <Route path="/AA" element={<AA />} />
           <Route path="/BB" element={<BB />} />
           <Route path="/CC" element={<CC />} />
