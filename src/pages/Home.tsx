@@ -339,13 +339,13 @@ export default function Home() {
                       {/* Actions (按钮) */}
                       <div className="flex gap-2 mt-2 sm:mt-0 justify-end items-center">
                         <Button
-                          className="bg-green-600 hover:bg-green-700 text-white font-bold h-8 px-3 text-xs w-full sm:w-auto"
+                          className="bg-green-600 hover:bg-green-700 text-black font-bold h-8 px-3 text-xs w-full sm:w-auto"
                           onClick={() => entry_get_sgc_coin_home(item.coin_balance_andeData_number, signAndExecute)}
                         >
                           Claim SGC
                         </Button>
                         <Button
-                          className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold h-8 px-3 text-xs w-full sm:w-auto"
+                          className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold h-8 px-3 text-xs w-full sm:w-auto"
                           onClick={() => withdraw_all(Global_games[item.coin_balance_andeData_number].fun_type, Global_games[item.coin_balance_andeData_number].data,
                             Global_games[item.coin_balance_andeData_number].navi_pool_adder, Global_games[item.coin_balance_andeData_number].get_sgc,
                             signAndExecute, Global_games[item.coin_balance_andeData_number].navi_update_single_price1,
@@ -481,7 +481,7 @@ export default function Home() {
               <div>Max Supply</div>
               <div>Total Supply</div>
               <div>Burned</div>
-              <div>Price</div>
+              <div>SGC Price</div>
               <div className="text-right"></div>
             </div>
 
@@ -523,7 +523,7 @@ export default function Home() {
                 {/* Actions (按钮) */}
                 <div className="flex gap-2 mt-2 sm:mt-0 justify-end items-center">
                   <Button
-                    className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold h-8 px-3 text-xs w-full sm:w-auto"
+                    className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold h-8 px-3 text-xs w-full sm:w-auto"
                     onClick={() => entry_get_sgc_coin_home(3, signAndExecute)}
                   >
                     Burn SGC
