@@ -106,7 +106,7 @@ async function withdraw_all(fun_type: any, data: any, navi_pool_adder: any, get_
       duration: 3000,
     });
   } else {
-    toast.error('Withdraw error! Please try again later!', {
+    toast.error('Withdraw fail! Please try again later!', {
       duration: 3000,
     });
   }
@@ -122,7 +122,7 @@ async function lottery_home(data_Number: any, signAndExecute: any) {
       duration: 2000,
     });
   } else {
-    toast.error('error!', {
+    toast.error('fail!', {
       duration: 2000,
     });
   }
@@ -138,7 +138,7 @@ async function entry_get_sgc_coin_home(data_Number: any, signAndExecute: any) {
       duration: 2000,
     });
   } else {
-    toast.error('error!', {
+    toast.error('fail!', {
       duration: 2000,
     });
   }
