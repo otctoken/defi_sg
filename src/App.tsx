@@ -22,6 +22,9 @@ export default function App() {
         </Routes>
       </main>
       <FooterTable />
+      <footer className="col-span-1 sm:col-span-2 mt-8 py-6 text-center text-gray-500 text-sm border-t border-gray-700/30">
+        &copy; 2026 All rights reserved
+      </footer>
     </div>
   );
 }

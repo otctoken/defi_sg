@@ -339,13 +339,13 @@ export default function Home() {
                       {/* Actions (按钮) */}
                       <div className="flex gap-2 mt-2 sm:mt-0 justify-end items-center">
                         <Button
-                          className="bg-green-700 hover:bg-green-600 text-white font-bold h-8 px-3 text-xs w-full sm:w-auto"
+                          className="bg-green-600 hover:bg-green-700 text-white font-bold h-8 px-3 text-xs w-full sm:w-auto"
                           onClick={() => entry_get_sgc_coin_home(item.coin_balance_andeData_number, signAndExecute)}
                         >
                           Claim SGC
                         </Button>
                         <Button
-                          className="bg-yellow-600 hover:bg-yellow-500 text-white font-bold h-8 px-3 text-xs w-full sm:w-auto"
+                          className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold h-8 px-3 text-xs w-full sm:w-auto"
                           onClick={() => withdraw_all(Global_games[item.coin_balance_andeData_number].fun_type, Global_games[item.coin_balance_andeData_number].data,
                             Global_games[item.coin_balance_andeData_number].navi_pool_adder, Global_games[item.coin_balance_andeData_number].get_sgc,
                             signAndExecute, Global_games[item.coin_balance_andeData_number].navi_update_single_price1,
@@ -468,10 +468,72 @@ export default function Home() {
           className="mt-6 w-full py-3 bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-semibold rounded"
           onClick={handleDepositClick}
         >
-
           Deposit
         </button>
       </Modal>
-    </div >
+      <Card className="flex flex-col items-center text-center !bg-gray-800 sm:col-span-2 shadow-lg border border-gray-700 h-fit">
+        <CardHeader className="text-xl font-bold text-white tracking-wider border-b border-gray-700 w-full pb-4 mb-4">
+          Protocol Revenue Burn SGC
+        </CardHeader>
+        <CardContent className="w-full px-4 pb-6">
+          <div className="w-full flex flex-col">
+            <div className="hidden sm:grid sm:grid-cols-5 text-xs text-gray-400 uppercase bg-gray-900 border-b border-gray-700 py-3 px-4 font-semibold">
+              <div>Max Supply</div>
+              <div>Total Supply</div>
+              <div>Burned</div>
+              <div>Price</div>
+              <div className="text-right"></div>
+            </div>
+
+            {/* 2. 数据列表 (Body) */}
+            <div className="flex flex-col">
+
+              <div
+                key={2}
+                className="flex flex-col sm:grid sm:grid-cols-5 border-b border-gray-700 hover:bg-gray-700/30 transition-colors py-4 px-4 gap-2 sm:gap-0"
+              >
+
+                {/* Game Name */}
+                <div className="flex justify-between items-center sm:block">
+                  {/* 手机端显示的标签 */}
+                  <span className="sm:hidden text-gray-500 text-sm">Max Supply</span>
+                  <span className="font-medium text-white break-all">100B</span>
+                </div>
+
+                {/* Balance */}
+                <div className="flex justify-between items-center sm:block">
+                  <span className="sm:hidden text-gray-500 text-sm">Total Supply</span>
+                  <span className="text-gray-200">
+                    {3333665}
+                  </span>
+                </div>
+
+                {/* Win Prob */}
+                <div className="flex justify-between items-center sm:block">
+                  <span className="sm:hidden text-gray-500 text-sm">Burned</span>
+                  <span className="text-gray-300">{231}</span>
+                </div>
+
+                {/* Rewards */}
+                <div className="flex justify-between items-center sm:block">
+                  <span className="sm:hidden text-gray-500 text-sm">Price</span>
+                  <span className="text-green-400">$0.0000000321</span>
+                </div>
+
+                {/* Actions (按钮) */}
+                <div className="flex gap-2 mt-2 sm:mt-0 justify-end items-center">
+                  <Button
+                    className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold h-8 px-3 text-xs w-full sm:w-auto"
+                    onClick={() => entry_get_sgc_coin_home(3, signAndExecute)}
+                  >
+                    Burn SGC
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 }
