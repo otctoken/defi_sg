@@ -20,7 +20,9 @@ export const Navi_OracleHolder = "0xaa0315f0748c1f24ddb2b45f7939cff40f7a8104af5c
 export const FolX_Contert = "0xb65dcbf63fd3ad5d0ebfbf334780dc9f785eff38a4459e37ab08fa79576ee511"
 export const FolX_Mingter = "0x2a30f1bfa9594e0e9ca37581268b3fee4b6965a70c38eb76e204334980619c24"
 //..............................admin...................................................................
-
+export const burn_sgc = ["0x549e8b69270defbfafd4f94e17ec44cdbdd99820b33bda2278dea3b9a32d3f55::cert::CERT",
+                         "0xdeeb7a4662eec9f2f3def03fb937a663dddaa2e215b8078a284d026b7946c270::deep::DEEP",
+                        ]
 export const AdminCap = "0x12ca4a9c46234553b606a15f864ca957b2931238c0ebdd20f4230d4fbd6fa308"
 export const upgrade = "0x9faefe8e4a0d337402cd5ceb27dfc44b326b63692748d1dfff90584feb44c004"
 export const SGC_AdminTolel = "0xad852fb8d4806e24fb8f45d3dc5e110d7acbb438883ef9f099fc5a060bd46047"//

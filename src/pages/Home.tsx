@@ -8,7 +8,7 @@ import { Toaster, toast } from 'react-hot-toast';
 import Modal from "./Modal";
 import { getBalances, getObjectDF } from "./gRPC.tsx"
 import { SUI_30H, DEEP_30H } from "./constantsData.tsx"
-import { getSavingsDynamicFieldObject, deposit_all, withdraw, lottery, entry_get_sgc_coin } from "./function.tsx"
+import { getSavingsDynamicFieldObject, deposit_all, withdraw, lottery, entry_get_sgc_coin,burn_sgc_coin } from "./function.tsx"
 // import { run } from "node:test";
 // 1) ID 列表
 interface Item {
@@ -524,7 +524,7 @@ export default function Home() {
                 <div className="flex gap-2 mt-2 sm:mt-0 justify-end items-center">
                   <Button
                     className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold h-8 px-3 text-xs w-full sm:w-auto"
-                    onClick={() => entry_get_sgc_coin_home(3, signAndExecute)}
+                    onClick={() =>burn_sgc_coin(signAndExecute)}
                   >
                     Burn SGC
                   </Button>
