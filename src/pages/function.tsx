@@ -2,8 +2,8 @@ import { SuiGrpcClient } from "@mysten/sui/grpc";
 import { Transaction } from "@mysten/sui/transactions";
 import {
   SG_PACkages, Navi_Storage, Navi_inshdg_V2, Navi_inshdg_V3, SG_minter, SGC_h_c, Navi_PriceOracle,
-  Navi_update_single_price_pgk, Navi_OracleConfig, Navi_OracleHolder, SG_Amindcap_fee
-} from "./constantsData.tsx"
+  Navi_update_single_price_pgk, Navi_OracleConfig, Navi_OracleHolder, SG_Amindcap_fee,
+  burn_sgc,FolX_Contert} from "./constantsData.tsx"
 
 
 
@@ -369,6 +369,48 @@ export async function entry_get_sgc_coin(type: any, savingsd: any, get_sgc: any,
         tx.object("0x6"),
       ],
     });
+    const response1 = await signAndExecute({
+      transaction: tx,
+    });
+    const { response } = await client.ledgerService.getTransaction({
+      digest: response1.digest,
+      readMask: {
+        paths: [
+          "effects",      // 获取执行结果
+        ]
+      }
+    });
+    const status = response.transaction?.effects?.status?.success;
+    return status
+  } catch (error) {
+    console.error("error:", error);
+    return false
+  }
+};
+
+
+export async function burn_sgc_coin(signAndExecute: any) {
+  // ... 构建你的交易 ... burn_sgc,FolX_Contert
+  try {
+    const tx = new Transaction();
+    tx.moveCall({
+      target: `${SG_PACkages}::vault::burn_sgc_sui`,
+      arguments: [
+        tx.object(SG_Amindcap_fee),
+        tx.object(FolX_Contert),
+      ],
+    });
+    for (const type of burn_sgc) {
+      tx.moveCall({
+        target: `${SG_PACkages}::vault::burn_sgc`,
+        typeArguments: [type],
+        arguments: [
+          tx.object(SG_Amindcap_fee),
+          tx.object(FolX_Contert),
+        ],
+      });
+    }
+
     const response1 = await signAndExecute({
       transaction: tx,
     });
