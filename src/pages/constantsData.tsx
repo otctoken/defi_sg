@@ -16,34 +16,49 @@ export const Navi_PriceOracle = "0x1568865ed9a0b5ec414220e8f79b3d04c77acc82358f6
 export const Navi_update_single_price_pgk = "0xc2d49bf5e75d2258ee5563efa527feb6155de7ac6f6bf025a23ee88cd12d5a83"
 export const Navi_OracleConfig = "0x1afe1cb83634f581606cc73c4487ddd8cc39a944b951283af23f7d69d5589478"
 export const Navi_OracleHolder = "0xaa0315f0748c1f24ddb2b45f7939cff40f7a8104af5ccbc4a1d32f870c0b4105"
+export const Navi_PACKAGE_ID = "0xee0041239b89564ce870a7dec5ddc5d114367ab94a1137e90aa0633cb76518e0"
+export const Navi_PACKAGE_MODULE = "incentive_v3"
+export const Navi_PACKAGE_FUN = "get_user_claimable_rewards"
 //.................................FolX................................................................
 export const FolX_Contert = "0xb65dcbf63fd3ad5d0ebfbf334780dc9f785eff38a4459e37ab08fa79576ee511"
 export const FolX_Mingter = "0x2a30f1bfa9594e0e9ca37581268b3fee4b6965a70c38eb76e204334980619c24"
 //..............................admin...................................................................
-export const burn_sgc = ["0x549e8b69270defbfafd4f94e17ec44cdbdd99820b33bda2278dea3b9a32d3f55::cert::CERT",
-                         "0xdeeb7a4662eec9f2f3def03fb937a663dddaa2e215b8078a284d026b7946c270::deep::DEEP",
-                        ]
+
 export const AdminCap = "0x12ca4a9c46234553b606a15f864ca957b2931238c0ebdd20f4230d4fbd6fa308"
 export const upgrade = "0x9faefe8e4a0d337402cd5ceb27dfc44b326b63692748d1dfff90584feb44c004"
 export const SGC_AdminTolel = "0xad852fb8d4806e24fb8f45d3dc5e110d7acbb438883ef9f099fc5a060bd46047"//
+
+
+//................................................记得添加.................................................................
+export const Navi_reward_null_or_one = [
+    "0xdeeb7a4662eec9f2f3def03fb937a663dddaa2e215b8078a284d026b7946c270::deep::DEEP", "0xc889d78b634f954979e80e622a2ae0fece824c0f6d9590044378a2563035f32f",
+    "0x549e8b69270defbfafd4f94e17ec44cdbdd99820b33bda2278dea3b9a32d3f55::cert::CERT", "0x7093cf7549d5e5b35bfde2177223d1050f71655c7f676a5e610ee70eb4d93b5c",
+]
+
+export const burn_sgc = ["0x549e8b69270defbfafd4f94e17ec44cdbdd99820b33bda2278dea3b9a32d3f55::cert::CERT",
+    "0xdeeb7a4662eec9f2f3def03fb937a663dddaa2e215b8078a284d026b7946c270::deep::DEEP",
+]
+export const Navi_update_single_price: Record<string, string[]> = { //对上const SUI_30H   DEEP_30H 的name
+    "DEEP": ["0x8c7f3a322b94cc69db2a2ac575cbd94bf5766113324c3a3eceac91e3e88a51ed", "0x4558092b08ad1b33b0eb536f91a4655693c2390ac568f06de6f6fad827888600"],
+    "SUI": ["0x801dbc2f0053d34734814b2d6df491ce7807a725fe9a01ad74a07e9c51396c37", "0x2cab9b151ca1721624b09b421cc57d0bb26a1feb5da1f821492204b098ec35c9"],
+}
+export const Navi_reward_data: Record<string, string> = {
+    "0xdeeb7a4662eec9f2f3def03fb937a663dddaa2e215b8078a284d026b7946c270::deep::DEEP": "0xc889d78b634f954979e80e622a2ae0fece824c0f6d9590044378a2563035f32f",
+    "0x549e8b69270defbfafd4f94e17ec44cdbdd99820b33bda2278dea3b9a32d3f55::cert::CERT": "0x7093cf7549d5e5b35bfde2177223d1050f71655c7f676a5e610ee70eb4d93b5c",
+}
 
 export const SUI_30H = {
     id: "SUI-30H",
     name: "SUI",
     // tree_height total_balance time_per_round  start_time index internal_node  leaf_node
     data: "0x3dcaacbeb7c9b5202877e9f6f1a21e325c45c5244c4303834a74f86397f65da7",
+    data_acp_owner: "0x3095a7356e2f4986eecc494efaedc2e6010d395bebfc8e6d7a165198a4d89e29",
     fun_type: "0x2::sui::SUI",
-    typeT: "0xdeeb7a4662eec9f2f3def03fb937a663dddaa2e215b8078a284d026b7946c270::deep::DEEP",//type reward_fund_没有填写两个任意，但不能一样
-    reward_fund_T: "0xc889d78b634f954979e80e622a2ae0fece824c0f6d9590044378a2563035f32f",//type reward_fund_没有填写两个任意，但不能一样
-    typeD: "0x549e8b69270defbfafd4f94e17ec44cdbdd99820b33bda2278dea3b9a32d3f55::cert::CERT",//type reward_fund_没有填写两个任意，但不能一样，有一类的必须写在T
-    reward_fund_D: "0x7093cf7549d5e5b35bfde2177223d1050f71655c7f676a5e610ee70eb4d93b5c",//type reward_fund_没有填写两个任意，但不能一样，有一类的必须写在T
     get_sgc: "0xc540cbe21642abefe781f35b3163d871b39374f753b5e34f81ffeb1bbc660f92",
     coin_balance_andeData_number: 0,
     time_per_round: 108000000,
     navi_pool_number: 0,
     navi_pool_adder: "0x96df0fce3c471489f4debaaa762cf960b3d97820bd1f3f025ff8190730e958c5",
-    navi_update_single_price1: "0x801dbc2f0053d34734814b2d6df491ce7807a725fe9a01ad74a07e9c51396c37",
-    navi_update_single_price2: "0x2cab9b151ca1721624b09b421cc57d0bb26a1feb5da1f821492204b098ec35c9",
     decimals: 9,
     dynamic_field: {
         adder_node: '0x0920a7ea19db6b0264f117610c76426c2ab22dcfe63c1b13a5a1fd35ebb89b6b',
@@ -58,18 +73,13 @@ export const DEEP_30H = {
     name: "DEEP",
     // tree_height total_balance time_per_round  start_time index internal_node  leaf_node
     data: "0xfb8fee21dabd4d70f3b68e9c2e1d0cdb0c7a1056a3a04b0a2539c495c2316bfb",
+    data_acp_owner: "0x2cec5096532bbd7d2dc93c2d4d78c41e7e6df13e219589738dd0286607aaf2f3",
     fun_type: "0xdeeb7a4662eec9f2f3def03fb937a663dddaa2e215b8078a284d026b7946c270::deep::DEEP",
-    typeT: "0xdeeb7a4662eec9f2f3def03fb937a663dddaa2e215b8078a284d026b7946c270::deep::DEEP",//type reward_fund_没有填写两个任意，但不能一样
-    reward_fund_T: "0xc889d78b634f954979e80e622a2ae0fece824c0f6d9590044378a2563035f32f",//type reward_fund_没有填写两个任意，但不能一样
-    typeD: "0x549e8b69270defbfafd4f94e17ec44cdbdd99820b33bda2278dea3b9a32d3f55::cert::CERT",//type reward_fund_没有填写两个任意，但不能一样，有一类的必须写在T
-    reward_fund_D: "0x7093cf7549d5e5b35bfde2177223d1050f71655c7f676a5e610ee70eb4d93b5c",//type reward_fund_没有填写两个任意，但不能一样，有一类的必须写在T
     get_sgc: "0xe02e2d7e9fbf9dad951e6bf5566c5fe7774e93b7d2635523a82abffd9b68a7ab",
     coin_balance_andeData_number: 1,
     time_per_round: 108000000,
     navi_pool_number: 15,
     navi_pool_adder: "0x08373c5efffd07f88eace1c76abe4777489d9ec044fd4cd567f982d9c169e946",
-    navi_update_single_price1: "0x8c7f3a322b94cc69db2a2ac575cbd94bf5766113324c3a3eceac91e3e88a51ed",
-    navi_update_single_price2: "0x4558092b08ad1b33b0eb536f91a4655693c2390ac568f06de6f6fad827888600",
     decimals: 6,
     dynamic_field: {
         adder_node: '0x3ecc9318b15d8df40fb9bbb912cdc57d55fbbeb6ace1cf1f777e3cd18de650fe',
