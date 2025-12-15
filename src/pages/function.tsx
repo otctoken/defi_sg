@@ -1,9 +1,13 @@
 import { SuiGrpcClient } from "@mysten/sui/grpc";
 import { Transaction } from "@mysten/sui/transactions";
+import { SuiClient } from "@mysten/sui/client";
+import { bcs } from "@mysten/sui/bcs";
 import {
   SG_PACkages, Navi_Storage, Navi_inshdg_V2, Navi_inshdg_V3, SG_minter, SGC_h_c, Navi_PriceOracle,
   Navi_update_single_price_pgk, Navi_OracleConfig, Navi_OracleHolder, SG_Amindcap_fee,
-  burn_sgc,FolX_Contert} from "./constantsData.tsx"
+  burn_sgc, FolX_Contert, Navi_PACKAGE_ID, Navi_PACKAGE_MODULE, Navi_PACKAGE_FUN, Navi_reward_null_or_one,
+  Navi_reward_data, Navi_update_single_price
+} from "./constantsData.tsx"
 
 
 
@@ -150,7 +154,131 @@ export async function getSavingsDynamicFieldObject(tableId: any, userAddress: an
   const rawValue = data?.address?.dynamicField?.value?.json;
   return rawValue ? Number(rawValue) : 0;
 }
+async function dev_get_admin_fee(COIN_TYPE_T: any) {
+  // 1. 初始化 Client
+  const client = new SuiClient({ url: "https://rpc-mainnet.suiscan.xyz:443" }); // 或 'testnet'
 
+  const SENDER_ADDRESS =
+    "0x82242fabebc3e6e331c3d5c6de3d34ff965671b75154ec1cb9e00aa437bbfa44"; // 模拟发送者的地址 (用于权限检查)
+
+  const tx = new Transaction();
+  tx.moveCall({
+    target: `${SG_PACkages}::vault::withdraw_burning_sgc`,
+    typeArguments: [COIN_TYPE_T], // 填入泛型 T
+    arguments: [tx.object(SG_Amindcap_fee)],
+  });
+
+  try {
+    // 4. 执行 devInspectTransactionBlock
+    // 这不会消耗 Gas，也不会上链
+    const result = await client.devInspectTransactionBlock({
+      transactionBlock: tx,
+      sender: SENDER_ADDRESS,
+    });
+
+    // 5. 检查执行是否成功
+    if (result.effects.status.status === "failure") {
+      console.error("error:", result.effects.status.error);
+      return false;
+    } else {
+      return true;
+    }
+  } catch (e) {
+    console.error("err:", e);
+    return false;
+  }
+}
+export async function devClaimableRewards(acp_owner: any) {
+  const ClaimableReward = bcs.struct("ClaimableReward", {
+    asset_coin_type: bcs.string(),
+    reward_coin_type: bcs.string(),
+    user_claimable_reward: bcs.u256(),
+    user_claimed_reward: bcs.u256(),
+    rule_ids: bcs.vector(bcs.Address),
+  });
+
+  const client = new SuiClient({ url: "https://rpc-mainnet.suiscan.xyz:443" });
+
+  const SENDER_ADDRESS =
+    "0x82242fabebc3e6e331c3d5c6de3d34ff965671b75154ec1cb9e00aa437bbfa44"; // 模拟发送者的地址 (用于权限检查)
+  const tx = new Transaction();
+
+  // 2. 构建 Move 调用
+  // 函数签名: get_user_claimable_rewards(clock, storage, incentive, user_address)
+  tx.moveCall({
+    target: `${Navi_PACKAGE_ID}::${Navi_PACKAGE_MODULE}::${Navi_PACKAGE_FUN}`,
+    arguments: [
+      tx.object("0x6"), // Clock (固定 ID)
+      tx.object(Navi_Storage), // Storage Object
+      tx.object(Navi_inshdg_V3), // Incentive Object
+      tx.pure.address(acp_owner), // User Address (注意这里是 pure.address)
+    ],
+  });
+
+  try {
+    // 3. 执行 Dev Inspect
+    const result = await client.devInspectTransactionBlock({
+      transactionBlock: tx,
+      sender: SENDER_ADDRESS,
+    });
+
+    if (result.effects.status.status === "failure") {
+      console.error("err:", result.effects.status.error);
+      return;
+    }
+
+    // 4. 解析返回值
+    // 返回类型是 vector<ClaimableReward>
+    const returnValues = result.results![0].returnValues;
+
+    if (!returnValues || returnValues.length === 0) {
+      console.log("err");
+      return;
+    }
+
+    // returnValues[0] 是 tuple 的第一个元素 (这里只有一个返回值)
+    const rawBytes = Uint8Array.from(returnValues[0][0]);
+
+    // 使用我们定义的 BCS 结构解析 vector
+    const data = bcs.vector(ClaimableReward).parse(rawBytes);
+    //{asset_coin_type: 'deeb7a4662eec9f2f3def03fb937a663dddaa2e215b8078a284d026b7946c270::deep::DEEP',
+    // reward_coin_type: 'deeb7a4662eec9f2f3def03fb937a663dddaa2e215b8078a284d026b7946c270::deep::DEEP',
+    //  user_claimable_reward: '1575', user_claimed_reward: '2174',
+    // rule_ids: Array(1)}
+    return data;
+  } catch (e) {
+    console.error("err:", e);
+  }
+}
+
+function get_type_reward_fund(reward_data: any) { //Navi_reward_null_or_one, Navi_reward_data
+  let typeT
+  let typeD
+  let reward_fund_t
+  let reward_fund_d
+  if (reward_data?.length < 1) {
+    typeT = Navi_reward_null_or_one[0]
+    reward_fund_t = Navi_reward_null_or_one[1]
+    typeD = Navi_reward_null_or_one[2]
+    reward_fund_d = Navi_reward_null_or_one[3]
+  } else if (reward_data?.length < 2) {
+    typeT = `0x${reward_data[0].reward_coin_type}`
+    reward_fund_t = Navi_reward_data[typeT]
+    if (typeT != Navi_reward_null_or_one[0]) {
+      typeD = Navi_reward_null_or_one[0]
+      reward_fund_d = Navi_reward_null_or_one[1]
+    } else {
+      typeD = Navi_reward_null_or_one[2]
+      reward_fund_d = Navi_reward_null_or_one[3]
+    }
+  } else {
+    typeT = `0x${reward_data[0].reward_coin_type}`
+    reward_fund_t = Navi_reward_data[typeT]
+    typeD = `0x${reward_data[1].reward_coin_type}`
+    reward_fund_d = Navi_reward_data[typeD]
+  }
+  return [typeT, typeD, reward_fund_t, reward_fund_d]
+}
 
 export async function getBalance(adder: string, cointype: string) {
   try {
@@ -169,10 +297,12 @@ export async function getBalance(adder: string, cointype: string) {
 
 //.................................................................heyuediayong................................................................
 export async function deposit_all(account: any, num: any, cointype: string, savingsd: string, pool: string, get_sgc: string, signAndExecute: any,
-  update_single_price4: any, update_single_price5: any
+  name: any
 ) {
   // ... 构建你的交易 ...
   try {
+    const update_single_price4 = Navi_update_single_price[name][0]
+    const update_single_price5 = Navi_update_single_price[name][1]
     const tx = new Transaction();
     tx.moveCall({
       target: `${Navi_update_single_price_pgk}::oracle_pro::update_single_price`,
@@ -257,9 +387,11 @@ export async function deposit_all(account: any, num: any, cointype: string, savi
 };
 
 export async function withdraw(cointype: string, savingsd: string, pool: string, get_sgc: string, signAndExecute: any,
-  update_single_price4: any, update_single_price5: any) {
+  name: any) {
   // ... 构建你的交易 ...
   try {
+    const update_single_price4 = Navi_update_single_price[name][0]
+    const update_single_price5 = Navi_update_single_price[name][1]
     const tx = new Transaction();
     tx.moveCall({
       target: `${Navi_update_single_price_pgk}::oracle_pro::update_single_price`,
@@ -309,11 +441,12 @@ export async function withdraw(cointype: string, savingsd: string, pool: string,
   }
 };
 
-export async function lottery(typeT: any, typeD: any, typeA: any,
-  reward_fund_t: any, reward_fund_d: any, pool: any, savingsd: any, signAndExecute: any
+export async function lottery(typeA: any, pool: any, savingsd: any, acp_owner: any, signAndExecute: any
 ) {
   // ... 构建你的交易 ...
   try {
+    const reward_data = await devClaimableRewards(acp_owner)
+    const [typeT, typeD, reward_fund_t, reward_fund_d] = get_type_reward_fund(reward_data)
     const tx = new Transaction();
     tx.setGasBudget(300000000); // 例如 0.01 SUI
     tx.moveCall({
@@ -392,38 +525,55 @@ export async function entry_get_sgc_coin(type: any, savingsd: any, get_sgc: any,
 export async function burn_sgc_coin(signAndExecute: any) {
   // ... 构建你的交易 ... burn_sgc,FolX_Contert
   try {
-    const tx = new Transaction();
-    tx.moveCall({
-      target: `${SG_PACkages}::vault::burn_sgc_sui`,
-      arguments: [
-        tx.object(SG_Amindcap_fee),
-        tx.object(FolX_Contert),
-      ],
-    });
-    for (const type of burn_sgc) {
-      tx.moveCall({
-        target: `${SG_PACkages}::vault::burn_sgc`,
-        typeArguments: [type],
-        arguments: [
-          tx.object(SG_Amindcap_fee),
-          tx.object(FolX_Contert),
-        ],
-      });
-    }
+    const suibool = await dev_get_admin_fee("0x2::sui::SUI")
 
-    const response1 = await signAndExecute({
-      transaction: tx,
-    });
-    const { response } = await client.ledgerService.getTransaction({
-      digest: response1.digest,
-      readMask: {
-        paths: [
-          "effects",      // 获取执行结果
-        ]
+    let coin_list = []
+    for (const type of burn_sgc) {
+      const coin_ = await dev_get_admin_fee(type)
+      if (coin_) {
+        coin_list.push(type)
       }
-    });
-    const status = response.transaction?.effects?.status?.success;
-    return status
+    }
+    if (suibool || coin_list.length > 0) {
+      const tx = new Transaction();
+      if (suibool) {
+        tx.moveCall({
+          target: `${SG_PACkages}::vault::burn_sgc_sui`,
+          arguments: [
+            tx.object(SG_Amindcap_fee),
+            tx.object(FolX_Contert),
+          ],
+        });
+      }
+      if (coin_list.length > 0) {
+        for (const type of coin_list) {
+          tx.moveCall({
+            target: `${SG_PACkages}::vault::burn_sgc`,
+            typeArguments: [type],
+            arguments: [
+              tx.object(SG_Amindcap_fee),
+              tx.object(FolX_Contert),
+            ],
+          });
+        }
+      }
+
+      const response1 = await signAndExecute({
+        transaction: tx,
+      });
+      const { response } = await client.ledgerService.getTransaction({
+        digest: response1.digest,
+        readMask: {
+          paths: [
+            "effects",      // 获取执行结果
+          ]
+        }
+      });
+      const status = response.transaction?.effects?.status?.success;
+      return status
+    } else {
+      alert("Please try again later!");
+    }
   } catch (error) {
     console.error("error:", error);
     return false
