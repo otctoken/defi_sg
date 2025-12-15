@@ -572,7 +572,7 @@ export async function burn_sgc_coin(signAndExecute: any) {
       const status = response.transaction?.effects?.status?.success;
       return status
     } else {
-      alert("Please try again later!");
+      alert("The SGC burn process has just completed. Please try again later.");
     }
   } catch (error) {
     console.error("error:", error);

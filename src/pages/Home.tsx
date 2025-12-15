@@ -143,6 +143,9 @@ async function entry_get_sgc_coin_home(data_Number: any, signAndExecute: any) {
 };
 
 async function burn_sgc_coin_home(signAndExecute: any) {
+  toast.success('Preparing to burn down SGC...', {
+    duration: 2500,
+  });
   const bol = await burn_sgc_coin(signAndExecute)
   if (bol) {
     // 2秒后消失
