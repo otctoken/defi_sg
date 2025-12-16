@@ -97,70 +97,11 @@ async function getData_haed(gamesList: any[], adder: string) {
   }
   return ItemList
 }
-async function withdraw_all(fun_type: any, data: any, navi_pool_adder: any, get_sgc: any, signAndExecute: any, name: any) {
-  const bol = await withdraw(fun_type, data, navi_pool_adder, get_sgc, signAndExecute, name)
-  if (bol) {
-    // 2秒后消失
-    toast.success('OK! Withdraw successfully', {
-      duration: 3000,
-    });
-  } else {
-    toast.error('Withdraw fail! Please try again later!', {
-      duration: 3000,
-    });
-  }
-}
 
-async function lottery_home(data_Number: any, signAndExecute: any) {
-  const data = Global_games[data_Number]
-  const bol = await lottery(data.fun_type, data.navi_pool_adder, data.data, data.data_acp_owner, signAndExecute)
-  if (bol) {
-    // 2秒后消失
-    toast.success('OK! Deposit successfully', {
-      duration: 2000,
-    });
-  } else {
-    toast.error('fail!', {
-      duration: 2000,
-    });
-  }
-};
-
-async function entry_get_sgc_coin_home(data_Number: any, signAndExecute: any) {
-  // 在这里执行你的「存款／提交」逻辑。 <<< 修改
-  const data = Global_games[data_Number]
-  const bol = await entry_get_sgc_coin(data.fun_type, data.data, data.get_sgc, signAndExecute)
-  if (bol) {
-    // 2秒后消失
-    toast.success('OK! Deposit successfully', {
-      duration: 2000,
-    });
-  } else {
-    toast.error('fail!', {
-      duration: 2000,
-    });
-  }
-};
-
-async function burn_sgc_coin_home(signAndExecute: any) {
-  toast.success('Preparing to burn down SGC...', {
-    duration: 2500,
-  });
-  const bol = await burn_sgc_coin(signAndExecute)
-  if (bol) {
-    // 2秒后消失
-    toast.success('OK! Deposit successfully', {
-      duration: 2000,
-    });
-  } else {
-    toast.error('fail!', {
-      duration: 2000,
-    });
-  }
-}
 //....................................................................................................................
 export default function Home() {
   const [open, setOpen] = useState(false);
+  const [isGlobalButton, setIsGlobalButton] = useState(true);
   const [balances, setBalances] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
   const [usebalances, setUsebalances] = useState(0);
   const [dataNumber, setDataNumber] = useState(0);
@@ -194,38 +135,134 @@ export default function Home() {
   }
 
   const handleDepositClick = async () => {
+    if (!isGlobalButton) {
+      return
+    } else {
+      setIsGlobalButton(false)
+    }
     const num_ = parseFloat(inputAmount);
     const decimal = 10 ** inputDecimal
     const num = num_ * decimal;
     if (isNaN(num_) || num_ <= 0) {
       alert("Please enter a valid amount");
+      setIsGlobalButton(true)
       return;
     }
     if (num_ > usebalances) {
       alert("Exceed available balance");
+      setIsGlobalButton(true)
       return;
     }
+    try {
+      // 在这里执行你的「存款／提交」逻辑。 <<< 修改
+      const data = Global_games[dataNumber]
+      const bol = await deposit_all(account, num, data.fun_type, data.data, data.navi_pool_adder, data.get_sgc,
+        signAndExecute, data.name
+      )
+      if (bol) {
+        // 2秒后消失
+        toast.success('OK! Deposit successfully', {
+          duration: 2000,
+        });
+      } else {
+        toast.error('error!', {
+          duration: 2000,
+        });
+      }
+    } catch (error) {
+      // Code to handle the error
+      console.log(error);    // Outputs: ReferenceError
+    }
+    // 例如：调用合约、RPC、GraphQL…
+    handleClose();
+    setIsGlobalButton(true)
+  };
 
-    // 在这里执行你的「存款／提交」逻辑。 <<< 修改
-    const data = Global_games[dataNumber]
-    const bol = await deposit_all(account, num, data.fun_type, data.data, data.navi_pool_adder, data.get_sgc,
-      signAndExecute, data.name
-    )
+  async function withdraw_all(fun_type: any, data: any, navi_pool_adder: any, get_sgc: any, signAndExecute: any, name: any) {
+    if (!isGlobalButton) {
+      return
+    } else {
+      setIsGlobalButton(false)
+    }
+    const bol = await withdraw(fun_type, data, navi_pool_adder, get_sgc, signAndExecute, name)
+    if (bol) {
+      // 2秒后消失
+      toast.success('OK! Withdraw successfully', {
+        duration: 3000,
+      });
+    } else {
+      toast.error('Withdraw fail! Please try again later!', {
+        duration: 3000,
+      });
+    }
+    setIsGlobalButton(true)
+  }
+
+  async function lottery_home(data_Number: any, signAndExecute: any) {
+    if (!isGlobalButton) {
+      return
+    } else {
+      setIsGlobalButton(false)
+    }
+    const data = Global_games[data_Number]
+    const bol = await lottery(data.fun_type, data.navi_pool_adder, data.data, data.data_acp_owner, signAndExecute)
     if (bol) {
       // 2秒后消失
       toast.success('OK! Deposit successfully', {
         duration: 2000,
       });
     } else {
-      toast.error('error!', {
+      toast.error('fail!', {
         duration: 2000,
       });
     }
-    // 例如：调用合约、RPC、GraphQL…
-    handleClose();
+    setIsGlobalButton(true)
   };
 
+  async function entry_get_sgc_coin_home(data_Number: any, signAndExecute: any) {
+    if (!isGlobalButton) {
+      return
+    } else {
+      setIsGlobalButton(false)
+    }
+    // 在这里执行你的「存款／提交」逻辑。 <<< 修改
+    const data = Global_games[data_Number]
+    const bol = await entry_get_sgc_coin(data.fun_type, data.data, data.get_sgc, signAndExecute)
+    if (bol) {
+      // 2秒后消失
+      toast.success('OK! Deposit successfully', {
+        duration: 2000,
+      });
+    } else {
+      toast.error('fail!', {
+        duration: 2000,
+      });
+    }
+    setIsGlobalButton(true)
+  };
 
+  async function burn_sgc_coin_home(signAndExecute: any) {
+    if (!isGlobalButton) {
+      return
+    } else {
+      setIsGlobalButton(false)
+    }
+    toast.success('Preparing to burn down SGC...', {
+      duration: 4000,
+    });
+    const bol = await burn_sgc_coin(signAndExecute)
+    if (bol) {
+      // 2秒后消失
+      toast.success('OK! Deposit successfully', {
+        duration: 2000,
+      });
+    } else {
+      toast.error('fail!', {
+        duration: 2000,
+      });
+    }
+    setIsGlobalButton(true)
+  }
 
   //...........................................................function..........
 
