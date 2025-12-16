@@ -441,14 +441,27 @@ export async function withdraw(cointype: string, savingsd: string, pool: string,
   }
 };
 
-export async function lottery(typeA: any, pool: any, savingsd: any, acp_owner: any, signAndExecute: any
+export async function lottery(typeA: any, pool: any, savingsd: any, acp_owner: any, signAndExecute: any, name: any
 ) {
   // ... 构建你的交易 ...
   try {
     const reward_data = await devClaimableRewards(acp_owner)
     const [typeT, typeD, reward_fund_t, reward_fund_d] = get_type_reward_fund(reward_data)
+    const update_single_price4 = Navi_update_single_price[name][0]
+    const update_single_price5 = Navi_update_single_price[name][1]
     const tx = new Transaction();
     tx.setGasBudget(300000000); // 例如 0.01 SUI
+    tx.moveCall({
+      target: `${Navi_update_single_price_pgk}::oracle_pro::update_single_price`,
+      arguments: [
+        tx.object("0x6"),
+        tx.object(Navi_OracleConfig),
+        tx.object(Navi_PriceOracle),
+        tx.object(Navi_OracleHolder),
+        tx.object(update_single_price4),
+        tx.pure.address(update_single_price5)
+      ],
+    });
     tx.moveCall({
       target: `${SG_PACkages}::vault::lottery`,
       typeArguments: [typeT, typeD, typeA],
