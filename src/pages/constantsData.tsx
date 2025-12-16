@@ -1,10 +1,10 @@
 // src/constants/A.tsx
 //.................................SG................................................................
-export const SG_PACkages = "0xdb6ce5c79b7f9057916f862a0b608fbefef9860f6e737427883ec1861325581f"
-export const SG_Amindcap_fee = "0x2cd5355b63699274fa8a551c1350cd1529b98789f319e8e25c3b78129e22c011"
-export const SG_minter = "0xb26be443718b9cbb85273bae6313baba17426a123cfe0264f23d1995b3afdb91"
-export const SGC_h_c = "0x9275429516a03f6d75cdb48e0e0b50fa3fb3ebe2a266016ac4abd8d83d202937"
-export const SGCcoin_type = "0xdb6ce5c79b7f9057916f862a0b608fbefef9860f6e737427883ec1861325581f::sgc::SGC"
+export const SG_PACkages = "0xab99a00a76a8e2208797e9bf6b536b89d189d7ae38f87c4a624e11ba5eb45118"
+export const SG_Amindcap_fee = "0x0c7ab49245d5e13677032b46e7ac90bc040b7f85230432482c295560c1d82706"
+export const SG_minter = "0x1ca83ee53b6c924b4e17f75190cdc4adbebcada712dbcb2884142e6c7ffaaea2"
+export const SGC_h_c = "0xcbfbce01c74c09c230e9fbe9d93548a64d054b5d7aad1d97c4bce8d595d3043d"
+export const SGCcoin_type = "0xab99a00a76a8e2208797e9bf6b536b89d189d7ae38f87c4a624e11ba5eb45118::sgc::SGC"
 
 //.................................NAVI................................................................
 export const Navi_Storage = "0xbb4e2f4b6205c2e2a2db47aeb4f830796ec7c005f88537ee775986639bc442fe"
@@ -24,9 +24,9 @@ export const FolX_Contert = "0xb65dcbf63fd3ad5d0ebfbf334780dc9f785eff38a4459e37a
 export const FolX_Mingter = "0x2a30f1bfa9594e0e9ca37581268b3fee4b6965a70c38eb76e204334980619c24"
 //..............................admin...................................................................
 
-export const AdminCap = "0x0ff860331b53d0d40913862e0352b0a9293eab8381e2f49ac85f82a912d309b8"
-export const upgrade = "0xb05e731257c83013c4a7cac18340ea8923f53c044d1344b7647b7bbaaaedd5cd"
-export const SGC_AdminTolel = "0x5b6903d35a9bf86b14e0202d35d93367cb93521a766dbf9f9c98198943cecf48"//
+export const AdminCap = "0x6709410ea380a27f216c095c3bc93469d4c7a52196e66c65f53d0f9332d8b03e"
+export const upgrade = "0x0f034ed12a32c7f7a0c9fdfd8b62e19d9f8ad6552e4589b86208a3cf72aa552a"
+export const SGC_AdminTolel = "0xe6e8a5a1e590f91aef189eb5e15fb8ab128a24d6daf5a48e398fad148346aa22"//
 
 
 //................................................记得添加.................................................................
@@ -51,42 +51,42 @@ export const SUI_30H = {
     id: "SUI-30H",
     name: "SUI",
     // tree_height total_balance time_per_round  start_time index internal_node  leaf_node
-    data: "0x06a2e1f4c2f3fb4c7351dcf977d1270b987b0530dfbd5cd3781a7131522c6a0f",
-    data_acp_owner: "0x0334ac89368c1391a810231ea1e76fae584b6aae30445e209c18ed447c005433",
+    data: "0xc4c3d0b9ef6d0131190dbac9d8e8238d82fb2791ee04d475faec532ffb5303fb",
+    data_acp_owner: "0xeb2e5c4f10a6c31c70864da6d672c6eec0db27f21e05b89d7792fb3fbab0496c",
     fun_type: "0x2::sui::SUI",
-    get_sgc: "0x5f841ddb44766ae9b6a86f887308fc7cd069c7234d900e2a8cdbc394ef0b766a",
+    get_sgc: "0x574e5ab22a140afd2380b5e72c6d483c791bc2e6928d12e00b2aa372443de13b",
     coin_balance_andeData_number: 0,
     time_per_round: 3600000,//108000000,
     navi_pool_number: 0,
     navi_pool_adder: "0x96df0fce3c471489f4debaaa762cf960b3d97820bd1f3f025ff8190730e958c5",
     decimals: 9,
     dynamic_field: {
-        adder_node: '0xd6049ab2157b2d9dba62732a344112b4f52b6951a519d11f9863e9f3783ac47d',
-        internal_node_data: '0x1e1ec5f09ccc60fbd504f63153f98abbff2cf8f05438d9379341c7aa0c70a443',
-        leaf_node_data: '0x0f9810a1d103a5fba47eff3326027a50c460b65cec8c86b66a004aef3cb7526a',
-        node_adder: '0x4e93a96ab8ac9138aa861e067a130cb27f805143465409f0acedcc9f291649d5',
-        savings: '0x7a9b0d53ddac1f0bf57e864efa7e74b94bb21b375f3853c3adba3ec4192e84e0'
+        adder_node: '0xbf5c62097407001d5b2595fb611deddce1c706c63b069b91576edf05cfa71f23',
+        internal_node_data: '0x3c07a9567c6b32def253295719863ca3e3c0f57b6891ad9e59fbd4b2173a9f44',
+        leaf_node_data: '0xfd366ec5a4d1fa0f6158e448ef7cf32545fab73386475c01c8bea126921157c0',
+        node_adder: '0x2b35846039826e8117dfedf2c836d7046277acb68de287ae35cccd25b2251fda',
+        savings: '0x7567c417e255f727b1aab591ee4997cfd1e932031816d6e9ba0897f72f71e68c'
     }
 }
 export const DEEP_30H = {
     id: "DEEP-30H",
     name: "DEEP",
     // tree_height total_balance time_per_round  start_time index internal_node  leaf_node
-    data: "0x16112ebe064d565ce65b333b25f1de6b7c44750a55fcde0315bb897fb22e6ebb",
-    data_acp_owner: "0xd89ee884268d38ae677769d4b5580715ec34536b9bfe3a5ac30145b662a95695",
+    data: "0xc5ae124ff4242048010ba351f4c5cb1c44d7d8ec4c8ac7b030a88b8e3767ed60",
+    data_acp_owner: "0x302ffbddcc926b2cbb4985671d7463a07434df384db73df3b3e465828e73efd8",
     fun_type: "0xdeeb7a4662eec9f2f3def03fb937a663dddaa2e215b8078a284d026b7946c270::deep::DEEP",
-    get_sgc: "0x674c4f40f92968be9196ed725f4c8da7decf19ae4515916d0c9294c8dc64bdd5",
+    get_sgc: "0x0169b434f3b9da93e960544d5ceeda640d83e47f92dfdf2a6f651bbdbbf37f8f",
     coin_balance_andeData_number: 1,
     time_per_round: 3600000,//108000000,
     navi_pool_number: 15,
     navi_pool_adder: "0x08373c5efffd07f88eace1c76abe4777489d9ec044fd4cd567f982d9c169e946",
     decimals: 6,
     dynamic_field: {
-        adder_node: '0x68dfe6b4c88df4906fa8b34880503e4cd182b306d84988a3eebc724386afa68a',
-        internal_node_data: '0xe74b961fc5fafbea191cb984d76d0c6f1e7f52a0d4a29e40beb52b79a8137d1c',
-        leaf_node_data: '0x868421b853646ba27bb0690d7034209784e4baab043529d82aa176c83e5c37b7',
-        node_adder: '0x69efab8f9442c29f067b7f6e3708211ec129519d07087dc1583612c80c950677',
-        savings: '0xd76a2c15a41188b6d6b625e3663fdd7800e08bdd556fae569a2c985afe6df2a7'
+        adder_node: '0x6c055565b124abdbfa3fd0e104087490f3cde61c518a17b6e0d778c1d69e7539',
+        internal_node_data: '0x64d4e8db6cbacea12ff12b1c07ee079189a776e9deb4d99f90ac7c722359a1c4',
+        leaf_node_data: '0xb72e9f35cd3c73168b11b5bd47ed629d3dd60413e64ef47c61398d6fd329b778',
+        node_adder: '0x15ac2177f41ad7a5375163ed7986572411e0e28e11b30e26e76c36bfbadea783',
+        savings: '0xceb32fa7ef6465a3ea426cc6b557bb5885ce212f5683d9e4a0389b0ad90680b7'
     }
 }
 
