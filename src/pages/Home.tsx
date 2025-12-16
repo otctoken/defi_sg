@@ -205,7 +205,7 @@ export default function Home() {
       setIsGlobalButton(false)
     }
     const data = Global_games[data_Number]
-    const bol = await lottery(data.fun_type, data.navi_pool_adder, data.data, data.data_acp_owner, signAndExecute)
+    const bol = await lottery(data.fun_type, data.navi_pool_adder, data.data, data.data_acp_owner, signAndExecute, data.name)
     if (bol) {
       // 2秒后消失
       toast.success('OK! Deposit successfully', {
@@ -248,7 +248,7 @@ export default function Home() {
       setIsGlobalButton(false)
     }
     toast.success('Preparing to burn down SGC...', {
-      duration: 4000,
+      duration: 4500,
     });
     const bol = await burn_sgc_coin(signAndExecute)
     if (bol) {
