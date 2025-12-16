@@ -540,6 +540,7 @@ export async function burn_sgc_coin(signAndExecute: any) {
         tx.moveCall({
           target: `${SG_PACkages}::vault::burn_sgc_sui`,
           arguments: [
+            tx.object(SG_minter),
             tx.object(SG_Amindcap_fee),
             tx.object(FolX_Contert),
           ],
@@ -551,6 +552,7 @@ export async function burn_sgc_coin(signAndExecute: any) {
             target: `${SG_PACkages}::vault::burn_sgc`,
             typeArguments: [type],
             arguments: [
+              tx.object(SG_minter),
               tx.object(SG_Amindcap_fee),
               tx.object(FolX_Contert),
             ],
