@@ -1,26 +1,37 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { ItemTimer } from "@/components/ui/ItemTimer";
 import { Button } from "@/components/ui/button";
-import { useCurrentAccount, useSignAndExecuteTransaction } from "@mysten/dapp-kit";
+import {
+  useCurrentAccount,
+  useSignAndExecuteTransaction,
+} from "@mysten/dapp-kit";
 //import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
-import { Toaster, toast } from 'react-hot-toast';
+import { Toaster, toast } from "react-hot-toast";
 import Modal from "./Modal";
-import { getBalances, getObjectDF } from "./gRPC.tsx"
-import { SUI_30H, DEEP_30H } from "./constantsData.tsx"
-import { getSavingsDynamicFieldObject, deposit_all, withdraw, lottery, entry_get_sgc_coin, burn_sgc_coin, get_single_price } from "./function.tsx"
+import { getBalances, getObjectDF } from "./gRPC.tsx";
+import { SUI_30H, DEEP_30H } from "./constantsData.tsx";
+import {
+  getSavingsDynamicFieldObject,
+  deposit_all,
+  withdraw,
+  lottery,
+  entry_get_sgc_coin,
+  burn_sgc_coin,
+  get_single_price,
+} from "./function.tsx";
 // import { run } from "node:test";
 // 1) ID 列表
 interface Item {
   id: string;
   name: string;
   countdown: number; // 倒计时（例如 "00:06:00"）
-  reward: string;    // 奖励（例如 "12 SGC"）
-  coinType: string;    // 奖励（例如 "12 SGC"）
+  reward: string; // 奖励（例如 "12 SGC"）
+  coinType: string; // 奖励（例如 "12 SGC"）
   fun_type: string;
-  sgcApy: number;    // SGC 年化（百分比）
+  sgcApy: number; // SGC 年化（百分比）
   tvl: number;
-  tvlUSD: number;    // TVL（SUI）
+  tvlUSD: number; // TVL（SUI）
   coin_balance_andeData_number: number;
   decimals: number;
 }
@@ -29,83 +40,85 @@ interface Item_head {
   id: string;
   name: string;
   balance: number;
-  coin_balance_andeData_number: number
+  coin_balance_andeData_number: number;
 }
-
-
-
 
 async function getBalan(account: any, coniList: any) {
   if (account?.address) {
-    const banl = await getBalances(account.address, coniList)
-    return banl
+    const banl = await getBalances(account.address, coniList);
+    return banl;
   }
 }
 
-
-const Global_games = [SUI_30H, DEEP_30H]//必须修改constants里面的字典数据..................顺序要对上.！！
+const Global_games = [SUI_30H, DEEP_30H]; //必须修改constants里面的字典数据..................顺序要对上.！！
 
 //const Global_games = ["SUI-30H", "DEEP-30H"]//必须修改constants里面的字典数据...................！！
 // 3) 占位数据，避免首屏闪烁
-const Global_coniList = [ //必须修改constants里面的字典数据..................顺序要对上.！！
+const Global_coniList = [
+  //必须修改constants里面的字典数据..................顺序要对上.！！
   "0x2::sui::SUI",
   "0xdeeb7a4662eec9f2f3def03fb937a663dddaa2e215b8078a284d026b7946c270::deep::DEEP",
   "0x356a26eb9e012a68958082340d4c4116e7f55615cf27affcff209cf0ae544f59::wal::WAL",
-  "0xbde4ba4c2e274a60ce15c1cfff9e5c42e41654ac8b6d906a57efa4bd3c29f47d::hasui::HASUI"
+  "0xbde4ba4c2e274a60ce15c1cfff9e5c42e41654ac8b6d906a57efa4bd3c29f47d::hasui::HASUI",
 ];
 
 async function getData(gamesList: any[], price: any) {
   let ItemList: Item[] = [];
   for (const game of gamesList) {
     let item = {} as Item;
-    const dfData = await getObjectDF(game.data)
-    item.id = game.id
+    const dfData = await getObjectDF(game.data);
+    item.id = game.id;
     const ms = Date.now();
-    let icundown = Number(dfData.start_time) + Number(game.time_per_round) - ms
+    let icundown = Number(dfData.start_time) + Number(game.time_per_round) - ms;
     if (icundown <= 0) {
-      icundown = 0
+      icundown = 0;
     }
-    item.countdown = icundown
-    item.fun_type = game.fun_type
-    item.reward = "$256"
-    item.coinType = "12SUI+36VSUI+20DEEP"
-    item.sgcApy = 5
-    const tvl_ = parseInt(dfData.total_balance) / (10 ** game.decimals);
+    item.countdown = icundown;
+    item.fun_type = game.fun_type;
+    item.reward = "$256";
+    item.coinType = "12SUI+36VSUI+20DEEP";
+    item.sgcApy = 5;
+    const tvl_ = parseInt(dfData.total_balance) / 10 ** game.decimals;
     item.tvl = parseFloat(tvl_.toFixed(2));
-    const tvlUSD = item.tvl * price[game.fun_type]
+    const tvlUSD = item.tvl * price[game.fun_type];
     item.tvlUSD = parseFloat(tvlUSD.toFixed(2));
-    item.coin_balance_andeData_number = game.coin_balance_andeData_number
-    item.decimals = game.decimals
-    item.name = game.name
-    ItemList.push(item)
+    item.coin_balance_andeData_number = game.coin_balance_andeData_number;
+    item.decimals = game.decimals;
+    item.name = game.name;
+    ItemList.push(item);
   }
-  return ItemList
+  return ItemList;
 }
 
 async function getData_haed(gamesList: any[], adder: string) {
   let ItemList: Item_head[] = [];
   for (const game of gamesList) {
-    const bilan = await getSavingsDynamicFieldObject(game.dynamic_field.savings, adder)
+    const bilan = await getSavingsDynamicFieldObject(
+      game.dynamic_field.savings,
+      adder
+    );
     if (bilan > 0) {
       let item = {} as Item_head;
-      item.id = game.id
-      item.name = game.id
-      item.coin_balance_andeData_number = game.coin_balance_andeData_number
-      const decimal = 10 ** game.decimals
+      item.id = game.id;
+      item.name = game.id;
+      item.coin_balance_andeData_number = game.coin_balance_andeData_number;
+      const decimal = 10 ** game.decimals;
       const rawNum = bilan / decimal;
       const floorNum = Math.floor(rawNum * 100) / 100; // 核心逻辑：乘100 -> 取整 -> 除100
-      item.balance = floorNum
-      ItemList.push(item)
+      item.balance = floorNum;
+      ItemList.push(item);
     }
   }
-  return ItemList
+  return ItemList;
 }
 
 //....................................................................................................................
 export default function Home() {
   const [open, setOpen] = useState(false);
   const [isGlobalButton, setIsGlobalButton] = useState(true);
-  const [balances, setBalances] = useState<number[]>([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+  const [balances, setBalances] = useState<number[]>([
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  ]);
   const [usebalances, setUsebalances] = useState(0);
   const [dataNumber, setDataNumber] = useState(0);
   const [usecointype, setUsecointype] = useState("");
@@ -122,152 +135,193 @@ export default function Home() {
   const handleClose = () => {
     setOpen(false);
     // 重置输入金额，避免下次打开带值
-    setInputAmount("");   // <<< 修改
+    setInputAmount(""); // <<< 修改
   };
 
   const account = useCurrentAccount();
   const { mutateAsync: signAndExecute } = useSignAndExecuteTransaction();
   //...........................................................function..........
-  function handleOpenAndGetbalance(num: number, decimals: number, name: string, to: string) {
-    handleOpen()
-    setInputDecimal(decimals)
-    const decimal = 10 ** decimals
+  function handleOpenAndGetbalance(
+    num: number,
+    decimals: number,
+    name: string,
+    to: string
+  ) {
+    handleOpen();
+    setInputDecimal(decimals);
+    const decimal = 10 ** decimals;
     const rawNum = balances[num] / decimal;
     const floorNum = Math.floor(rawNum * 100) / 100; // 核心逻辑：乘100 -> 取整 -> 除100
     setUsebalances(floorNum);
-    setUsecointype(name)
-    setModalItemName(to)
-    setDataNumber(num)
+    setUsecointype(name);
+    setModalItemName(to);
+    setDataNumber(num);
   }
 
   const handleDepositClick = async () => {
     if (!isGlobalButton) {
-      return
+      return;
     } else {
-      setIsGlobalButton(false)
+      setIsGlobalButton(false);
     }
     const num_ = parseFloat(inputAmount);
-    const decimal = 10 ** inputDecimal
+    const decimal = 10 ** inputDecimal;
     const num = num_ * decimal;
     if (isNaN(num_) || num_ <= 0) {
       alert("Please enter a valid amount");
-      setIsGlobalButton(true)
+      setIsGlobalButton(true);
       return;
     }
     if (num_ > usebalances) {
       alert("Exceed available balance");
-      setIsGlobalButton(true)
+      setIsGlobalButton(true);
       return;
     }
     try {
       // 在这里执行你的「存款／提交」逻辑。 <<< 修改
-      const data = Global_games[dataNumber]
-      const bol = await deposit_all(account, num, data.fun_type, data.data, data.navi_pool_adder, data.get_sgc,
-        signAndExecute, data.fun_type
-      )
+      const data = Global_games[dataNumber];
+      const bol = await deposit_all(
+        account,
+        num,
+        data.fun_type,
+        data.data,
+        data.navi_pool_adder,
+        data.get_sgc,
+        signAndExecute,
+        data.fun_type
+      );
       if (bol) {
         // 2秒后消失
-        toast.success('OK! Deposit successfully', {
+        toast.success("OK! Deposit successfully", {
           duration: 2000,
         });
       } else {
-        toast.error('error!', {
+        toast.error("error!", {
           duration: 2000,
         });
       }
     } catch (error) {
       // Code to handle the error
-      console.log(error);    // Outputs: ReferenceError
+      console.log(error); // Outputs: ReferenceError
     }
     // 例如：调用合约、RPC、GraphQL…
     handleClose();
-    setIsGlobalButton(true)
+    setIsGlobalButton(true);
   };
 
-  async function withdraw_all(fun_type: any, data: any, navi_pool_adder: any, get_sgc: any, signAndExecute: any, name: any) {
+  async function withdraw_all(
+    fun_type: any,
+    data: any,
+    navi_pool_adder: any,
+    get_sgc: any,
+    signAndExecute: any,
+    name: any
+  ) {
     if (!isGlobalButton) {
-      return
+      return;
     } else {
-      setIsGlobalButton(false)
+      setIsGlobalButton(false);
     }
-    const bol = await withdraw(fun_type, data, navi_pool_adder, get_sgc, signAndExecute, name)
+    const bol = await withdraw(
+      fun_type,
+      data,
+      navi_pool_adder,
+      get_sgc,
+      signAndExecute,
+      name
+    );
     if (bol) {
       // 2秒后消失
-      toast.success('OK! Withdraw successfully', {
+      toast.success("OK! Withdraw successfully", {
         duration: 3000,
       });
     } else {
-      toast.error('Withdraw fail! Please try again later!', {
+      toast.error("Withdraw fail! Please try again later!", {
         duration: 3000,
       });
     }
-    setIsGlobalButton(true)
+    setIsGlobalButton(true);
   }
 
   async function lottery_home(data_Number: any, signAndExecute: any) {
     if (!isGlobalButton) {
-      return
+      return;
     } else {
-      setIsGlobalButton(false)
+      setIsGlobalButton(false);
     }
-    const data = Global_games[data_Number]
-    const bol = await lottery(data.fun_type, data.navi_pool_adder, data.data, data.data_acp_owner, signAndExecute, data.fun_type)
+    const data = Global_games[data_Number];
+    const bol = await lottery(
+      data.fun_type,
+      data.navi_pool_adder,
+      data.data,
+      data.data_acp_owner,
+      signAndExecute,
+      data.fun_type
+    );
     if (bol) {
       // 2秒后消失
-      toast.success('OK! lottery successfully', {
+      toast.success("OK! lottery successfully", {
         duration: 2000,
       });
     } else {
-      toast.error('fail!', {
+      toast.error("fail!", {
         duration: 2000,
       });
     }
-    setIsGlobalButton(true)
-  };
+    setIsGlobalButton(true);
+  }
 
-  async function entry_get_sgc_coin_home(data_Number: any, signAndExecute: any) {
+  async function entry_get_sgc_coin_home(
+    data_Number: any,
+    signAndExecute: any
+  ) {
     if (!isGlobalButton) {
-      return
+      return;
     } else {
-      setIsGlobalButton(false)
+      setIsGlobalButton(false);
     }
     // 在这里执行你的「存款／提交」逻辑。 <<< 修改
-    const data = Global_games[data_Number]
-    const bol = await entry_get_sgc_coin(data.fun_type, data.data, data.get_sgc, signAndExecute)
+    const data = Global_games[data_Number];
+    const bol = await entry_get_sgc_coin(
+      data.fun_type,
+      data.data,
+      data.get_sgc,
+      signAndExecute
+    );
     if (bol) {
       // 2秒后消失
-      toast.success('OK! get sgc successfully', {
+      toast.success("OK! get sgc successfully", {
         duration: 2000,
       });
     } else {
-      toast.error('fail!', {
+      toast.error("fail!", {
         duration: 2000,
       });
     }
-    setIsGlobalButton(true)
-  };
+    setIsGlobalButton(true);
+  }
 
   async function burn_sgc_coin_home(signAndExecute: any) {
     if (!isGlobalButton) {
-      return
+      return;
     } else {
-      setIsGlobalButton(false)
+      setIsGlobalButton(false);
     }
-    toast.success('Preparing to burn down SGC...', {
+    toast.success("Preparing to burn down SGC...", {
       duration: 4500,
     });
-    const bol = await burn_sgc_coin(signAndExecute)
+    const bol = await burn_sgc_coin(signAndExecute);
     if (bol) {
       // 2秒后消失
-      toast.success('OK! Deposit successfully', {
+      toast.success("OK! Deposit successfully", {
         duration: 2000,
       });
     } else {
-      toast.error('fail!', {
+      toast.error("fail!", {
         duration: 2000,
       });
     }
-    setIsGlobalButton(true)
+    setIsGlobalButton(true);
   }
 
   //...........................................................function..........
@@ -293,23 +347,21 @@ export default function Home() {
   // }, []);
 
   useEffect(() => {
-
-
     //低频逻辑
     const tickSlow = async () => {
-      const price_obj = await get_single_price()
+      const price_obj = await get_single_price();
       priceRef.current = price_obj;
     };
     // 高频逻辑
     const tick = async () => {
-      const ItemList = await getData(Global_games, priceRef.current)
-      setGlobal_items(ItemList)
+      const ItemList = await getData(Global_games, priceRef.current);
+      setGlobal_items(ItemList);
       if (account?.address) {
-        const data_haed = await getData_haed(Global_games, account.address)
+        const data_haed = await getData_haed(Global_games, account.address);
         if (data_haed.length > 0) {
-          setGlobal_items_head(data_haed)
+          setGlobal_items_head(data_haed);
         } else {
-          setGlobal_items_head([])
+          setGlobal_items_head([]);
         }
         const banl = await getBalan(account, Global_coniList);
         // 可以将 banl 放入 state 或者做其他处理
@@ -320,7 +372,7 @@ export default function Home() {
       } else {
         //没链接钱包
         setBalances(Array(16).fill(0));
-        setGlobal_items_head([])
+        setGlobal_items_head([]);
       }
 
       // 在这里放你的逻辑
@@ -329,7 +381,7 @@ export default function Home() {
     // 3. 定义一个初始化函数来控制“先后顺序”
     const init = async () => {
       await tickSlow(); // 关键点：使用 await 等待 tickSlow 完全执行完毕
-      await tick();     // 只有上面那行执行完，才会执行这一行
+      await tick(); // 只有上面那行执行完，才会执行这一行
     };
 
     // 4. 立即触发初始化序列
@@ -344,7 +396,6 @@ export default function Home() {
       clearInterval(id5s);
       clearInterval(id1min);
     };
-
   }, [account?.address]);
 
   return (
@@ -354,7 +405,7 @@ export default function Home() {
         reverseOrder={false}
         // 添加 containerStyle
         containerStyle={{
-          zIndex: 99999 // 确保比 Modal 高
+          zIndex: 99999, // 确保比 Modal 高
         }}
       />
       <Card className="flex flex-col items-center text-center !bg-gray-800 sm:col-span-2 shadow-lg border border-gray-700 h-fit">
@@ -364,7 +415,6 @@ export default function Home() {
         <CardContent className="w-full px-4 pb-6">
           {account ? (
             <div className="w-full flex flex-col">
-
               {/* 1. 表头 (Header) - 只在宽屏(sm)显示，手机端隐藏 */}
               <div className="hidden sm:grid sm:grid-cols-5 text-xs text-gray-400 uppercase bg-gray-900 border-b border-gray-700 py-3 px-4 font-semibold">
                 <div>Game</div>
@@ -383,53 +433,81 @@ export default function Home() {
                       key={item.id}
                       className="flex flex-col sm:grid sm:grid-cols-5 border-b border-gray-700 hover:bg-gray-700/30 transition-colors py-4 px-4 gap-2 sm:gap-0"
                     >
-
                       {/* Game Name */}
                       <div className="flex justify-between items-center sm:block">
                         {/* 手机端显示的标签 */}
-                        <span className="sm:hidden text-gray-500 text-sm">Game:</span>
-                        <span className="font-medium text-white break-all">{item.name}</span>
+                        <span className="sm:hidden text-gray-500 text-sm">
+                          Game
+                        </span>
+                        <span className="font-medium text-white break-all">
+                          {item.name}
+                        </span>
                       </div>
 
                       {/* Balance */}
                       <div className="flex justify-between items-center sm:block">
-                        <span className="sm:hidden text-gray-500 text-sm">Balance:</span>
-                        <span className="text-gray-200">
+                        <span className="sm:hidden text-gray-500 text-sm">
+                          Balance
+                        </span>
+                        <span className="font-medium text-white break-all">
                           {item.balance}
                         </span>
                       </div>
 
                       {/* Win Prob */}
                       <div className="flex justify-between items-center sm:block">
-                        <span className="sm:hidden text-gray-500 text-sm">Win Prob:</span>
-                        <span className="text-gray-300">-</span>
+                        <span className="sm:hidden text-gray-500 text-sm">
+                          Win Prob
+                        </span>
+                        <span className="font-medium text-white break-all">
+                          -
+                        </span>
                       </div>
 
                       {/* Rewards */}
                       <div className="flex justify-between items-center sm:block">
-                        <span className="sm:hidden text-gray-500 text-sm">Rewards:</span>
-                        <span className="text-green-400">-</span>
+                        <span className="sm:hidden text-gray-500 text-sm">
+                          Rewards
+                        </span>
+                        <span className="font-medium text-white break-all">
+                          -
+                        </span>
                       </div>
 
                       {/* Actions (按钮) */}
                       <div className="flex gap-2 mt-2 sm:mt-0 justify-end items-center">
                         <Button
                           className="bg-green-600 hover:bg-green-700 text-black font-bold h-8 px-3 text-xs w-full sm:w-auto"
-                          onClick={() => entry_get_sgc_coin_home(item.coin_balance_andeData_number, signAndExecute)}
+                          onClick={() =>
+                            entry_get_sgc_coin_home(
+                              item.coin_balance_andeData_number,
+                              signAndExecute
+                            )
+                          }
                         >
                           Claim SGC
                         </Button>
                         <Button
                           className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold h-8 px-3 text-xs w-full sm:w-auto"
-                          onClick={() => withdraw_all(Global_games[item.coin_balance_andeData_number].fun_type, Global_games[item.coin_balance_andeData_number].data,
-                            Global_games[item.coin_balance_andeData_number].navi_pool_adder, Global_games[item.coin_balance_andeData_number].get_sgc,
-                            signAndExecute, Global_games[item.coin_balance_andeData_number].fun_type
-                          )}
+                          onClick={() =>
+                            withdraw_all(
+                              Global_games[item.coin_balance_andeData_number]
+                                .fun_type,
+                              Global_games[item.coin_balance_andeData_number]
+                                .data,
+                              Global_games[item.coin_balance_andeData_number]
+                                .navi_pool_adder,
+                              Global_games[item.coin_balance_andeData_number]
+                                .get_sgc,
+                              signAndExecute,
+                              Global_games[item.coin_balance_andeData_number]
+                                .fun_type
+                            )
+                          }
                         >
                           Withdraw
                         </Button>
                       </div>
-
                     </div>
                   ))
                 ) : (
@@ -439,7 +517,6 @@ export default function Home() {
                   </div>
                 )}
               </div>
-
             </div>
           ) : (
             // 未连接钱包
@@ -449,49 +526,157 @@ export default function Home() {
           )}
         </CardContent>
       </Card>
-      {global_items.length > 0 && global_items.map((item: Item) => (
-        <Card
-          key={item.id}
-          className="flex flex-col justify-between items-center text-center !bg-gray-800 p-4 h-auto"
-        >
-          <CardHeader>{item.id}</CardHeader>
-          <CardContent
-            className={
-              "w-full flex flex-col justify-center space-y-2 " +
-              "[&>*:nth-child(odd)]:bg-gray-600 [&>*:nth-child(even)]:bg-gray-700 [&>*]:rounded-md p-2"
-            }
+      {global_items.length > 0 &&
+        global_items.map((item: Item) => (
+          <Card
+            key={item.id}
+            className="flex flex-col items-center justify-between !bg-gray-800 p-0 mb-4 w-full gap-0 border border-gray-700 shadow-md"
           >
-            <ItemTimer countdown={item.countdown} />
-            <div>Grannd Prize: {item.reward}</div>
-            <div>≈ {item.coinType}</div>
-            <div>SGC APY: {item.sgcApy}%</div>
-            <div>TVL: ${item.tvlUSD}</div>
-            <div>≈ {item.tvl} {item.name}</div>
-          </CardContent>
-          <CardContent className="w-full flex justify-center space-x-4">
-            <Button
-              onClick={() => handleOpenAndGetbalance(item.coin_balance_andeData_number, item.decimals, item.name, item.id)}
-              className="w-40 whitespace-nowrap"
-            >
-              Deposit to Win
-            </Button>
-            {Number(item.countdown) <= 0 && (
+            <div className="flex flex-row items-center min-w-[60px]  pb-2 w-full justify-center">
+              <CardHeader className="p-0 text-xl font-bold text-yellow-600">
+                {item.id}
+              </CardHeader>
+            </div>
+
+            <CardContent className="grid grid-cols-2 gap-y-3 gap-x-2 w-full p-0 text-center items-start">
+              {/* 1. TVL */}
+              <div className="flex flex-col">
+                {/* 标签: text-sm (14px) */}
+                <span className="text-gray-400 text-sm font-medium uppercase">
+                  TVL
+                </span>
+                {/* 数值: text-xl (20px) 甚至可以用 text-2xl */}
+                <div className="font-bold text-white text-xl">
+                  ${item.tvlUSD}
+                </div>
+                {/* 辅助文字: text-xs -> text-sm */}
+                <div className="text-sm text-gray-500 truncate">
+                  ≈ {item.tvl}
+                </div>
+              </div>
+
+              {/* 2. SGC APY */}
+              <div className="flex flex-col">
+                <span className="text-gray-400 text-sm font-medium uppercase">
+                  SGC APY
+                </span>
+                {/* 绿色大数字 */}
+                <div className="font-bold text-green-400 text-xl">
+                  {item.sgcApy}%
+                </div>
+                <div className="text-sm text-gray-500 truncate">
+                  rewards token
+                </div>
+              </div>
+              {/* 3. 1d 倒计时 */}
+              {/* 移除了 justify-center 以保持顶部对齐 */}
+              <div className="flex flex-col">
+                <span className="text-gray-400 text-sm  font-medium uppercase">
+                  1d Next draw
+                </span>
+                {/* 如果倒计时组件内部字体受限，可以用 scale-110 强行放大 */}
+                <div className="text-white-500 font-bold text-xl">
+                  <ItemTimer countdown={item.countdown} />
+                </div>
+                <div className="text-sm text-gray-500">奖池权重每日50%</div>
+              </div>
+
+              {/* 4. 1d Prize */}
+              <div className="flex flex-col">
+                <span className="text-gray-400 text-sm font-medium uppercase">
+                  1d Prize
+                </span>
+                {/* 金色大数字 */}
+                <div className="text-yellow-500 font-bold text-xl">
+                  {item.reward}
+                </div>
+                <div className="text-sm text-gray-500">{item.coinType}</div>
+              </div>
+
+              {/* 5. 7d 倒计时 */}
+              <div className="flex flex-col">
+                <span className="text-gray-400 text-sm font-medium uppercase">
+                  7d Next draw
+                </span>
+                <div className="text-white-500 font-bold text-xl">
+                  <ItemTimer countdown={item.countdown} />
+                </div>
+                <div className="text-sm text-gray-500">奖池权重每日30%</div>
+              </div>
+
+              {/* 6. 7d Prize */}
+              <div className="flex flex-col">
+                <span className="text-gray-400 text-sm font-medium uppercase">
+                  7d Prize
+                </span>
+                <div className="text-yellow-500 font-bold text-xl">
+                  {item.reward}
+                </div>
+                <div className="text-sm text-gray-500">{item.coinType}</div>
+              </div>
+
+              {/* 7. 28d 倒计时 */}
+              <div className="flex flex-col">
+                <span className="text-gray-400 text-sm font-medium uppercase">
+                  28d Next draw
+                </span>
+                <div className="text-white-500 font-bold text-xl">
+                  <ItemTimer countdown={item.countdown} />
+                </div>
+                <div className="text-sm text-gray-500">奖池权重每日20%</div>
+              </div>
+
+              {/* 8. 28d Prize */}
+              <div className="flex flex-col">
+                <span className="text-gray-400 text-sm font-medium uppercase">
+                  28d Prize
+                </span>
+                <div className="text-yellow-500 font-bold text-xl">
+                  {item.reward}
+                </div>
+                <div className="text-sm text-gray-500">{item.coinType}</div>
+              </div>
+            </CardContent>
+
+            {/* 4. 按钮区域：只保留 flex-row (横向排列) 和 w-full */}
+            <CardContent className="flex flex-row gap-2 p-0 w-full justify-center mt-2">
               <Button
-                onClick={() => lottery_home(item.coin_balance_andeData_number, signAndExecute)}
-                className="w-40 whitespace-nowrap bg-green-600 hover:bg-green-700"
+                onClick={() =>
+                  handleOpenAndGetbalance(
+                    item.coin_balance_andeData_number,
+                    item.decimals,
+                    item.name,
+                    item.id
+                  )
+                }
+                className="w-40 whitespace-nowrap"
               >
-                Start Draw
+                Deposit to Win
               </Button>
-            )}
-          </CardContent>
-        </Card>
-      ))
-      }
+
+              {Number(item.countdown) <= 0 && (
+                <Button
+                  onClick={() =>
+                    lottery_home(
+                      item.coin_balance_andeData_number,
+                      signAndExecute
+                    )
+                  }
+                  className="w-40 whitespace-nowrap bg-green-600 hover:bg-green-700"
+                >
+                  Start Draw
+                </Button>
+              )}
+            </CardContent>
+          </Card>
+        ))}
       {/* 标题栏*/}
-      <Modal isOpen={open} onClose={handleClose} >
+      <Modal isOpen={open} onClose={handleClose}>
         {/* 标题栏 */}
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-xl font-semibold text-white">Deposit to {modalItemName}</h2>
+          <h2 className="text-xl font-semibold text-white">
+            Deposit to {modalItemName}
+          </h2>
           <button
             onClick={handleClose}
             className="text-gray-300 hover:text-white text-2xl"
@@ -535,7 +720,8 @@ export default function Home() {
           </label>
 
           <div className="text-gray-400">
-            Available: {usebalances}{usecointype}
+            Available: {usebalances}
+            {usecointype}
           </div>
         </div>
 
@@ -562,37 +748,45 @@ export default function Home() {
 
             {/* 2. 数据列表 (Body) */}
             <div className="flex flex-col">
-
               <div
                 key={2}
                 className="flex flex-col sm:grid sm:grid-cols-5 border-b border-gray-700 hover:bg-gray-700/30 transition-colors py-4 px-4 gap-2 sm:gap-0"
               >
-
                 {/* Game Name */}
                 <div className="flex justify-between items-center sm:block">
                   {/* 手机端显示的标签 */}
-                  <span className="sm:hidden text-gray-500 text-sm">Max Supply</span>
+                  <span className="sm:hidden text-gray-500 text-sm">
+                    Max Supply
+                  </span>
                   <span className="font-medium text-white break-all">100B</span>
                 </div>
 
                 {/* Balance */}
                 <div className="flex justify-between items-center sm:block">
-                  <span className="sm:hidden text-gray-500 text-sm">Total Supply</span>
-                  <span className="text-gray-200">
+                  <span className="sm:hidden text-gray-500 text-sm">
+                    Total Supply
+                  </span>
+                  <span className="font-medium text-white break-all">
                     {3333665}
                   </span>
                 </div>
 
                 {/* Win Prob */}
                 <div className="flex justify-between items-center sm:block">
-                  <span className="sm:hidden text-gray-500 text-sm">Burned</span>
-                  <span className="text-gray-300">{231}</span>
+                  <span className="sm:hidden text-gray-500 text-sm">
+                    Burned
+                  </span>
+                  <span className="font-medium text-white break-all">
+                    {231}
+                  </span>
                 </div>
 
                 {/* Rewards */}
                 <div className="flex justify-between items-center sm:block">
                   <span className="sm:hidden text-gray-500 text-sm">Price</span>
-                  <span className="text-green-400">$0.0000000321</span>
+                  <span className="font-medium text-white break-all">
+                    $0.0000000321
+                  </span>
                 </div>
 
                 {/* Actions (按钮) */}
