@@ -208,7 +208,7 @@ export default function Home() {
     const bol = await lottery(data.fun_type, data.navi_pool_adder, data.data, data.data_acp_owner, signAndExecute, data.name)
     if (bol) {
       // 2秒后消失
-      toast.success('OK! Deposit successfully', {
+      toast.success('OK! lottery successfully', {
         duration: 2000,
       });
     } else {
@@ -230,7 +230,7 @@ export default function Home() {
     const bol = await entry_get_sgc_coin(data.fun_type, data.data, data.get_sgc, signAndExecute)
     if (bol) {
       // 2秒后消失
-      toast.success('OK! Deposit successfully', {
+      toast.success('OK! get sgc successfully', {
         duration: 2000,
       });
     } else {
