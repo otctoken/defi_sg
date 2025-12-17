@@ -3,12 +3,12 @@ import { ItemTimer } from "@/components/ui/ItemTimer";
 import { Button } from "@/components/ui/button";
 import { useCurrentAccount, useSignAndExecuteTransaction } from "@mysten/dapp-kit";
 //import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Toaster, toast } from 'react-hot-toast';
 import Modal from "./Modal";
 import { getBalances, getObjectDF } from "./gRPC.tsx"
 import { SUI_30H, DEEP_30H } from "./constantsData.tsx"
-import { getSavingsDynamicFieldObject, deposit_all, withdraw, lottery, entry_get_sgc_coin, burn_sgc_coin } from "./function.tsx"
+import { getSavingsDynamicFieldObject, deposit_all, withdraw, lottery, entry_get_sgc_coin, burn_sgc_coin, get_single_price } from "./function.tsx"
 // import { run } from "node:test";
 // 1) ID 列表
 interface Item {
@@ -19,7 +19,8 @@ interface Item {
   coinType: string;    // 奖励（例如 "12 SGC"）
   fun_type: string;
   sgcApy: number;    // SGC 年化（百分比）
-  tvl: number;       // TVL（SUI）
+  tvl: number;
+  tvlUSD: number;    // TVL（SUI）
   coin_balance_andeData_number: number;
   decimals: number;
 }
@@ -53,7 +54,7 @@ const Global_coniList = [ //必须修改constants里面的字典数据..........
   "0xbde4ba4c2e274a60ce15c1cfff9e5c42e41654ac8b6d906a57efa4bd3c29f47d::hasui::HASUI"
 ];
 
-async function getData(gamesList: any[]) {
+async function getData(gamesList: any[], price: any) {
   let ItemList: Item[] = [];
   for (const game of gamesList) {
     let item = {} as Item;
@@ -66,11 +67,13 @@ async function getData(gamesList: any[]) {
     }
     item.countdown = icundown
     item.fun_type = game.fun_type
-    item.reward = "256USD"
-    item.coinType = "12SUI-36VSUI-20DEEP"
+    item.reward = "$256"
+    item.coinType = "12SUI+36VSUI+20DEEP"
     item.sgcApy = 5
     const tvl_ = parseInt(dfData.total_balance) / (10 ** game.decimals);
     item.tvl = parseFloat(tvl_.toFixed(2));
+    const tvlUSD = item.tvl * price[game.fun_type]
+    item.tvlUSD = parseFloat(tvlUSD.toFixed(2));
     item.coin_balance_andeData_number = game.coin_balance_andeData_number
     item.decimals = game.decimals
     item.name = game.name
@@ -112,6 +115,9 @@ export default function Home() {
   const [inputAmount, setInputAmount] = useState<string>("");
   const [inputDecimal, setInputDecimal] = useState(9);
   //const [amount, setAmount] = useState<string>("");
+
+  const priceRef = useRef({});
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
@@ -157,7 +163,7 @@ export default function Home() {
       // 在这里执行你的「存款／提交」逻辑。 <<< 修改
       const data = Global_games[dataNumber]
       const bol = await deposit_all(account, num, data.fun_type, data.data, data.navi_pool_adder, data.get_sgc,
-        signAndExecute, data.name
+        signAndExecute, data.fun_type
       )
       if (bol) {
         // 2秒后消失
@@ -205,7 +211,7 @@ export default function Home() {
       setIsGlobalButton(false)
     }
     const data = Global_games[data_Number]
-    const bol = await lottery(data.fun_type, data.navi_pool_adder, data.data, data.data_acp_owner, signAndExecute, data.name)
+    const bol = await lottery(data.fun_type, data.navi_pool_adder, data.data, data.data_acp_owner, signAndExecute, data.fun_type)
     if (bol) {
       // 2秒后消失
       toast.success('OK! lottery successfully', {
@@ -287,9 +293,16 @@ export default function Home() {
   // }, []);
 
   useEffect(() => {
-    // 定义一个 async 函数
+
+
+    //低频逻辑
+    const tickSlow = async () => {
+      const price_obj = await get_single_price()
+      priceRef.current = price_obj;
+    };
+    // 高频逻辑
     const tick = async () => {
-      const ItemList = await getData(Global_games)
+      const ItemList = await getData(Global_games, priceRef.current)
       setGlobal_items(ItemList)
       if (account?.address) {
         const data_haed = await getData_haed(Global_games, account.address)
@@ -309,19 +322,29 @@ export default function Home() {
         setBalances(Array(16).fill(0));
         setGlobal_items_head([])
       }
+
       // 在这里放你的逻辑
     };
-    // 先立刻调用一次
-    tick();
-    // 每 5 秒执行一次
-    const id = setInterval(() => {
-      tick();
-    }, 5000);
 
-    // 卸载时清除
-    return () => {
-      clearInterval(id);
+    // 3. 定义一个初始化函数来控制“先后顺序”
+    const init = async () => {
+      await tickSlow(); // 关键点：使用 await 等待 tickSlow 完全执行完毕
+      await tick();     // 只有上面那行执行完，才会执行这一行
     };
+
+    // 4. 立即触发初始化序列
+    init();
+    // 每 5 秒执行一次
+    // 5. 设置定时器 (定时器相互独立，按各自频率运行)
+    const id5s = setInterval(tick, 5000);
+    const id1min = setInterval(tickSlow, 60000);
+
+    // 6. 清除定时器
+    return () => {
+      clearInterval(id5s);
+      clearInterval(id1min);
+    };
+
   }, [account?.address]);
 
   return (
@@ -400,7 +423,7 @@ export default function Home() {
                           className="bg-yellow-500 hover:bg-yellow-600 text-black font-bold h-8 px-3 text-xs w-full sm:w-auto"
                           onClick={() => withdraw_all(Global_games[item.coin_balance_andeData_number].fun_type, Global_games[item.coin_balance_andeData_number].data,
                             Global_games[item.coin_balance_andeData_number].navi_pool_adder, Global_games[item.coin_balance_andeData_number].get_sgc,
-                            signAndExecute, Global_games[item.coin_balance_andeData_number].name
+                            signAndExecute, Global_games[item.coin_balance_andeData_number].fun_type
                           )}
                         >
                           Withdraw
@@ -442,7 +465,8 @@ export default function Home() {
             <div>Grannd Prize: {item.reward}</div>
             <div>≈ {item.coinType}</div>
             <div>SGC APY: {item.sgcApy}%</div>
-            <div>TVL: {item.tvl} {item.name}</div>
+            <div>TVL: ${item.tvlUSD}</div>
+            <div>≈ {item.tvl} {item.name}</div>
           </CardContent>
           <CardContent className="w-full flex justify-center space-x-4">
             <Button

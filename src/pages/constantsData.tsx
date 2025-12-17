@@ -39,8 +39,12 @@ export const burn_sgc = ["0x549e8b69270defbfafd4f94e17ec44cdbdd99820b33bda2278de
     "0xdeeb7a4662eec9f2f3def03fb937a663dddaa2e215b8078a284d026b7946c270::deep::DEEP",
 ]
 export const Navi_update_single_price: Record<string, string[]> = { //对上const SUI_30H   DEEP_30H 的name
-    "DEEP": ["0x8c7f3a322b94cc69db2a2ac575cbd94bf5766113324c3a3eceac91e3e88a51ed", "0x4558092b08ad1b33b0eb536f91a4655693c2390ac568f06de6f6fad827888600"],
-    "SUI": ["0x801dbc2f0053d34734814b2d6df491ce7807a725fe9a01ad74a07e9c51396c37", "0x2cab9b151ca1721624b09b421cc57d0bb26a1feb5da1f821492204b098ec35c9"],
+    "0xdeeb7a4662eec9f2f3def03fb937a663dddaa2e215b8078a284d026b7946c270::deep::DEEP":
+        ["0x8c7f3a322b94cc69db2a2ac575cbd94bf5766113324c3a3eceac91e3e88a51ed", "0x4558092b08ad1b33b0eb536f91a4655693c2390ac568f06de6f6fad827888600"],
+    "0x2::sui::SUI":
+        ["0x801dbc2f0053d34734814b2d6df491ce7807a725fe9a01ad74a07e9c51396c37", "0x2cab9b151ca1721624b09b421cc57d0bb26a1feb5da1f821492204b098ec35c9"],
+    "0x549e8b69270defbfafd4f94e17ec44cdbdd99820b33bda2278dea3b9a32d3f55::cert::CERT":
+        ["0x801dbc2f0053d34734814b2d6df491ce7807a725fe9a01ad74a07e9c51396c37", "0x086bb5540047b3c77ae5e2f9b811c7ef085517a73510f776753c8ee83d19e62c"],
 }
 export const Navi_reward_data: Record<string, string> = {
     "0xdeeb7a4662eec9f2f3def03fb937a663dddaa2e215b8078a284d026b7946c270::deep::DEEP": "0xc889d78b634f954979e80e622a2ae0fece824c0f6d9590044378a2563035f32f",
