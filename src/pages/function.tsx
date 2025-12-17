@@ -293,16 +293,89 @@ export async function getBalance(adder: string, cointype: string) {
     return 0;
   }
 }
+export async function getObjects_multiple(ids: any) {
+  // 这样可以在一次查询中请求多个独立的字段
+  const queryFields = ids
+    .map(
+      (id: any, index: any) => `
+    obj_${index}: object(address: "${id}") {
+      address
+      asMoveObject {
+        contents { json }  
+      }
+    }
+  `
+    )
+    .join("\n");
 
+  const query = `
+    query BatchGet {
+      ${queryFields}
+    }
+  `;
+  const res = await fetch(client_endpoint, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ query }),
+  });
+
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    throw new Error(`HTTP ${res.status} ${res.statusText}\n${text}`);
+  }
+
+  const json = await res.json();
+
+  if (json.errors?.length) {
+    throw new Error(
+      "GraphQL errors!:\n" + JSON.stringify(json.errors, null, 2)
+    );
+  }
+
+  const data = json.data;
+  if (!data) return [];
+  // 按顺序还原数组
+  const objects = ids.map((_: any, index: any) => data[`obj_${index}`]);
+  return objects;
+}
+
+export async function get_single_price() {
+  let obj_list = [];
+  for (const ids of Object.values(Navi_update_single_price)) {
+    // 这里的 ids 就是那个数组，没有 coinType 干扰了
+    obj_list.push(ids[0]);
+  }
+  const obj_price_data = await getObjects_multiple(obj_list);
+  let pricelit = [];
+  for (const obj of obj_price_data) {
+    const decimal =
+      10 **
+      Number(
+        obj.asMoveObject.contents.json.price_info.price_feed.price.expo
+          .magnitude
+      );
+    const price =
+      Number(
+        obj.asMoveObject.contents.json.price_info.price_feed.price.price
+          .magnitude
+      ) / decimal;
+    pricelit.push(price);
+  }
+  let obj_price: Record<string, number> = {};
+  Object.keys(Navi_update_single_price).forEach((coinType, index) => {
+    obj_price[coinType] = pricelit[index];
+  });
+  return obj_price;
+}
 
 //.................................................................heyuediayong................................................................
 export async function deposit_all(account: any, num: any, cointype: string, savingsd: string, pool: string, get_sgc: string, signAndExecute: any,
-  name: any
+  fun_type: any
 ) {
   // ... 构建你的交易 ...
   try {
-    const update_single_price4 = Navi_update_single_price[name][0]
-    const update_single_price5 = Navi_update_single_price[name][1]
+    const update_single_price4 = Navi_update_single_price[fun_type][0]
+    const update_single_price5 = Navi_update_single_price[fun_type][1]
     const tx = new Transaction();
     tx.moveCall({
       target: `${Navi_update_single_price_pgk}::oracle_pro::update_single_price`,
@@ -386,11 +459,11 @@ export async function deposit_all(account: any, num: any, cointype: string, savi
 };
 
 export async function withdraw(cointype: string, savingsd: string, pool: string, get_sgc: string, signAndExecute: any,
-  name: any) {
+  fun_type: any) {
   // ... 构建你的交易 ...
   try {
-    const update_single_price4 = Navi_update_single_price[name][0]
-    const update_single_price5 = Navi_update_single_price[name][1]
+    const update_single_price4 = Navi_update_single_price[fun_type][0]
+    const update_single_price5 = Navi_update_single_price[fun_type][1]
     const tx = new Transaction();
     tx.moveCall({
       target: `${Navi_update_single_price_pgk}::oracle_pro::update_single_price`,
