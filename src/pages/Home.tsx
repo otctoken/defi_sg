@@ -592,7 +592,7 @@ export default function Home() {
               {/* 5. 1d 倒计时 */}
               <div className="col-span-2 grid grid-cols-2 gap-x-2 bg-white/5 rounded-lg -mx-2 px-2">
                 <div className="flex flex-col">
-                  <span className="text-gray-400 text-sm  font-medium uppercase">
+                  <span className="text-gray-400 text-sm  font-medium">
                     1d Next draw
                   </span>
                   {/* 如果倒计时组件内部字体受限，可以用 scale-110 强行放大 */}
@@ -604,7 +604,7 @@ export default function Home() {
 
                 {/* 4. 1d Prize */}
                 <div className="flex flex-col">
-                  <span className="text-gray-400 text-sm font-medium uppercase">
+                  <span className="text-gray-400 text-sm font-medium">
                     1d Prize
                   </span>
                   {/* 金色大数字 */}
@@ -617,7 +617,7 @@ export default function Home() {
               {/* 5. 7d 倒计时 */}
               <div className="col-span-2 grid grid-cols-2 gap-x-2 bg-white/5 rounded-lg -mx-2 px-2">
                 <div className="flex flex-col">
-                  <span className="text-gray-400 text-sm font-medium uppercase">
+                  <span className="text-gray-400 text-sm font-medium">
                     7d Next draw
                   </span>
                   <div className="text-white-500 font-bold text-xl">
@@ -628,7 +628,7 @@ export default function Home() {
 
                 {/* 6. 7d Prize */}
                 <div className="flex flex-col">
-                  <span className="text-gray-400 text-sm font-medium uppercase">
+                  <span className="text-gray-400 text-sm font-medium">
                     7d Prize
                   </span>
                   <div className="text-yellow-500 font-bold text-xl">
@@ -641,7 +641,7 @@ export default function Home() {
               {/* 5. 28d 倒计时 */}
               <div className="col-span-2 grid grid-cols-2 gap-x-2 bg-white/5 rounded-lg -mx-2 px-2">
                 <div className="flex flex-col">
-                  <span className="text-gray-400 text-sm font-medium uppercase">
+                  <span className="text-gray-400 text-sm font-medium">
                     28d Next draw
                   </span>
                   <div className="text-white-500 font-bold text-xl">
@@ -650,7 +650,7 @@ export default function Home() {
                   <div className="text-sm text-gray-500">奖池权重每日20%</div>
                 </div>
                 <div className="flex flex-col">
-                  <span className="text-gray-400 text-sm font-medium uppercase">
+                  <span className="text-gray-400 text-sm font-medium">
                     28d Prize
                   </span>
                   <div className="text-yellow-500 font-bold text-xl">
