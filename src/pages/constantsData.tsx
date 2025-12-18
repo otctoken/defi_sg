@@ -38,7 +38,7 @@ export const Navi_reward_null_or_one = [
 export const burn_sgc = ["0x549e8b69270defbfafd4f94e17ec44cdbdd99820b33bda2278dea3b9a32d3f55::cert::CERT",
     "0xdeeb7a4662eec9f2f3def03fb937a663dddaa2e215b8078a284d026b7946c270::deep::DEEP",
 ]
-export const Navi_update_single_price: Record<string, string[]> = { //对上const SUI_30H   DEEP_30H 的name
+export const Navi_update_single_price: Record<string, string[]> = { //对上const SUI   DEEP 的name
     "0xdeeb7a4662eec9f2f3def03fb937a663dddaa2e215b8078a284d026b7946c270::deep::DEEP":
         ["0x8c7f3a322b94cc69db2a2ac575cbd94bf5766113324c3a3eceac91e3e88a51ed", "0x4558092b08ad1b33b0eb536f91a4655693c2390ac568f06de6f6fad827888600"],
     "0x2::sui::SUI":
@@ -51,8 +51,8 @@ export const Navi_reward_data: Record<string, string> = {
     "0x549e8b69270defbfafd4f94e17ec44cdbdd99820b33bda2278dea3b9a32d3f55::cert::CERT": "0x7093cf7549d5e5b35bfde2177223d1050f71655c7f676a5e610ee70eb4d93b5c",
 }
 
-export const SUI_30H = {
-    id: "SUI-30H",
+export const SUI_Navi = {
+    id: "SUI-NAVI",
     name: "SUI",
     // tree_height total_balance time_per_round  start_time index internal_node  leaf_node
     data: "0xc4c3d0b9ef6d0131190dbac9d8e8238d82fb2791ee04d475faec532ffb5303fb",
@@ -72,8 +72,8 @@ export const SUI_30H = {
         savings: '0x7567c417e255f727b1aab591ee4997cfd1e932031816d6e9ba0897f72f71e68c'
     }
 }
-export const DEEP_30H = {
-    id: "DEEP-30H",
+export const DEEP_Navi = {
+    id: "DEEP-NAVI",
     name: "DEEP",
     // tree_height total_balance time_per_round  start_time index internal_node  leaf_node
     data: "0xc5ae124ff4242048010ba351f4c5cb1c44d7d8ec4c8ac7b030a88b8e3767ed60",
