@@ -10,7 +10,7 @@ import { useState, useEffect, useRef } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import Modal from "./Modal";
 import { getBalances, getObjectDF } from "./gRPC.tsx";
-import { SUI_30H, DEEP_30H } from "./constantsData.tsx";
+import { SUI_Navi, DEEP_Navi } from "./constantsData.tsx";
 import {
   getSavingsDynamicFieldObject,
   deposit_all,
@@ -50,7 +50,7 @@ async function getBalan(account: any, coniList: any) {
   }
 }
 
-const Global_games = [SUI_30H, DEEP_30H]; //必须修改constants里面的字典数据..................顺序要对上.！！
+const Global_games = [SUI_Navi, DEEP_Navi]; //必须修改constants里面的字典数据..................顺序要对上.！！
 
 //const Global_games = ["SUI-30H", "DEEP-30H"]//必须修改constants里面的字典数据...................！！
 // 3) 占位数据，避免首屏闪烁
@@ -399,7 +399,7 @@ export default function Home() {
   }, [account?.address]);
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
       <Toaster
         position="top-center"
         reverseOrder={false}
@@ -408,15 +408,35 @@ export default function Home() {
           zIndex: 99999, // 确保比 Modal 高
         }}
       />
+      <div className="col-span-1 sm:col-span-2 flex flex-row justify-center gap-5 items-center w-full">
+        {/* 移除了 pb-4 */}
+
+        <div className="flex flex-row items-center gap-2 justify-center">
+          {/* 添加 leading-none: 让行高=字体大小 */}
+          <span className="text-gray-400 text-xs leading-none">Total TVL:</span>
+          <span className="text-sm font-bold text-green-400 leading-none">
+            $5,000,000
+          </span>
+        </div>
+
+        <div className="flex flex-row items-center gap-2 justify-center">
+          <span className="text-gray-400 text-xs  leading-none">
+            Total Prize:
+          </span>
+          <span className="text-sm font-bold text-yellow-500 leading-none">
+            $50,000
+          </span>
+        </div>
+      </div>
       <Card className="flex flex-col items-center text-center !bg-gray-800 sm:col-span-2 shadow-lg border border-gray-700 h-fit">
-        <CardHeader className="text-xl font-bold text-white tracking-wider border-b border-gray-700 w-full pb-4 mb-4">
+        <CardHeader className="text-base font-bold text-white tracking-wider border-b border-gray-700 w-full pb-1 mb-1">
           My Account
         </CardHeader>
-        <CardContent className="w-full px-4 pb-6">
+        <CardContent className="w-full px-1 pb-1">
           {account ? (
             <div className="w-full flex flex-col">
               {/* 1. 表头 (Header) - 只在宽屏(sm)显示，手机端隐藏 */}
-              <div className="hidden sm:grid sm:grid-cols-5 text-xs text-gray-400 uppercase bg-gray-900 border-b border-gray-700 py-3 px-4 font-semibold">
+              <div className="hidden sm:grid sm:grid-cols-5 text-xs text-gray-400 uppercase bg-gray-900 border-b border-gray-700 py-1 px-1 font-semibold">
                 <div>Game</div>
                 <div>Balance</div>
                 <div>Win Prob</div>
@@ -530,12 +550,13 @@ export default function Home() {
         global_items.map((item: Item) => (
           <Card
             key={item.id}
-            className="flex flex-col items-center justify-between !bg-gray-800 p-0 mb-4 w-full gap-0 border border-gray-700 shadow-md"
+            className="flex flex-col items-center justify-between !bg-gray-800 p-0 w-full gap-0 border border-gray-700 shadow-md"
           >
-            <div className="flex flex-row items-center min-w-[60px]  pb-2 w-full justify-center">
-              <CardHeader className="p-0 text-xl font-bold text-yellow-600">
+            <div className="flex flex-row items-center min-w-[60px] w-full justify-center bg-gray-900 py-2">
+              {/* 直接用 div，纯净无干扰 */}
+              <div className="text-xl font-bold text-yellow-600 leading-none">
                 {item.id}
-              </CardHeader>
+              </div>
             </div>
 
             <CardContent className="grid grid-cols-2 gap-y-3 gap-x-2 w-full p-0 text-center items-start">
@@ -565,76 +586,78 @@ export default function Home() {
                   {item.sgcApy}%
                 </div>
                 <div className="text-sm text-gray-500 truncate">
-                  rewards token
+                  rewards coin
                 </div>
               </div>
-              {/* 3. 1d 倒计时 */}
-              {/* 移除了 justify-center 以保持顶部对齐 */}
-              <div className="flex flex-col">
-                <span className="text-gray-400 text-sm  font-medium uppercase">
-                  1d Next draw
-                </span>
-                {/* 如果倒计时组件内部字体受限，可以用 scale-110 强行放大 */}
-                <div className="text-white-500 font-bold text-xl">
-                  <ItemTimer countdown={item.countdown} />
+              {/* 5. 1d 倒计时 */}
+              <div className="col-span-2 grid grid-cols-2 gap-x-2 bg-white/5 rounded-lg -mx-2 px-2">
+                <div className="flex flex-col">
+                  <span className="text-gray-400 text-sm  font-medium uppercase">
+                    1d Next draw
+                  </span>
+                  {/* 如果倒计时组件内部字体受限，可以用 scale-110 强行放大 */}
+                  <div className="text-white-500 font-bold text-xl">
+                    <ItemTimer countdown={item.countdown} />
+                  </div>
+                  <div className="text-sm text-gray-500">奖池权重每日50%</div>
                 </div>
-                <div className="text-sm text-gray-500">奖池权重每日50%</div>
-              </div>
 
-              {/* 4. 1d Prize */}
-              <div className="flex flex-col">
-                <span className="text-gray-400 text-sm font-medium uppercase">
-                  1d Prize
-                </span>
-                {/* 金色大数字 */}
-                <div className="text-yellow-500 font-bold text-xl">
-                  {item.reward}
+                {/* 4. 1d Prize */}
+                <div className="flex flex-col">
+                  <span className="text-gray-400 text-sm font-medium uppercase">
+                    1d Prize
+                  </span>
+                  {/* 金色大数字 */}
+                  <div className="text-yellow-500 font-bold text-xl">
+                    {item.reward}
+                  </div>
+                  <div className="text-sm text-gray-500">{item.coinType}</div>
                 </div>
-                <div className="text-sm text-gray-500">{item.coinType}</div>
               </div>
-
               {/* 5. 7d 倒计时 */}
-              <div className="flex flex-col">
-                <span className="text-gray-400 text-sm font-medium uppercase">
-                  7d Next draw
-                </span>
-                <div className="text-white-500 font-bold text-xl">
-                  <ItemTimer countdown={item.countdown} />
+              <div className="col-span-2 grid grid-cols-2 gap-x-2 bg-white/5 rounded-lg -mx-2 px-2">
+                <div className="flex flex-col">
+                  <span className="text-gray-400 text-sm font-medium uppercase">
+                    7d Next draw
+                  </span>
+                  <div className="text-white-500 font-bold text-xl">
+                    <ItemTimer countdown={item.countdown} />
+                  </div>
+                  <div className="text-sm text-gray-500">奖池权重每日30%</div>
                 </div>
-                <div className="text-sm text-gray-500">奖池权重每日30%</div>
+
+                {/* 6. 7d Prize */}
+                <div className="flex flex-col">
+                  <span className="text-gray-400 text-sm font-medium uppercase">
+                    7d Prize
+                  </span>
+                  <div className="text-yellow-500 font-bold text-xl">
+                    {item.reward}
+                  </div>
+                  <div className="text-sm text-gray-500">{item.coinType}</div>
+                </div>
               </div>
 
-              {/* 6. 7d Prize */}
-              <div className="flex flex-col">
-                <span className="text-gray-400 text-sm font-medium uppercase">
-                  7d Prize
-                </span>
-                <div className="text-yellow-500 font-bold text-xl">
-                  {item.reward}
+              {/* 5. 28d 倒计时 */}
+              <div className="col-span-2 grid grid-cols-2 gap-x-2 bg-white/5 rounded-lg -mx-2 px-2">
+                <div className="flex flex-col">
+                  <span className="text-gray-400 text-sm font-medium uppercase">
+                    28d Next draw
+                  </span>
+                  <div className="text-white-500 font-bold text-xl">
+                    <ItemTimer countdown={item.countdown} />
+                  </div>
+                  <div className="text-sm text-gray-500">奖池权重每日20%</div>
                 </div>
-                <div className="text-sm text-gray-500">{item.coinType}</div>
-              </div>
-
-              {/* 7. 28d 倒计时 */}
-              <div className="flex flex-col">
-                <span className="text-gray-400 text-sm font-medium uppercase">
-                  28d Next draw
-                </span>
-                <div className="text-white-500 font-bold text-xl">
-                  <ItemTimer countdown={item.countdown} />
+                <div className="flex flex-col">
+                  <span className="text-gray-400 text-sm font-medium uppercase">
+                    28d Prize
+                  </span>
+                  <div className="text-yellow-500 font-bold text-xl">
+                    {item.reward}
+                  </div>
+                  <div className="text-sm text-gray-500">{item.coinType}</div>
                 </div>
-                <div className="text-sm text-gray-500">奖池权重每日20%</div>
-              </div>
-
-              {/* 8. 28d Prize */}
-              <div className="flex flex-col">
-                <span className="text-gray-400 text-sm font-medium uppercase">
-                  28d Prize
-                </span>
-                <div className="text-yellow-500 font-bold text-xl">
-                  {item.reward}
-                </div>
-                <div className="text-sm text-gray-500">{item.coinType}</div>
               </div>
             </CardContent>
 
@@ -733,12 +756,12 @@ export default function Home() {
         </button>
       </Modal>
       <Card className="flex flex-col items-center text-center !bg-gray-800 sm:col-span-2 shadow-lg border border-gray-700 h-fit">
-        <CardHeader className="text-xl font-bold text-white tracking-wider border-b border-gray-700 w-full pb-4 mb-4">
+        <CardHeader className="text-base font-bold text-white tracking-wider border-b border-gray-700 w-full pb-1 mb-1">
           Protocol Revenue Burn SGC
         </CardHeader>
-        <CardContent className="w-full px-4 pb-6">
+        <CardContent className="w-full px-1 pb-1">
           <div className="w-full flex flex-col">
-            <div className="hidden sm:grid sm:grid-cols-5 text-xs text-gray-400 uppercase bg-gray-900 border-b border-gray-700 py-3 px-4 font-semibold">
+            <div className="hidden sm:grid sm:grid-cols-5 text-xs text-gray-400 uppercase bg-gray-900 border-b border-gray-700 py-1 px-1 font-semibold">
               <div>Max Supply</div>
               <div>Total Supply</div>
               <div>Burned</div>
@@ -750,7 +773,7 @@ export default function Home() {
             <div className="flex flex-col">
               <div
                 key={2}
-                className="flex flex-col sm:grid sm:grid-cols-5 border-b border-gray-700 hover:bg-gray-700/30 transition-colors py-4 px-4 gap-2 sm:gap-0"
+                className="flex flex-col sm:grid sm:grid-cols-5 border-b border-gray-700 hover:bg-gray-700/30 transition-colors py-2 px-2 gap-2 sm:gap-0"
               >
                 {/* Game Name */}
                 <div className="flex justify-between items-center sm:block">

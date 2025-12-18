@@ -11,7 +11,7 @@ export default function App() {
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
-      <main className="flex-1 p-8 container mx-auto">
+      <main className="flex-1 p-2 container mx-auto">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/Home" element={<Home />} />
