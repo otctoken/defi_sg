@@ -20,8 +20,9 @@ const rows: Row[] = Array.from({ length: 30 }, () => ({
 
 export default function FooterTable() {
   return (
-    <footer className="border-t border-gray-700 p-4">
-      <div className="w-full overflow-x-auto">
+    <footer className="border-t border-gray-700 p-4 w-full">
+      {/* 新增一个 div，加上 container mx-auto 来对齐上方的内容 */}
+      <div className="container mx-auto overflow-x-auto">
         <table className="w-full text-xs text-center text-gray-300">
           <thead className="text-xs uppercase bg-gray-800 text-gray-400">
             <tr>
