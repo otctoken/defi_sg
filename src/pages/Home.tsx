@@ -69,7 +69,8 @@ async function getData(gamesList: any[], price: any) {
     const dfData = await getObjectDF(game.data);
     item.id = game.id;
     const ms = Date.now();
-    let icundown = Number(dfData.start_time) + Number(game.time_per_round) - ms;
+    let icundown =
+      Number(dfData.start_time_day) + Number(game.time_per_round) - ms;
     if (icundown <= 0) {
       icundown = 0;
     }
@@ -451,7 +452,7 @@ export default function Home() {
                     // 每一行容器：手机是 flex-col(竖排)，电脑是 grid-cols-5(横排)
                     <div
                       key={item.id}
-                      className="flex flex-col sm:grid sm:grid-cols-5 border-b border-gray-700 hover:bg-gray-700/30 transition-colors py-4 px-4 gap-2 sm:gap-0"
+                      className="flex flex-col sm:grid sm:grid-cols-5 border-b border-gray-700 hover:bg-gray-700/30 transition-colors py-1 px-4 gap-2 sm:gap-0"
                     >
                       {/* Game Name */}
                       <div className="flex justify-between items-center sm:block">
@@ -773,7 +774,7 @@ export default function Home() {
             <div className="flex flex-col">
               <div
                 key={2}
-                className="flex flex-col sm:grid sm:grid-cols-5 border-b border-gray-700 hover:bg-gray-700/30 transition-colors py-2 px-2 gap-2 sm:gap-0"
+                className="flex flex-col sm:grid sm:grid-cols-5 border-b border-gray-700 hover:bg-gray-700/30 transition-colors py-1 px-2 gap-2 sm:gap-0"
               >
                 {/* Game Name */}
                 <div className="flex justify-between items-center sm:block">

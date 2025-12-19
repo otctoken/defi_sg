@@ -1,101 +1,154 @@
 // src/constants/A.tsx
 //.................................SG................................................................
-export const SG_PACkages = "0xab99a00a76a8e2208797e9bf6b536b89d189d7ae38f87c4a624e11ba5eb45118"
-export const SG_Amindcap_fee = "0x0c7ab49245d5e13677032b46e7ac90bc040b7f85230432482c295560c1d82706"
-export const SG_minter = "0x1ca83ee53b6c924b4e17f75190cdc4adbebcada712dbcb2884142e6c7ffaaea2"
-export const SGC_h_c = "0xcbfbce01c74c09c230e9fbe9d93548a64d054b5d7aad1d97c4bce8d595d3043d"
-export const SGCcoin_type = "0xab99a00a76a8e2208797e9bf6b536b89d189d7ae38f87c4a624e11ba5eb45118::sgc::SGC"
+export const SG_PACkages =
+  "0x0e15163f4dc012b5607da0b69cc83990867a2095958d1955a7ac3effd0dfd40a";
+export const SG_Burn_SGC_fee =
+  "0xe28a3290bd2b83c5023675f8f85598ff0be1909d02124df3e2be171c0e043a8c";
+export const SG_minter =
+  "0x6e7f8ec2b2115825a60e34b965603378e64b39af6c4c80153ae607e0189fa9d6";
+export const SGC_h_c =
+  "0x31889d119ee23a52da8db66c04ea4d4a3f1beb936dd2c97af0d8ec33122f37c9";
+export const SGCcoin_type =
+  "0x0e15163f4dc012b5607da0b69cc83990867a2095958d1955a7ac3effd0dfd40a::sgc::SGC";
 
 //.................................NAVI................................................................
-export const Navi_Storage = "0xbb4e2f4b6205c2e2a2db47aeb4f830796ec7c005f88537ee775986639bc442fe"
-export const Navi_inshdg_V2 = "0xf87a8acb8b81d14307894d12595541a73f19933f88e1326d5be349c7a6f7559c"
-export const Navi_inshdg_V3 = "0x62982dad27fb10bb314b3384d5de8d2ac2d72ab2dbeae5d801dbdb9efa816c80"
-export const Navi_RewadFun_NAVI = "0x1a3f9fcfdfac10e92c99220203f7c4bb502558692f0be0f2cb5f788b4e12a6b5"
-export const Navi_RewadFun_Vsui = "0x7093cf7549d5e5b35bfde2177223d1050f71655c7f676a5e610ee70eb4d93b5c"
-export const Navi_PriceOracle = "0x1568865ed9a0b5ec414220e8f79b3d04c77acc82358f6e5ae4635687392ffbef"
-export const Navi_update_single_price_pgk = "0xc2d49bf5e75d2258ee5563efa527feb6155de7ac6f6bf025a23ee88cd12d5a83"
-export const Navi_OracleConfig = "0x1afe1cb83634f581606cc73c4487ddd8cc39a944b951283af23f7d69d5589478"
-export const Navi_OracleHolder = "0xaa0315f0748c1f24ddb2b45f7939cff40f7a8104af5ccbc4a1d32f870c0b4105"
-export const Navi_PACKAGE_ID = "0xee0041239b89564ce870a7dec5ddc5d114367ab94a1137e90aa0633cb76518e0"
-export const Navi_PACKAGE_MODULE = "incentive_v3"
-export const Navi_PACKAGE_FUN = "get_user_claimable_rewards"
+export const Navi_Storage =
+  "0xbb4e2f4b6205c2e2a2db47aeb4f830796ec7c005f88537ee775986639bc442fe";
+export const Navi_inshdg_V2 =
+  "0xf87a8acb8b81d14307894d12595541a73f19933f88e1326d5be349c7a6f7559c";
+export const Navi_inshdg_V3 =
+  "0x62982dad27fb10bb314b3384d5de8d2ac2d72ab2dbeae5d801dbdb9efa816c80";
+export const Navi_RewadFun_NAVI =
+  "0x1a3f9fcfdfac10e92c99220203f7c4bb502558692f0be0f2cb5f788b4e12a6b5";
+export const Navi_RewadFun_Vsui =
+  "0x7093cf7549d5e5b35bfde2177223d1050f71655c7f676a5e610ee70eb4d93b5c";
+export const Navi_PriceOracle =
+  "0x1568865ed9a0b5ec414220e8f79b3d04c77acc82358f6e5ae4635687392ffbef";
+export const Navi_update_single_price_pgk =
+  "0xc2d49bf5e75d2258ee5563efa527feb6155de7ac6f6bf025a23ee88cd12d5a83";
+export const Navi_OracleConfig =
+  "0x1afe1cb83634f581606cc73c4487ddd8cc39a944b951283af23f7d69d5589478";
+export const Navi_OracleHolder =
+  "0xaa0315f0748c1f24ddb2b45f7939cff40f7a8104af5ccbc4a1d32f870c0b4105";
+export const Navi_PACKAGE_ID =
+  "0xee0041239b89564ce870a7dec5ddc5d114367ab94a1137e90aa0633cb76518e0";
+export const Navi_PACKAGE_MODULE = "incentive_v3";
+export const Navi_PACKAGE_FUN = "get_user_claimable_rewards";
 //.................................FolX................................................................
-export const FolX_Contert = "0xb65dcbf63fd3ad5d0ebfbf334780dc9f785eff38a4459e37ab08fa79576ee511"
-export const FolX_Mingter = "0x2a30f1bfa9594e0e9ca37581268b3fee4b6965a70c38eb76e204334980619c24"
+export const FolX_Contert =
+  "0xb65dcbf63fd3ad5d0ebfbf334780dc9f785eff38a4459e37ab08fa79576ee511";
+export const FolX_Mingter =
+  "0x2a30f1bfa9594e0e9ca37581268b3fee4b6965a70c38eb76e204334980619c24";
 //..............................admin...................................................................
 
-export const AdminCap = "0x6709410ea380a27f216c095c3bc93469d4c7a52196e66c65f53d0f9332d8b03e"
-export const upgrade = "0x0f034ed12a32c7f7a0c9fdfd8b62e19d9f8ad6552e4589b86208a3cf72aa552a"
-export const SGC_AdminTolel = "0xe6e8a5a1e590f91aef189eb5e15fb8ab128a24d6daf5a48e398fad148346aa22"//
-
+export const AdminCap =
+  "0x054d658ad377531d9f284017cea408bfa0f6675e56a2fd84cbcf93d5fd1391fd";
+export const upgrade =
+  "0xa332b042f24fbdf834265a274d157f336cba9d6e24766c68ece979617d1da646";
+export const SGC_AdminTolel =
+  "0xad96473029c6d4dafb7f12f7728387ab688807b2df474a4a6978d5bfdcba303a"; //
 
 //................................................记得添加.................................................................
 export const Navi_reward_null_or_one = [
-    "0xdeeb7a4662eec9f2f3def03fb937a663dddaa2e215b8078a284d026b7946c270::deep::DEEP", "0xc889d78b634f954979e80e622a2ae0fece824c0f6d9590044378a2563035f32f",
-    "0x549e8b69270defbfafd4f94e17ec44cdbdd99820b33bda2278dea3b9a32d3f55::cert::CERT", "0x7093cf7549d5e5b35bfde2177223d1050f71655c7f676a5e610ee70eb4d93b5c",
-]
+  "0xdeeb7a4662eec9f2f3def03fb937a663dddaa2e215b8078a284d026b7946c270::deep::DEEP",
+  "0xc889d78b634f954979e80e622a2ae0fece824c0f6d9590044378a2563035f32f",
+  "0x549e8b69270defbfafd4f94e17ec44cdbdd99820b33bda2278dea3b9a32d3f55::cert::CERT",
+  "0x7093cf7549d5e5b35bfde2177223d1050f71655c7f676a5e610ee70eb4d93b5c",
+];
 
-export const burn_sgc = ["0x549e8b69270defbfafd4f94e17ec44cdbdd99820b33bda2278dea3b9a32d3f55::cert::CERT",
-    "0xdeeb7a4662eec9f2f3def03fb937a663dddaa2e215b8078a284d026b7946c270::deep::DEEP",
-]
-export const Navi_update_single_price: Record<string, string[]> = { //对上const SUI   DEEP 的name
-    "0xdeeb7a4662eec9f2f3def03fb937a663dddaa2e215b8078a284d026b7946c270::deep::DEEP":
-        ["0x8c7f3a322b94cc69db2a2ac575cbd94bf5766113324c3a3eceac91e3e88a51ed", "0x4558092b08ad1b33b0eb536f91a4655693c2390ac568f06de6f6fad827888600"],
-    "0x2::sui::SUI":
-        ["0x801dbc2f0053d34734814b2d6df491ce7807a725fe9a01ad74a07e9c51396c37", "0x2cab9b151ca1721624b09b421cc57d0bb26a1feb5da1f821492204b098ec35c9"],
-    "0x549e8b69270defbfafd4f94e17ec44cdbdd99820b33bda2278dea3b9a32d3f55::cert::CERT":
-        ["0x801dbc2f0053d34734814b2d6df491ce7807a725fe9a01ad74a07e9c51396c37", "0x086bb5540047b3c77ae5e2f9b811c7ef085517a73510f776753c8ee83d19e62c"],
-}
+export const burn_sgc = [
+  "0x549e8b69270defbfafd4f94e17ec44cdbdd99820b33bda2278dea3b9a32d3f55::cert::CERT",
+  "0xdeeb7a4662eec9f2f3def03fb937a663dddaa2e215b8078a284d026b7946c270::deep::DEEP",
+];
+export const Navi_update_single_price: Record<string, string[]> = {
+  //对上const SUI   DEEP 的name
+  "0xdeeb7a4662eec9f2f3def03fb937a663dddaa2e215b8078a284d026b7946c270::deep::DEEP":
+    [
+      "0x8c7f3a322b94cc69db2a2ac575cbd94bf5766113324c3a3eceac91e3e88a51ed",
+      "0x4558092b08ad1b33b0eb536f91a4655693c2390ac568f06de6f6fad827888600",
+    ],
+  "0x2::sui::SUI": [
+    "0x801dbc2f0053d34734814b2d6df491ce7807a725fe9a01ad74a07e9c51396c37",
+    "0x2cab9b151ca1721624b09b421cc57d0bb26a1feb5da1f821492204b098ec35c9",
+  ],
+  "0x549e8b69270defbfafd4f94e17ec44cdbdd99820b33bda2278dea3b9a32d3f55::cert::CERT":
+    [
+      "0x801dbc2f0053d34734814b2d6df491ce7807a725fe9a01ad74a07e9c51396c37",
+      "0x086bb5540047b3c77ae5e2f9b811c7ef085517a73510f776753c8ee83d19e62c",
+    ],
+};
 export const Navi_reward_data: Record<string, string> = {
-    "0xdeeb7a4662eec9f2f3def03fb937a663dddaa2e215b8078a284d026b7946c270::deep::DEEP": "0xc889d78b634f954979e80e622a2ae0fece824c0f6d9590044378a2563035f32f",
-    "0x549e8b69270defbfafd4f94e17ec44cdbdd99820b33bda2278dea3b9a32d3f55::cert::CERT": "0x7093cf7549d5e5b35bfde2177223d1050f71655c7f676a5e610ee70eb4d93b5c",
-}
+  "0xdeeb7a4662eec9f2f3def03fb937a663dddaa2e215b8078a284d026b7946c270::deep::DEEP":
+    "0xc889d78b634f954979e80e622a2ae0fece824c0f6d9590044378a2563035f32f",
+  "0x549e8b69270defbfafd4f94e17ec44cdbdd99820b33bda2278dea3b9a32d3f55::cert::CERT":
+    "0x7093cf7549d5e5b35bfde2177223d1050f71655c7f676a5e610ee70eb4d93b5c",
+};
 
 export const SUI_Navi = {
-    id: "SUI-NAVI",
-    name: "SUI",
-    // tree_height total_balance time_per_round  start_time index internal_node  leaf_node
-    data: "0xc4c3d0b9ef6d0131190dbac9d8e8238d82fb2791ee04d475faec532ffb5303fb",
-    data_acp_owner: "0xeb2e5c4f10a6c31c70864da6d672c6eec0db27f21e05b89d7792fb3fbab0496c",
-    fun_type: "0x2::sui::SUI",
-    get_sgc: "0x574e5ab22a140afd2380b5e72c6d483c791bc2e6928d12e00b2aa372443de13b",
-    coin_balance_andeData_number: 0,
-    time_per_round: 3600000,//108000000,
-    navi_pool_number: 0,
-    navi_pool_adder: "0x96df0fce3c471489f4debaaa762cf960b3d97820bd1f3f025ff8190730e958c5",
-    decimals: 9,
-    dynamic_field: {
-        adder_node: '0xbf5c62097407001d5b2595fb611deddce1c706c63b069b91576edf05cfa71f23',
-        internal_node_data: '0x3c07a9567c6b32def253295719863ca3e3c0f57b6891ad9e59fbd4b2173a9f44',
-        leaf_node_data: '0xfd366ec5a4d1fa0f6158e448ef7cf32545fab73386475c01c8bea126921157c0',
-        node_adder: '0x2b35846039826e8117dfedf2c836d7046277acb68de287ae35cccd25b2251fda',
-        savings: '0x7567c417e255f727b1aab591ee4997cfd1e932031816d6e9ba0897f72f71e68c'
-    }
-}
+  id: "SUI-NAVI",
+  name: "SUI",
+  coin_balance_andeData_number: 0,
+  time_per_round: 60000, //108000000,
+  navi_pool_number: 0,
+  // tree_height total_balance time_per_round  start_time index internal_node  leaf_node
+  data: "0xff81ae32ca64c6718e83f4f14ec151f076c20423514bd7613e8b380aed13de73",
+  get_sgc: "0x7fddb0d37983731cc6a99fc7edbd502b8dac0727b84c554261b3cb600be75deb",
+  data_acp_owner:
+    "0x69df0015d3ebbcb486cc4ffcda0c50d0679e0146310ed57f5e9a3c0ca1d17d98",
+  fun_type: "0x2::sui::SUI",
+  navi_pool_adder:
+    "0x96df0fce3c471489f4debaaa762cf960b3d97820bd1f3f025ff8190730e958c5",
+  decimals: 9,
+  dynamic_field: {
+    adder_node:
+      "0x03bd77a324c8f15592ff2ce4c71f70af775d0d84356d8a98ce00730d882da658",
+    internal_node_data:
+      "0x37cb321569617fee79841b9e0ad911952511b1681c2529d8d38398eb77c23f5d",
+    leaf_node_data:
+      "0xa273ae7e3a11870d7063421ad2dca4afbd738c7c5f9684035c250f431971d466",
+    node_adder:
+      "0x12cbda77179be49ff7f9664f24d03f6f58581f1c5d719145412eb7cbc5f47f8f",
+    Prize_pool_monthly:
+      "0xb1d3b7154d4217a3c9a331830d3ed099cc5e9363c3ac605a73b6ea8e59f2ffec",
+    Prize_pool_weekly:
+      "0xa8917df8dcfdfe9160fbfc536273eb861c6eaeca104b5875b8addf5d099f2db7",
+    savings:
+      "0x19442d59948b69a0fb23782be80964ec7865faa3119b1632a8de4b3fb59daea5",
+  },
+};
 export const DEEP_Navi = {
-    id: "DEEP-NAVI",
-    name: "DEEP",
-    // tree_height total_balance time_per_round  start_time index internal_node  leaf_node
-    data: "0xc5ae124ff4242048010ba351f4c5cb1c44d7d8ec4c8ac7b030a88b8e3767ed60",
-    data_acp_owner: "0x302ffbddcc926b2cbb4985671d7463a07434df384db73df3b3e465828e73efd8",
-    fun_type: "0xdeeb7a4662eec9f2f3def03fb937a663dddaa2e215b8078a284d026b7946c270::deep::DEEP",
-    get_sgc: "0x0169b434f3b9da93e960544d5ceeda640d83e47f92dfdf2a6f651bbdbbf37f8f",
-    coin_balance_andeData_number: 1,
-    time_per_round: 3600000,//108000000,
-    navi_pool_number: 15,
-    navi_pool_adder: "0x08373c5efffd07f88eace1c76abe4777489d9ec044fd4cd567f982d9c169e946",
-    decimals: 6,
-    dynamic_field: {
-        adder_node: '0x6c055565b124abdbfa3fd0e104087490f3cde61c518a17b6e0d778c1d69e7539',
-        internal_node_data: '0x64d4e8db6cbacea12ff12b1c07ee079189a776e9deb4d99f90ac7c722359a1c4',
-        leaf_node_data: '0xb72e9f35cd3c73168b11b5bd47ed629d3dd60413e64ef47c61398d6fd329b778',
-        node_adder: '0x15ac2177f41ad7a5375163ed7986572411e0e28e11b30e26e76c36bfbadea783',
-        savings: '0xceb32fa7ef6465a3ea426cc6b557bb5885ce212f5683d9e4a0389b0ad90680b7'
-    }
-}
-
-
-
+  id: "DEEP-NAVI",
+  name: "DEEP",
+  coin_balance_andeData_number: 1,
+  time_per_round: 60000, //108000000,
+  navi_pool_number: 15,
+  // tree_height total_balance time_per_round  start_time index internal_node  leaf_node
+  data: "0x861b8e670a0ac39f2ac03bba4f45a962b8884ed2aaa866b6f3c41feca7ebcfa0",
+  get_sgc: "0x55cabe2cb27af00280357d0ca439a630b67ff57393076f5302fa6a9d09adc154",
+  data_acp_owner:
+    "0x76abd8b107d6a0e23675e8ab89a48836b9f261ea42a82ace0d863e3b99b54604",
+  fun_type:
+    "0xdeeb7a4662eec9f2f3def03fb937a663dddaa2e215b8078a284d026b7946c270::deep::DEEP",
+  navi_pool_adder:
+    "0x08373c5efffd07f88eace1c76abe4777489d9ec044fd4cd567f982d9c169e946",
+  decimals: 6,
+  dynamic_field: {
+    adder_node:
+      "0xd4122c78c06c62f1e5300431e329ff383f05a95f77798a4ff29b2d57e2912f15",
+    internal_node_data:
+      "0x889f2e926fa2e103e6e594bfda0c1444179142f17fc1d970b2c481b3afc8acda",
+    leaf_node_data:
+      "0x5a2b0bca334258e00b1ebc85eff48fcabb2ccdf6b646b620443fbdddf6e2ad24",
+    node_adder:
+      "0x8ebf1c06b7fcf33ed95c5838ecf790796975e73828a3e169647843c6a7a070e0",
+    Prize_pool_monthly:
+      "0x50fc28aaa4aa3f0e6019dc610e3d213a3ba28c4566ba911f397ba84946ae23ef",
+    Prize_pool_weekly:
+      "0x6afaa99e1091ccd4c260660af2c1d0537a80f7ec23be1e8bf35169a587bd5322",
+    savings:
+      "0x320a233cc0669c570ae6bfedbedf8a6a6fdf3de34951aaa910e7bb2be0fb83e3",
+  },
+};
 
 // [33 items
 // 0:string"0x2cab9b151ca1721624b09b421cc57d0bb26a1feb5da1f821492204b098ec35c9"
