@@ -679,17 +679,22 @@ export default function Home() {
               </Button>
 
               {Number(item.countdown) <= 0 && (
-                <Button
-                  onClick={() =>
-                    lottery_home(
-                      item.coin_balance_andeData_number,
-                      signAndExecute
-                    )
-                  }
-                  className="w-40 whitespace-nowrap bg-green-600 hover:bg-green-700"
-                >
-                  Start Draw
-                </Button>
+                <div className="relative inline-block group">
+                  <span className="absolute -top-2 -right-8 z-10 flex h-5 items-center justify-center rounded-full bg-yellow-500 px-1.5 text-[11px] font-bold text-black shadow-sm ring-1 ring-white">
+                    +10K SGC💰
+                  </span>
+                  <Button
+                    onClick={() =>
+                      lottery_home(
+                        item.coin_balance_andeData_number,
+                        signAndExecute
+                      )
+                    }
+                    className="w-40 whitespace-nowrap bg-green-600 hover:bg-green-700"
+                  >
+                    Start Draw
+                  </Button>
+                </div>
               )}
             </CardContent>
           </Card>
