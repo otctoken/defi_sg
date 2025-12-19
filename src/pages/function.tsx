@@ -3,13 +3,26 @@ import { Transaction } from "@mysten/sui/transactions";
 import { SuiClient } from "@mysten/sui/client";
 import { bcs } from "@mysten/sui/bcs";
 import {
-  SG_PACkages, Navi_Storage, Navi_inshdg_V2, Navi_inshdg_V3, SG_minter, SGC_h_c, Navi_PriceOracle,
-  Navi_update_single_price_pgk, Navi_OracleConfig, Navi_OracleHolder, SG_Amindcap_fee,
-  burn_sgc, FolX_Contert, Navi_PACKAGE_ID, Navi_PACKAGE_MODULE, Navi_PACKAGE_FUN, Navi_reward_null_or_one,
-  Navi_reward_data, Navi_update_single_price
-} from "./constantsData.tsx"
-
-
+  SG_PACkages,
+  Navi_Storage,
+  Navi_inshdg_V2,
+  Navi_inshdg_V3,
+  SG_minter,
+  SGC_h_c,
+  Navi_PriceOracle,
+  Navi_update_single_price_pgk,
+  Navi_OracleConfig,
+  Navi_OracleHolder,
+  SG_Burn_SGC_fee,
+  burn_sgc,
+  FolX_Contert,
+  Navi_PACKAGE_ID,
+  Navi_PACKAGE_MODULE,
+  Navi_PACKAGE_FUN,
+  Navi_reward_null_or_one,
+  Navi_reward_data,
+  Navi_update_single_price,
+} from "./constantsData.tsx";
 
 const client = new SuiGrpcClient({
   network: "mainnet",
@@ -17,7 +30,7 @@ const client = new SuiGrpcClient({
 });
 const client_endpoint = "https://graphql.mainnet.sui.io/graphql";
 
-
+const wait = (ms: any) => new Promise((resolve) => setTimeout(resolve, ms));
 // --- 测试调用 ---
 function addressToBase64(hexAddress: string) {
   // 去掉 0x 前缀
@@ -37,7 +50,6 @@ function addressToBase64(hexAddress: string) {
   // 转换为 Base64
   return btoa(binary);
 }
-
 
 export async function getCoins(owner: any, coinType = "0x2::sui::SUI") {
   // 1. 拼装完整的对象结构类型： 0x2::coin::Coin<你的币种>
@@ -112,7 +124,10 @@ export function allKeys(obj: any) {
   return [...seen];
 }
 
-export async function getSavingsDynamicFieldObject(tableId: any, userAddress: any) {
+export async function getSavingsDynamicFieldObject(
+  tableId: any,
+  userAddress: any
+) {
   const GET_TABLE_VALUE_QUERY = `
     query GetTableValue($tableId: SuiAddress!, $bcsKey: Base64!) {
       address(address: $tableId) {
@@ -165,7 +180,7 @@ async function dev_get_admin_fee(COIN_TYPE_T: any) {
   tx.moveCall({
     target: `${SG_PACkages}::vault::withdraw_burning_sgc`,
     typeArguments: [COIN_TYPE_T], // 填入泛型 T
-    arguments: [tx.object(SG_Amindcap_fee)],
+    arguments: [tx.object(SG_Burn_SGC_fee)],
   });
 
   try {
@@ -251,33 +266,34 @@ export async function devClaimableRewards(acp_owner: any) {
   }
 }
 
-function get_type_reward_fund(reward_data: any) { //Navi_reward_null_or_one, Navi_reward_data
-  let typeT
-  let typeD
-  let reward_fund_t
-  let reward_fund_d
+function get_type_reward_fund(reward_data: any) {
+  //Navi_reward_null_or_one, Navi_reward_data
+  let typeT;
+  let typeD;
+  let reward_fund_t;
+  let reward_fund_d;
   if (reward_data?.length < 1) {
-    typeT = Navi_reward_null_or_one[0]
-    reward_fund_t = Navi_reward_null_or_one[1]
-    typeD = Navi_reward_null_or_one[2]
-    reward_fund_d = Navi_reward_null_or_one[3]
+    typeT = Navi_reward_null_or_one[0];
+    reward_fund_t = Navi_reward_null_or_one[1];
+    typeD = Navi_reward_null_or_one[2];
+    reward_fund_d = Navi_reward_null_or_one[3];
   } else if (reward_data?.length < 2) {
-    typeT = `0x${reward_data[0].reward_coin_type}`
-    reward_fund_t = Navi_reward_data[typeT]
+    typeT = `0x${reward_data[0].reward_coin_type}`;
+    reward_fund_t = Navi_reward_data[typeT];
     if (typeT != Navi_reward_null_or_one[0]) {
-      typeD = Navi_reward_null_or_one[0]
-      reward_fund_d = Navi_reward_null_or_one[1]
+      typeD = Navi_reward_null_or_one[0];
+      reward_fund_d = Navi_reward_null_or_one[1];
     } else {
-      typeD = Navi_reward_null_or_one[2]
-      reward_fund_d = Navi_reward_null_or_one[3]
+      typeD = Navi_reward_null_or_one[2];
+      reward_fund_d = Navi_reward_null_or_one[3];
     }
   } else {
-    typeT = `0x${reward_data[0].reward_coin_type}`
-    reward_fund_t = Navi_reward_data[typeT]
-    typeD = `0x${reward_data[1].reward_coin_type}`
-    reward_fund_d = Navi_reward_data[typeD]
+    typeT = `0x${reward_data[0].reward_coin_type}`;
+    reward_fund_t = Navi_reward_data[typeT];
+    typeD = `0x${reward_data[1].reward_coin_type}`;
+    reward_fund_d = Navi_reward_data[typeD];
   }
-  return [typeT, typeD, reward_fund_t, reward_fund_d]
+  return [typeT, typeD, reward_fund_t, reward_fund_d];
 }
 
 export async function getBalance(adder: string, cointype: string) {
@@ -369,13 +385,20 @@ export async function get_single_price() {
 }
 
 //.................................................................heyuediayong................................................................
-export async function deposit_all(account: any, num: any, cointype: string, savingsd: string, pool: string, get_sgc: string, signAndExecute: any,
+export async function deposit_all(
+  account: any,
+  num: any,
+  cointype: string,
+  savingsd: string,
+  pool: string,
+  get_sgc: string,
+  signAndExecute: any,
   fun_type: any
 ) {
   // ... 构建你的交易 ...
   try {
-    const update_single_price4 = Navi_update_single_price[fun_type][0]
-    const update_single_price5 = Navi_update_single_price[fun_type][1]
+    const update_single_price4 = Navi_update_single_price[fun_type][0];
+    const update_single_price5 = Navi_update_single_price[fun_type][1];
     const tx = new Transaction();
     tx.moveCall({
       target: `${Navi_update_single_price_pgk}::oracle_pro::update_single_price`,
@@ -385,7 +408,7 @@ export async function deposit_all(account: any, num: any, cointype: string, savi
         tx.object(Navi_PriceOracle),
         tx.object(Navi_OracleHolder),
         tx.object(update_single_price4),
-        tx.pure.address(update_single_price5)
+        tx.pure.address(update_single_price5),
       ],
     });
     if (cointype != "0x2::sui::SUI") {
@@ -439,31 +462,36 @@ export async function deposit_all(account: any, num: any, cointype: string, savi
     const response1 = await signAndExecute({
       transaction: tx,
     });
+    await wait(1500);
     const { response } = await client.ledgerService.getTransaction({
       digest: response1.digest,
       readMask: {
-        paths: [
-          "effects",
-        ]
-      }
+        paths: ["effects"],
+      },
     });
     const status = response.transaction?.effects?.status?.success;
     // console.log(JSON.stringify(status, (key, value) => {
     //   return typeof value === 'bigint' ? value.toString() : value;
     // }, 2));
-    return status
+    return status;
   } catch (error) {
     console.error("error:", error);
-    return false
+    return false;
   }
-};
+}
 
-export async function withdraw(cointype: string, savingsd: string, pool: string, get_sgc: string, signAndExecute: any,
-  fun_type: any) {
+export async function withdraw(
+  cointype: string,
+  savingsd: string,
+  pool: string,
+  get_sgc: string,
+  signAndExecute: any,
+  fun_type: any
+) {
   // ... 构建你的交易 ...
   try {
-    const update_single_price4 = Navi_update_single_price[fun_type][0]
-    const update_single_price5 = Navi_update_single_price[fun_type][1]
+    const update_single_price4 = Navi_update_single_price[fun_type][0];
+    const update_single_price5 = Navi_update_single_price[fun_type][1];
     const tx = new Transaction();
     tx.moveCall({
       target: `${Navi_update_single_price_pgk}::oracle_pro::update_single_price`,
@@ -473,7 +501,7 @@ export async function withdraw(cointype: string, savingsd: string, pool: string,
         tx.object(Navi_PriceOracle),
         tx.object(Navi_OracleHolder),
         tx.object(update_single_price4),
-        tx.pure.address(update_single_price5)
+        tx.pure.address(update_single_price5),
       ],
     });
 
@@ -497,35 +525,43 @@ export async function withdraw(cointype: string, savingsd: string, pool: string,
     const response1 = await signAndExecute({
       transaction: tx,
     });
+    await wait(1500);
     const { response } = await client.ledgerService.getTransaction({
       digest: response1.digest,
       readMask: {
         paths: [
-          "effects",      // 获取执行结果
-        ]
-      }
+          "effects", // 获取执行结果
+        ],
+      },
     });
     const status = response.transaction?.effects?.status?.success;
-    return status
+    return status;
   } catch (error) {
     console.error("error:", error);
-    return false
+    return false;
   }
-};
+}
 
-export async function lottery(typeA: any, pool: any, savingsd: any, acp_owner: any, signAndExecute: any, name: any
+export async function lottery(
+  typeA: any,
+  pool: any,
+  savingsd: any,
+  acp_owner: any,
+  signAndExecute: any,
+  name: any
 ) {
   try {
-    const reward_data = await devClaimableRewards(acp_owner)
-    const [typeT, typeD, reward_fund_t, reward_fund_d] = get_type_reward_fund(reward_data)
-    console.log(name)
+    const reward_data = await devClaimableRewards(acp_owner);
+    const [typeT, typeD, reward_fund_t, reward_fund_d] =
+      get_type_reward_fund(reward_data);
+    console.log(name);
     const tx = new Transaction();
     tx.setGasBudget(300000000); // 例如 0.01 SUI
     tx.moveCall({
       target: `${SG_PACkages}::vault::lottery`,
       typeArguments: [typeT, typeD, typeA],
       arguments: [
-        tx.object(SG_Amindcap_fee),
+        tx.object(SG_Burn_SGC_fee),
         tx.object(reward_fund_t),
         tx.object(reward_fund_d),
         tx.object(Navi_PriceOracle),
@@ -542,24 +578,29 @@ export async function lottery(typeA: any, pool: any, savingsd: any, acp_owner: a
     const response1 = await signAndExecute({
       transaction: tx,
     });
+    await wait(1500);
     const { response } = await client.ledgerService.getTransaction({
       digest: response1.digest,
       readMask: {
         paths: [
-          "effects",      // 获取执行结果
-        ]
-      }
+          "effects", // 获取执行结果
+        ],
+      },
     });
     const status = response.transaction?.effects?.status?.success;
-    return status
+    return status;
   } catch (error) {
     console.error("error:", error);
-    return false
+    return false;
   }
-};
+}
 
-
-export async function entry_get_sgc_coin(type: any, savingsd: any, get_sgc: any, signAndExecute: any) {
+export async function entry_get_sgc_coin(
+  type: any,
+  savingsd: any,
+  get_sgc: any,
+  signAndExecute: any
+) {
   // ... 构建你的交易 ...
   try {
     const tx = new Transaction();
@@ -577,33 +618,33 @@ export async function entry_get_sgc_coin(type: any, savingsd: any, get_sgc: any,
     const response1 = await signAndExecute({
       transaction: tx,
     });
+    await wait(1500);
     const { response } = await client.ledgerService.getTransaction({
       digest: response1.digest,
       readMask: {
         paths: [
-          "effects",      // 获取执行结果
-        ]
-      }
+          "effects", // 获取执行结果
+        ],
+      },
     });
     const status = response.transaction?.effects?.status?.success;
-    return status
+    return status;
   } catch (error) {
     console.error("error:", error);
-    return false
+    return false;
   }
-};
-
+}
 
 export async function burn_sgc_coin(signAndExecute: any) {
   // ... 构建你的交易 ... burn_sgc,FolX_Contert
   try {
-    const suibool = await dev_get_admin_fee("0x2::sui::SUI")
+    const suibool = await dev_get_admin_fee("0x2::sui::SUI");
 
-    let coin_list = []
+    let coin_list = [];
     for (const type of burn_sgc) {
-      const coin_ = await dev_get_admin_fee(type)
+      const coin_ = await dev_get_admin_fee(type);
       if (coin_) {
-        coin_list.push(type)
+        coin_list.push(type);
       }
     }
     if (suibool || coin_list.length > 0) {
@@ -613,7 +654,7 @@ export async function burn_sgc_coin(signAndExecute: any) {
           target: `${SG_PACkages}::vault::burn_sgc_sui`,
           arguments: [
             tx.object(SG_minter),
-            tx.object(SG_Amindcap_fee),
+            tx.object(SG_Burn_SGC_fee),
             tx.object(FolX_Contert),
           ],
         });
@@ -625,7 +666,7 @@ export async function burn_sgc_coin(signAndExecute: any) {
             typeArguments: [type],
             arguments: [
               tx.object(SG_minter),
-              tx.object(SG_Amindcap_fee),
+              tx.object(SG_Burn_SGC_fee),
               tx.object(FolX_Contert),
             ],
           });
@@ -635,24 +676,25 @@ export async function burn_sgc_coin(signAndExecute: any) {
       const response1 = await signAndExecute({
         transaction: tx,
       });
+      await wait(1500);
       const { response } = await client.ledgerService.getTransaction({
         digest: response1.digest,
         readMask: {
           paths: [
-            "effects",      // 获取执行结果
-          ]
-        }
+            "effects", // 获取执行结果
+          ],
+        },
       });
       const status = response.transaction?.effects?.status?.success;
-      return status
+      return status;
     } else {
       alert("The SGC burn process has just completed. Please try again later.");
     }
   } catch (error) {
     console.error("error:", error);
-    return false
+    return false;
   }
-};
+}
 // 或 const util = require('node:util');
 // console.log(
 //   util.inspect(out, {
@@ -662,4 +704,3 @@ export async function burn_sgc_coin(signAndExecute: any) {
 //     compact: true, // 更易读的多行输出
 //   })
 // );
-
