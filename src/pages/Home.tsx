@@ -250,6 +250,11 @@ export default function Home() {
     } else {
       setIsGlobalButton(false);
     }
+    if (!account?.address) {
+      alert("Please connect your wallet!");
+      setIsGlobalButton(true);
+      return;
+    }
     const data = Global_games[data_Number];
     const bol = await lottery(
       data.fun_type,
@@ -307,6 +312,11 @@ export default function Home() {
       return;
     } else {
       setIsGlobalButton(false);
+    }
+    if (!account?.address) {
+      alert("Please connect your wallet!");
+      setIsGlobalButton(true);
+      return;
     }
     toast.success("Preparing to burn down SGC...", {
       duration: 4500,
