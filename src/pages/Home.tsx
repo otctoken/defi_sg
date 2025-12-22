@@ -594,6 +594,7 @@ export default function Home() {
                 </span>
                 {/* 绿色大数字 */}
                 <div className="font-bold text-green-400 text-xl">
+                  {/* 根据公式计算即可 */}
                   {item.sgcApy}%
                 </div>
                 <div className="text-sm text-gray-500 truncate">
