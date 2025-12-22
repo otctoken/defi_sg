@@ -574,6 +574,8 @@ export async function lottery(
       target: `${SG_PACkages}::vault::lottery`,
       typeArguments: [typeT, typeD, typeA],
       arguments: [
+        tx.object(SG_minter),
+        tx.object(SGC_h_c),
         tx.object(SG_Burn_SGC_fee),
         tx.object(reward_fund_t),
         tx.object(reward_fund_d),
