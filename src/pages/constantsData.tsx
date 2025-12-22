@@ -1,7 +1,7 @@
 // src/constants/A.tsx
 //.................................SG................................................................
 export const SG_PACkages =
-  "0xb85447e328ca363f4121459093958560b4df45cecb89d4804c8d01def4361eb2";
+  "0xea39edeb1a8a20d4a806d95c9371a414a2dd0c2b81aaf1c3f0e369276ba17358";
 export const SG_Burn_SGC_fee =
   "0x4309f349754fdec2a28693b3116a1c1edf2c98bb16296dabbf48fdb8d7205977";
 export const SG_minter =
