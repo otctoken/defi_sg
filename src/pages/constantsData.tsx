@@ -1,15 +1,15 @@
 // src/constants/A.tsx
 //.................................SG................................................................
 export const SG_PACkages =
-  "0xea39edeb1a8a20d4a806d95c9371a414a2dd0c2b81aaf1c3f0e369276ba17358";
+  "0x70cdf2b8aef20573bf7980da5b8b6d620cfb40d65ef724fff097c63de50adb8f";
 export const SG_Burn_SGC_fee =
-  "0x4309f349754fdec2a28693b3116a1c1edf2c98bb16296dabbf48fdb8d7205977";
+  "0xbaef4b2e61d57fc139114a0b9fa16b14282bb36d9ed316eb011d91bccb13229f";
 export const SG_minter =
-  "0x3ded5db0c543aa305c9fc9c368927de19ddf3bebdc1eaf84735730146bacec29";
+  "0xdfd42bd0f9acb2a01eec27342d74968306d89a1f2e085853644c305f84a165f9";
 export const SGC_h_c =
-  "0x1942a64dfee7c2794b0050a8557624289342b484a5f0ef7fa567baff7da82697";
+  "0x38dd5406e12830176b2d38d14851ae652f34a1fdff223ab36ace75c18de0019b";
 export const SGCcoin_type =
-  "0xb85447e328ca363f4121459093958560b4df45cecb89d4804c8d01def4361eb2::sgc::SGC";
+  "0x70cdf2b8aef20573bf7980da5b8b6d620cfb40d65ef724fff097c63de50adb8f::sgc::SGC";
 
 //.................................NAVI................................................................
 export const Navi_Storage =
@@ -42,11 +42,11 @@ export const FolX_Mingter =
 //..............................admin...................................................................
 
 export const AdminCap =
-  "0x97944a66a359f9350be5699654a485e9c17befa01d8d3b65673396e95418ca12";
+  "0x37561559775b193e5528a1c8a22ae67eeffa1a32ce00567dc327d393ebe73a09";
 export const upgrade =
-  "0x851974ee26c82bae78be29e9d1cec398e0411869ba1cd2e5410d59484387f7b9";
+  "0x33ded4285c4d17102f99bf0f34246af484d81414b941a2218fd800c33f8e2faf";
 export const SGC_AdminTolel =
-  "0x39898991a1ea3eae4ec0ff64e6c869ee9f0ef4dd08df64f53cb64c220c33b91f"; //
+  "0x760949ea70b741efd912f622b8078e83bf8df8c3b53969c9c842856625c519bf"; //
 
 //................................................记得添加.................................................................
 export const Navi_reward_null_or_one = [
@@ -88,45 +88,45 @@ export const SUI_Navi = {
   id: "SUI-NAVI",
   name: "SUI",
   coin_balance_andeData_number: 0,
-  time_per_round: 60000, //108000000,
+  time_per_round: 180000, //108000000,
   navi_pool_number: 0,
   // tree_height total_balance time_per_round  start_time index internal_node  leaf_node
-  data: "0xcee7f7a481a4451ad57bc27af2ad66983789dd831e8a2b4842f28bb526e05070",
-  get_sgc: "0x6fc41aa45d3623ffa8215f86b21b7969f0d152b855e0bf3719f92e3b30d2e48a",
+  data: "0xebfd85ebad070e0eb173a170e98176f863786b4292a081060c72d3cba3a39c70",
+  get_sgc: "0x40cf71e5fade7a8cee026b8ffa0119c46e30d64dc79159bea63038ff38e577c9",
   data_acp_owner:
-    "0x9568a2beb38cf88a6ef98c8792ad8551e8618ab0aa113cb3f93c86774abc48c5",
+    "0x9c90fdb472b67ad4c7fdb34c02d60074164949d35adaca495314eac25d2d9a28",
   fun_type: "0x2::sui::SUI",
   navi_pool_adder:
     "0x96df0fce3c471489f4debaaa762cf960b3d97820bd1f3f025ff8190730e958c5",
   decimals: 9,
   dynamic_field: {
     adder_node:
-      "0x6fcb1354eef17b8fb875a9fc1edb333404e07f105fc509af5854d5ff3638420e",
+      "0xc0ade1abeddadb123edff325eaa66ab0836d84ddc996e9aea814b424aa9dd564",
     internal_node_data:
-      "0xcf3e046e20dfdf72de83aa7fbbefa9fdcd473e9711df60938e9b4a72aadb5a85",
+      "0xfeb142b0ab87c466f5ffa54aec33109ed5323dfbbab27131d63d22a8bbaacfe2",
     leaf_node_data:
-      "0x04795d28ee4e494119089ebb6e3111bc5d2257ddd550cf5d47e6e1c729800d68",
+      "0x4c3acbb94b00a86ee8723c75928254a5583d624b6ba9b41c9e6479d341cba4ed",
     node_adder:
-      "0x035426465401e0cbbae624e910b664f714407bd91b37378ed4ff937c8f724ef0",
+      "0x830bfca62959a3e93274902ca5cf0f198f390c23b8b4c4ce1287305ad6e7bb15",
     Prize_pool_monthly:
-      "0x9bdb9d52375919b2eff7e96844a515ad2a726f3677aa7baeba738508662904db",
+      "0x4bd69c39b5c2353ccc20836c8c68f6138e4f7cf85a9e7bbd185ae96e4b91c7cf",
     Prize_pool_weekly:
-      "0x07499c8a4cac7c565e6c41f19cfd90187a8a406af24d4371ee077705d5cb4062",
+      "0x690a4b9ab00db8abd3711706bf3145ff72c1e2a7cf41d314969c72451dd64e41",
     savings:
-      "0x5542758ac6c7a2388cde1b9fd7a4b592d0306c1d06766f4f5e3287dd51af727d",
+      "0x67b4c3b1b2106ce76853cc0d1522d1c4d62597c1972e38e4dfd0ec727c3c53cb",
   },
 };
 export const DEEP_Navi = {
   id: "DEEP-NAVI",
   name: "DEEP",
   coin_balance_andeData_number: 1,
-  time_per_round: 60000, //108000000,
+  time_per_round: 180000, //108000000,
   navi_pool_number: 15,
   // tree_height total_balance time_per_round  start_time index internal_node  leaf_node
-  data: "0x2f892a1f8521817ec18c8bbeebddb5c32972c3b9bb6da09fe9f1efe877101923",
-  get_sgc: "0xdbf47b8f48924ddac25d8c0e4a134bf25c760dd353052fdc98b98ac5285e2ce4",
+  data: "0x6dfe8de3e6c18c4714c6d0ef1ed5ae596e267068f850b51775e476b76d8292cd",
+  get_sgc: "0x1f9702e47e0a88884f8d854be5f66221e274aee61f51078ca48f55c73c1dc4c6",
   data_acp_owner:
-    "0xde424f0d2c776c2ae81902fc31808f5d6795ed61ed490c4e962f7821157b1aa9",
+    "0xd322f842668ac0bb8f1c28bf115e9879ef14ac1513d5b627f14f06c53dfd11e3",
   fun_type:
     "0xdeeb7a4662eec9f2f3def03fb937a663dddaa2e215b8078a284d026b7946c270::deep::DEEP",
   navi_pool_adder:
@@ -134,19 +134,19 @@ export const DEEP_Navi = {
   decimals: 6,
   dynamic_field: {
     adder_node:
-      "0x63d88607a83575590617bfdcbfa08677a636ed4e531139a6b873b8b07a777976",
+      "0xe2c8d59c42f9916d08ffae117b9f85cac51db8759fa069a1e1743bb00fdcc191",
     internal_node_data:
-      "0x1a47c58e24e4f546a6785ad6f5823fba3eddec642cc337d31bc7c6a7eec60d22",
+      "0x0c41fac01f72fe32cfb9875cf6e795312e8870bc571d0838afc70b4208c94e9f",
     leaf_node_data:
-      "0x5456a7d930d4ed7b8f98c77b7e095fcb29c2bc6742ccedf25749270d0eb0e85d",
+      "0x48eef7fa5d203a8953d3a61abd305be04e15818cdaf4fdff14f02c98de8a8560",
     node_adder:
-      "0xf42a431bd17d3d9b2bdd2ac7496438c6eaaa54b27d8c6ac4dec0999c200f0b62",
+      "0x3b5fe520b535f1ef6cd2387af60d51cd6b264e4766e1addc1060c035655ea990",
     Prize_pool_monthly:
-      "0xea0fe0dae34346ab6b9fcd5904c2d7963b757566be2b865f28f6954c639164f1",
+      "0x5c263152ca2162ff06debe9e96f5d2cb656a414286cb23056bd8bc48bd2d51e2",
     Prize_pool_weekly:
-      "0x32cfdb8ee427261d6b4292ab0aba989117ab75a82d5f24bd14274cb0605afe81",
+      "0xebca8a015a45d13033d7c14bdec5350eb0e3ca30d0fb001ad1f40bef74347e10",
     savings:
-      "0x7879a2a9ee774022cd400409de9e856dc0f0f40843384c83aed848a173df255c",
+      "0x2f9abf247fad0a3d9e56702d69bc29f822f3a01e621c5200f7c565d65c0a0d33",
   },
 };
 
