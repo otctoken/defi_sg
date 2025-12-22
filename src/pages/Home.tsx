@@ -191,6 +191,7 @@ export default function Home() {
         signAndExecute,
         data.fun_type
       );
+      console.log(bol);
       if (bol) {
         // 2秒后消失
         toast.success("OK! Deposit successfully", {
@@ -231,6 +232,7 @@ export default function Home() {
       signAndExecute,
       name
     );
+    console.log(bol);
     if (bol) {
       // 2秒后消失
       toast.success("OK! Withdraw successfully", {
@@ -264,6 +266,7 @@ export default function Home() {
       signAndExecute,
       data.fun_type
     );
+    console.log(bol);
     if (bol) {
       // 2秒后消失
       toast.success("OK! lottery successfully", {
@@ -294,6 +297,7 @@ export default function Home() {
       data.get_sgc,
       signAndExecute
     );
+    console.log(bol);
     if (bol) {
       // 2秒后消失
       toast.success("OK! get sgc successfully", {
@@ -322,6 +326,7 @@ export default function Home() {
       duration: 4500,
     });
     const bol = await burn_sgc_coin(signAndExecute);
+    console.log(bol);
     if (bol) {
       // 2秒后消失
       toast.success("OK! Deposit successfully", {
