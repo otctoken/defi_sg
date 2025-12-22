@@ -120,7 +120,7 @@ export default function Home() {
   const [balances, setBalances] = useState<number[]>([
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   ]);
-  const [usebalances, setUsebalances] = useState(0);
+  //const [usebalances, setUsebalances] = useState(0);
   const [dataNumber, setDataNumber] = useState(0);
   const [usecointype, setUsecointype] = useState("");
   const [global_items, setGlobal_items] = useState<Item[]>([]);
@@ -129,6 +129,12 @@ export default function Home() {
   const [inputAmount, setInputAmount] = useState<string>("");
   const [inputDecimal, setInputDecimal] = useState(9);
   //const [amount, setAmount] = useState<string>("");
+
+  const currentRawBalance = balances[dataNumber] || 0;
+  const currentDecimalPower = 10 ** inputDecimal;
+  // 核心计算逻辑移到这里
+  const dynamicAvailableBalance =
+    Math.floor((currentRawBalance / currentDecimalPower) * 100) / 100;
 
   const priceRef = useRef({});
 
@@ -150,10 +156,10 @@ export default function Home() {
   ) {
     handleOpen();
     setInputDecimal(decimals);
-    const decimal = 10 ** decimals;
-    const rawNum = balances[num] / decimal;
-    const floorNum = Math.floor(rawNum * 100) / 100; // 核心逻辑：乘100 -> 取整 -> 除100
-    setUsebalances(floorNum);
+    // const decimal = 10 ** decimals;
+    // const rawNum = balances[num] / decimal;
+    // const floorNum = Math.floor(rawNum * 100) / 100; // 核心逻辑：乘100 -> 取整 -> 除100
+    // setUsebalances(floorNum);
     setUsecointype(name);
     setModalItemName(to);
     setDataNumber(num);
@@ -173,7 +179,7 @@ export default function Home() {
       setIsGlobalButton(true);
       return;
     }
-    if (num_ > usebalances) {
+    if (num_ > dynamicAvailableBalance) {
       alert("Exceed available balance");
       setIsGlobalButton(true);
       return;
@@ -756,7 +762,7 @@ export default function Home() {
                 className="absolute right-2 top-1/2 -translate-y-1/2 text-xs font-bold text-yellow-500 bg-gray-800 hover:bg-gray-600 border border-gray-600 px-2 py-1 rounded"
                 onClick={() => {
                   // 点击时将 inputAmount 设置为 usebalances (转为字符串)
-                  setInputAmount(String(usebalances));
+                  setInputAmount(String(dynamicAvailableBalance));
                 }}
               >
                 MAX
@@ -765,7 +771,7 @@ export default function Home() {
           </label>
 
           <div className="text-gray-400">
-            Available: {usebalances}
+            Available: {dynamicAvailableBalance}
             {usecointype}
           </div>
         </div>
