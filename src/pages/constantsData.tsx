@@ -1,15 +1,15 @@
 // src/constants/A.tsx
 //.................................SG................................................................
 export const SG_PACkages =
-  "0x70cdf2b8aef20573bf7980da5b8b6d620cfb40d65ef724fff097c63de50adb8f";
+  "0x6dd7807b2ad7e6dc4d48294df3b4dcaf9d736850c2100379fd5ec269b30703a7";
 export const SG_Burn_SGC_fee =
-  "0xbaef4b2e61d57fc139114a0b9fa16b14282bb36d9ed316eb011d91bccb13229f";
+  "0x15f81e1e6a3e5a015d3622b4a908fa836fcb89acbbca83e420bc7f02f0c1c5eb";
 export const SG_minter =
-  "0xdfd42bd0f9acb2a01eec27342d74968306d89a1f2e085853644c305f84a165f9";
+  "0x03ee5726ac298a31be91ed5341bc2a67bfc063c58905fae99b56f1d2653b0647";
 export const SGC_h_c =
-  "0x38dd5406e12830176b2d38d14851ae652f34a1fdff223ab36ace75c18de0019b";
+  "0xc900b943c60aec23507a54999df29db76a7d04593abbe5801aa1b484be93748d";
 export const SGCcoin_type =
-  "0x70cdf2b8aef20573bf7980da5b8b6d620cfb40d65ef724fff097c63de50adb8f::sgc::SGC";
+  "0x6dd7807b2ad7e6dc4d48294df3b4dcaf9d736850c2100379fd5ec269b30703a7::sgc::SGC";
 
 //.................................NAVI................................................................
 export const Navi_Storage =
@@ -42,11 +42,11 @@ export const FolX_Mingter =
 //..............................admin...................................................................
 
 export const AdminCap =
-  "0x37561559775b193e5528a1c8a22ae67eeffa1a32ce00567dc327d393ebe73a09";
+  "0x15b272b79500ac1a58eb56ea67acb70358ccd1899e92735e9dc75b52a4993895";
 export const upgrade =
-  "0x33ded4285c4d17102f99bf0f34246af484d81414b941a2218fd800c33f8e2faf";
+  "0x782fb39daeff7facef1d13e1cbcb911430435b0cf7e3cbe67ff9feb83699eb3b";
 export const SGC_AdminTolel =
-  "0x760949ea70b741efd912f622b8078e83bf8df8c3b53969c9c842856625c519bf"; //
+  "0x92119ac939979a3d284bf3c7014cd9bfc632bc12df3d5a712ed541a486396ea9"; //
 
 //................................................记得添加.................................................................
 export const Navi_reward_null_or_one = [
@@ -91,29 +91,29 @@ export const SUI_Navi = {
   time_per_round: 180000, //108000000,
   navi_pool_number: 0,
   // tree_height total_balance time_per_round  start_time index internal_node  leaf_node
-  data: "0xebfd85ebad070e0eb173a170e98176f863786b4292a081060c72d3cba3a39c70",
-  get_sgc: "0x40cf71e5fade7a8cee026b8ffa0119c46e30d64dc79159bea63038ff38e577c9",
+  data: "0xb074ab44cf6b2153ca21c5679b269c77fdae5d7ff32804d611f951fadd03df5b",
+  get_sgc: "0x54eb819d00167f9fc82392fe23864b229540ed3cf96d8527aa84cb3767a0f946",
   data_acp_owner:
-    "0x9c90fdb472b67ad4c7fdb34c02d60074164949d35adaca495314eac25d2d9a28",
+    "0xb478f3a4e08e7c29aac1ae4a14afb870bde04014d5a07ab056010247ba2c8026",
   fun_type: "0x2::sui::SUI",
   navi_pool_adder:
     "0x96df0fce3c471489f4debaaa762cf960b3d97820bd1f3f025ff8190730e958c5",
   decimals: 9,
   dynamic_field: {
     adder_node:
-      "0xc0ade1abeddadb123edff325eaa66ab0836d84ddc996e9aea814b424aa9dd564",
+      "0xa4a1b669201c5790c6642a4950afc53950fa10a210549e3152d9940dfb73b10f",
     internal_node_data:
-      "0xfeb142b0ab87c466f5ffa54aec33109ed5323dfbbab27131d63d22a8bbaacfe2",
+      "0x0a54c6382feeb80fcb388a4c683978c12bfbd478a1e4d9533f39722ed3d91e33",
     leaf_node_data:
-      "0x4c3acbb94b00a86ee8723c75928254a5583d624b6ba9b41c9e6479d341cba4ed",
+      "0x459d1b2829bd5b465927a44a0421644e2a12d5c84c624871dce8e506a298233d",
     node_adder:
-      "0x830bfca62959a3e93274902ca5cf0f198f390c23b8b4c4ce1287305ad6e7bb15",
+      "0xb87468897e735bf37ee75034973eb03a0d87f5e4a1c9f1586ef9c61e0d14674b",
     Prize_pool_monthly:
-      "0x4bd69c39b5c2353ccc20836c8c68f6138e4f7cf85a9e7bbd185ae96e4b91c7cf",
+      "0x1a0f288f5da12be709d8d4236da1d8c2eddfc30388fcdda958aef86e636e042e",
     Prize_pool_weekly:
-      "0x690a4b9ab00db8abd3711706bf3145ff72c1e2a7cf41d314969c72451dd64e41",
+      "0x2fe87612543723ed95a7a258d0f42e16646bad61966ac1c69459fcea6f032edf",
     savings:
-      "0x67b4c3b1b2106ce76853cc0d1522d1c4d62597c1972e38e4dfd0ec727c3c53cb",
+      "0x9ba3425bceef8c0d936fa721d4c1a4b9e8132534328ad9417cd06faf785d0d27",
   },
 };
 export const DEEP_Navi = {
@@ -123,10 +123,10 @@ export const DEEP_Navi = {
   time_per_round: 180000, //108000000,
   navi_pool_number: 15,
   // tree_height total_balance time_per_round  start_time index internal_node  leaf_node
-  data: "0x6dfe8de3e6c18c4714c6d0ef1ed5ae596e267068f850b51775e476b76d8292cd",
-  get_sgc: "0x1f9702e47e0a88884f8d854be5f66221e274aee61f51078ca48f55c73c1dc4c6",
+  data: "0xd286a49a1cea68480b43f93d0ad43e9d9a5fea04156134a7efe154b962451eda",
+  get_sgc: "0x95cbf31c4593e1387b46696a5648bc016ddaf8b1a376e506ac22c7a69344ee94",
   data_acp_owner:
-    "0xd322f842668ac0bb8f1c28bf115e9879ef14ac1513d5b627f14f06c53dfd11e3",
+    "0x1375d616b090e7f5a2db140af190735ea99ef340d8d18a3986579d617ab1b626",
   fun_type:
     "0xdeeb7a4662eec9f2f3def03fb937a663dddaa2e215b8078a284d026b7946c270::deep::DEEP",
   navi_pool_adder:
@@ -134,19 +134,19 @@ export const DEEP_Navi = {
   decimals: 6,
   dynamic_field: {
     adder_node:
-      "0xe2c8d59c42f9916d08ffae117b9f85cac51db8759fa069a1e1743bb00fdcc191",
+      "0xec566a58e7ff7537166a3e9c2df9f725f936dbc7144cbf99d1025676c76577aa",
     internal_node_data:
-      "0x0c41fac01f72fe32cfb9875cf6e795312e8870bc571d0838afc70b4208c94e9f",
+      "0x475d831e9543bd437f3dc9cb572bb79a5a6048c3c39bbe3fcccdb7ad9febd08e",
     leaf_node_data:
-      "0x48eef7fa5d203a8953d3a61abd305be04e15818cdaf4fdff14f02c98de8a8560",
+      "0x36af93e81a5fed4181555e054fc9938e99fa8717a733c71dcf7ef975f5e41042",
     node_adder:
-      "0x3b5fe520b535f1ef6cd2387af60d51cd6b264e4766e1addc1060c035655ea990",
+      "0x3dc60e99ec02802846d3e989cca589d5ade590132472a1efc8e9735d55de34af",
     Prize_pool_monthly:
-      "0x5c263152ca2162ff06debe9e96f5d2cb656a414286cb23056bd8bc48bd2d51e2",
+      "0x27b01d47f8af6a3f3bdf9f39ff5b4907b7fc07f1f921aa7988c8d239bd2c9df5",
     Prize_pool_weekly:
-      "0xebca8a015a45d13033d7c14bdec5350eb0e3ca30d0fb001ad1f40bef74347e10",
+      "0xf7f346b131feeebed5430a7b429d11a2ab4dc6038fd2f696cd357df6d9936d91",
     savings:
-      "0x2f9abf247fad0a3d9e56702d69bc29f822f3a01e621c5200f7c565d65c0a0d33",
+      "0x47395c91984d67e86055ebf038ea3838ef7f982ed32a256c8acdacddbb5b7e85",
   },
 };
 
