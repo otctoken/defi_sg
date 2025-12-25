@@ -101,7 +101,6 @@ async function getData(gamesList: any[], price: any) {
       Number(dfData.round_monthly) -
       (Number(dfData.number_of_draws) % Number(dfData.round_monthly));
     ItemList.push(item);
-    console.log(item.countdown_w);
   }
   return ItemList;
 }
