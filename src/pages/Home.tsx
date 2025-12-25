@@ -119,7 +119,7 @@ async function getData_haed(gamesList: any[], adder: string) {
       item.coin_balance_andeData_number = game.coin_balance_andeData_number;
       const decimal = 10 ** game.decimals;
       const rawNum = bilan / decimal;
-      const floorNum = Math.floor(rawNum * 100) / 100; // 核心逻辑：乘100 -> 取整 -> 除100
+      const floorNum = Math.round(rawNum * 100) / 100; // 100
       item.balance = floorNum;
       ItemList.push(item);
     }
