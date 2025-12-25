@@ -610,6 +610,126 @@ export async function lottery(
   }
 }
 
+export async function lottery_week(
+  typeA: any,
+  _pool: any,
+  savingsd: any,
+  acp_owner: any,
+  signAndExecute: any,
+  name: any
+) {
+  try {
+    const reward_data = await devClaimableRewards(acp_owner);
+    const [typeT, typeD, _reward_fund_t, _reward_fund_d] =
+      get_type_reward_fund(reward_data);
+    console.log(name);
+    const update_single_price4 = Navi_update_single_price[typeA][0];
+    const update_single_price5 = Navi_update_single_price[typeA][1];
+    const tx = new Transaction();
+    tx.moveCall({
+      target: `${Navi_update_single_price_pgk}::oracle_pro::update_single_price`,
+      arguments: [
+        tx.object("0x6"),
+        tx.object(Navi_OracleConfig),
+        tx.object(Navi_PriceOracle),
+        tx.object(Navi_OracleHolder),
+        tx.object(update_single_price4),
+        tx.pure.address(update_single_price5),
+      ],
+    });
+    tx.setGasBudget(300000000); // 例如 0.01 SUI
+    tx.moveCall({
+      target: `${SG_PACkages}::vault::lottery_weekly`,
+      typeArguments: [typeT, typeD, typeA],
+      arguments: [
+        tx.object(SG_minter),
+        tx.object(SGC_h_c),
+        tx.object(SG_Burn_SGC_fee),
+        tx.object(savingsd),
+        tx.object("0x8"),
+        tx.object("0x6"),
+      ],
+    });
+    const response1 = await signAndExecute({
+      transaction: tx,
+    });
+    await wait(1500);
+    const { response } = await client.ledgerService.getTransaction({
+      digest: response1.digest,
+      readMask: {
+        paths: [
+          "effects", // 获取执行结果
+        ],
+      },
+    });
+    const status = response.transaction?.effects?.status?.success;
+    return status;
+  } catch (error) {
+    console.error("error:", error);
+    return false;
+  }
+}
+
+export async function lottery_moon(
+  typeA: any,
+  _pool: any,
+  savingsd: any,
+  acp_owner: any,
+  signAndExecute: any,
+  name: any
+) {
+  try {
+    const reward_data = await devClaimableRewards(acp_owner);
+    const [typeT, typeD, _reward_fund_t, _reward_fund_d] =
+      get_type_reward_fund(reward_data);
+    console.log(name);
+    const update_single_price4 = Navi_update_single_price[typeA][0];
+    const update_single_price5 = Navi_update_single_price[typeA][1];
+    const tx = new Transaction();
+    tx.moveCall({
+      target: `${Navi_update_single_price_pgk}::oracle_pro::update_single_price`,
+      arguments: [
+        tx.object("0x6"),
+        tx.object(Navi_OracleConfig),
+        tx.object(Navi_PriceOracle),
+        tx.object(Navi_OracleHolder),
+        tx.object(update_single_price4),
+        tx.pure.address(update_single_price5),
+      ],
+    });
+    tx.setGasBudget(300000000); // 例如 0.01 SUI
+    tx.moveCall({
+      target: `${SG_PACkages}::vault::lottery_monthly`,
+      typeArguments: [typeT, typeD, typeA],
+      arguments: [
+        tx.object(SG_minter),
+        tx.object(SGC_h_c),
+        tx.object(SG_Burn_SGC_fee),
+        tx.object(savingsd),
+        tx.object("0x8"),
+        tx.object("0x6"),
+      ],
+    });
+    const response1 = await signAndExecute({
+      transaction: tx,
+    });
+    await wait(1500);
+    const { response } = await client.ledgerService.getTransaction({
+      digest: response1.digest,
+      readMask: {
+        paths: [
+          "effects", // 获取执行结果
+        ],
+      },
+    });
+    const status = response.transaction?.effects?.status?.success;
+    return status;
+  } catch (error) {
+    console.error("error:", error);
+    return false;
+  }
+}
+
 export async function entry_get_sgc_coin(
   type: any,
   savingsd: any,

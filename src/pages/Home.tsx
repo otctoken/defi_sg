@@ -16,6 +16,8 @@ import {
   deposit_all,
   withdraw,
   lottery,
+  lottery_week,
+  lottery_moon,
   entry_get_sgc_coin,
   burn_sgc_coin,
   get_single_price,
@@ -34,6 +36,10 @@ interface Item {
   tvlUSD: number; // TVL（SUI）
   coin_balance_andeData_number: number;
   decimals: number;
+  week_r: boolean;
+  moon_r: boolean;
+  countdown_w: number;
+  countdown_m: number;
 }
 
 interface Item_head {
@@ -74,6 +80,8 @@ async function getData(gamesList: any[], price: any) {
     if (icundown <= 0) {
       icundown = 0;
     }
+    item.week_r = dfData.lottery_draw_weekly;
+    item.moon_r = dfData.lottery_draw_monthly;
     item.countdown = icundown;
     item.fun_type = game.fun_type;
     item.reward = "$256";
@@ -86,7 +94,14 @@ async function getData(gamesList: any[], price: any) {
     item.coin_balance_andeData_number = game.coin_balance_andeData_number;
     item.decimals = game.decimals;
     item.name = game.name;
+    item.countdown_w =
+      Number(dfData.round_weekly) -
+      (Number(dfData.number_of_draws) % Number(dfData.round_weekly));
+    item.countdown_m =
+      Number(dfData.round_monthly) -
+      (Number(dfData.number_of_draws) % Number(dfData.round_monthly));
     ItemList.push(item);
+    console.log(item.countdown_w);
   }
   return ItemList;
 }
@@ -252,7 +267,13 @@ export default function Home() {
     setIsGlobalButton(true);
   }
 
-  async function lottery_home(data_Number: any, signAndExecute: any) {
+  async function lottery_home(
+    data_Number: any,
+    signAndExecute: any,
+    countdown: any,
+    weekR: any,
+    moonR: any
+  ) {
     if (!isGlobalButton) {
       return;
     } else {
@@ -264,24 +285,66 @@ export default function Home() {
       return;
     }
     const data = Global_games[data_Number];
-    const bol = await lottery(
-      data.fun_type,
-      data.navi_pool_adder,
-      data.data,
-      data.data_acp_owner,
-      signAndExecute,
-      data.fun_type
-    );
-    console.log(bol);
-    if (bol) {
-      // 2秒后消失
-      toast.success("OK! lottery successfully", {
-        duration: 2000,
-      });
-    } else {
-      toast.error("fail!", {
-        duration: 2000,
-      });
+    if (moonR) {
+      const bol = await lottery_moon(
+        data.fun_type,
+        data.navi_pool_adder,
+        data.data,
+        data.data_acp_owner,
+        signAndExecute,
+        data.fun_type
+      );
+      console.log(bol);
+      if (bol) {
+        // 2秒后消失
+        toast.success("OK! lottery successfully", {
+          duration: 2000,
+        });
+      } else {
+        toast.error("fail!", {
+          duration: 2000,
+        });
+      }
+    } else if (weekR) {
+      const bol = await lottery_week(
+        data.fun_type,
+        data.navi_pool_adder,
+        data.data,
+        data.data_acp_owner,
+        signAndExecute,
+        data.fun_type
+      );
+      console.log(bol);
+      if (bol) {
+        // 2秒后消失
+        toast.success("OK! lottery successfully", {
+          duration: 2000,
+        });
+      } else {
+        toast.error("fail!", {
+          duration: 2000,
+        });
+      }
+    } else if (countdown <= 0) {
+      const bol = await lottery(
+        data.fun_type,
+        data.navi_pool_adder,
+        data.data,
+        data.data_acp_owner,
+        signAndExecute,
+        data.fun_type
+      );
+      console.log(bol);
+      if (bol) {
+        // 2秒后消失
+        toast.success("OK! lottery successfully", {
+          duration: 2000,
+        });
+      } else {
+        toast.error("fail!", {
+          duration: 2000,
+        });
+      }
     }
     setIsGlobalButton(true);
   }
@@ -377,6 +440,7 @@ export default function Home() {
     // 高频逻辑
     const tick = async () => {
       const ItemList = await getData(Global_games, priceRef.current);
+
       setGlobal_items(ItemList);
       if (account?.address) {
         const data_haed = await getData_haed(Global_games, account.address);
@@ -419,7 +483,14 @@ export default function Home() {
       clearInterval(id1min);
     };
   }, [account?.address]);
-
+  //......................................................................以上为定期运行................................
+  useEffect(() => {
+    if (!isGlobalButton) {
+      toast.success("pending......", {
+        duration: 2000,
+      });
+    }
+  }, [isGlobalButton]);
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
       <Toaster
@@ -620,7 +691,11 @@ export default function Home() {
                   </span>
                   {/* 如果倒计时组件内部字体受限，可以用 scale-110 强行放大 */}
                   <div className="text-white-500 font-bold text-xl">
-                    <ItemTimer countdown={item.countdown} />
+                    {Number(item.countdown) <= 0 ? (
+                      <span className="text-green-500">Ready to Draw</span>
+                    ) : (
+                      <ItemTimer countdown={item.countdown} />
+                    )}
                   </div>
                   <div className="text-sm text-gray-500">奖池权重每日50%</div>
                 </div>
@@ -644,7 +719,13 @@ export default function Home() {
                     7d Next draw
                   </span>
                   <div className="text-white-500 font-bold text-xl">
-                    <ItemTimer countdown={item.countdown} />
+                    {item.countdown_w > 1 && !item.week_r ? (
+                      <span>{item.countdown_w} Day</span>
+                    ) : Number(item.countdown) <= 0 || item.week_r ? (
+                      <span className="text-green-500">Ready to Draw</span>
+                    ) : (
+                      <ItemTimer countdown={item.countdown} />
+                    )}
                   </div>
                   <div className="text-sm text-gray-500">奖池权重每日30%</div>
                 </div>
@@ -668,7 +749,13 @@ export default function Home() {
                     28d Next draw
                   </span>
                   <div className="text-white-500 font-bold text-xl">
-                    <ItemTimer countdown={item.countdown} />
+                    {item.countdown_m > 1 && !item.moon_r ? (
+                      <span>{item.countdown_m} Day</span>
+                    ) : Number(item.countdown) <= 0 || item.moon_r ? (
+                      <span className="text-green-500">Ready to Draw</span>
+                    ) : (
+                      <ItemTimer countdown={item.countdown} />
+                    )}
                   </div>
                   <div className="text-sm text-gray-500">奖池权重每日20%</div>
                 </div>
@@ -700,7 +787,7 @@ export default function Home() {
                 Deposit to Win
               </Button>
 
-              {Number(item.countdown) <= 0 && (
+              {(Number(item.countdown) <= 0 || item.week_r || item.moon_r) && (
                 <div className="relative inline-block group">
                   <span className="absolute -top-2 -right-8 z-10 flex h-5 items-center justify-center rounded-full bg-yellow-500 px-1.5 text-[11px] font-bold text-black shadow-sm ring-1 ring-white">
                     +10K SGC💰
@@ -709,7 +796,10 @@ export default function Home() {
                     onClick={() =>
                       lottery_home(
                         item.coin_balance_andeData_number,
-                        signAndExecute
+                        signAndExecute,
+                        item.countdown,
+                        item.week_r,
+                        item.moon_r
                       )
                     }
                     className="w-40 whitespace-nowrap bg-green-600 hover:bg-green-700"
