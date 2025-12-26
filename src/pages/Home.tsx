@@ -284,8 +284,8 @@ export default function Home() {
       return;
     }
     const data = Global_games[data_Number];
-    if (moonR) {
-      const bol = await lottery_moon(
+    if (weekR) {
+      const bol = await lottery_week(
         data.fun_type,
         data.navi_pool_adder,
         data.data,
@@ -304,8 +304,8 @@ export default function Home() {
           duration: 2000,
         });
       }
-    } else if (weekR) {
-      const bol = await lottery_week(
+    } else if (moonR) {
+      const bol = await lottery_moon(
         data.fun_type,
         data.navi_pool_adder,
         data.data,
