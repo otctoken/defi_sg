@@ -521,9 +521,25 @@ export default function Home() {
         </div>
       </div>
       <Card className="flex flex-col items-center text-center !bg-gray-800 sm:col-span-2 shadow-lg border border-gray-700 h-fit">
-        <CardHeader className="text-base font-bold text-white tracking-wider border-b border-gray-700 w-full pb-1 mb-1">
-          My Account
-        </CardHeader>
+        {account && (
+          <CardHeader className="flex flex-row items-center justify-center text-base font-bold text-white tracking-wider border-b border-gray-700 w-full pb-1 mb-1">
+            <div className="flex items-center gap-4 text-xs font-normal">
+              <span className="text-gray-400">
+                SGC Bal: <span className="text-white font-bold">10k</span>
+              </span>
+
+              {/* 记得这里我也帮你保留了之前修改的 <a> 标签跳转功能 */}
+              <a
+                href="https://abc.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-green-400 border border-green-400 px-2 py-0.2 rounded cursor-pointer hover:bg-green-400 hover:text-black transition-colors"
+              >
+                BUY SGC
+              </a>
+            </div>
+          </CardHeader>
+        )}
         <CardContent className="w-full px-1 pb-1">
           {account ? (
             <div className="w-full flex flex-col">
