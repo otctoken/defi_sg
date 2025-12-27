@@ -537,6 +537,9 @@ export default function Home() {
               >
                 BUY SGC
               </a>
+              <span className="text-gray-400">
+                SUI Bal: <span className="text-white font-bold">100k</span>
+              </span>
             </div>
           </CardHeader>
         )}
